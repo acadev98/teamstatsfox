@@ -1,0 +1,50 @@
+package com.acadev.teamstatsfox.service.impl;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Service;
+
+import com.acadev.teamstatsfox.model.response.PlayerStatsFromCvs;
+import com.acadev.teamstatsfox.utils.Constants;
+
+@Service
+public class ReadCvsService {
+
+	public ArrayList<PlayerStatsFromCvs> getStatsPlayers() {
+		try {
+
+			String pathCsv = new ClassPathResource(Constants.PATH_RESOURCE_CVS).getFile().toPath().toString();
+
+			ArrayList<PlayerStatsFromCvs> playerList = new ArrayList<>();
+			try (Scanner scanner = new Scanner(new File(pathCsv))) {
+				while (scanner.hasNextLine()) {
+					// si no es titulo creo el objeto desde el siguiente row
+					String newRow = scanner.nextLine();
+					if (!newRow.equals(Constants.PATH_RESOURCE_CVS_ROW_TITLE)) {
+						playerList.add(getRecordFromLine(newRow));
+					}
+				}
+			}
+			return playerList;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private PlayerStatsFromCvs getRecordFromLine(String line) {
+		String[] rowList = line.split(Constants.COMMA_DELIMITER);
+		PlayerStatsFromCvs player = PlayerStatsFromCvs.builder().name(rowList[0].replaceAll("\"", ""))
+				.matches(Integer.valueOf(rowList[1])).goals(Integer.valueOf(rowList[2]))
+				.assists(Integer.valueOf(rowList[3])).redCard(Integer.valueOf(rowList[4]))
+				.yellowCard(Integer.valueOf(rowList[5])).captains(Integer.valueOf(rowList[6])).build();
+
+		return player;
+	}
+
+}

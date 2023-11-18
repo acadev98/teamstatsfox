@@ -1,5 +1,7 @@
 package com.acadev.teamstatsfox.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,7 @@ public class PublicController {
 	}
 
 	@GetMapping("/statsFromCvs")
-	public ResponseEntity<Object> statsFromCvs() {
+	public ResponseEntity<Object> statsFromCvs() throws IOException {
 		return service.statsFromCvs();
 	}
 
