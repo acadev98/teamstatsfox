@@ -2,6 +2,8 @@ package com.acadev.teamstatsfox.service;
 
 import org.springframework.http.ResponseEntity;
 
+import com.acadev.teamstatsfox.database.entity.Player;
+
 public interface PlayerService {
 
 	ResponseEntity<Object> echo();
@@ -9,5 +11,11 @@ public interface PlayerService {
 	ResponseEntity<Object> get();
 
 	ResponseEntity<Object> get(Long id);
+
+	ResponseEntity<Object> create(Player player);
+
+	ResponseEntity<Object> update(Long id, Player player);
+
+	ResponseEntity<Object> delete(Long id);
 
 }

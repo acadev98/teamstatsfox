@@ -1,12 +1,11 @@
 package com.acadev.teamstatsfox.database.entity;
 
-import java.util.Date;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,29 +17,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "PLAYERS")
-public class Player {
+@Table(name = "IMAGES")
+public class Images {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	private String dni;
-	
-	private String lastname;
-	
-	private String name;
-	
-	private String position;
-	
-	@Column(name = "SECOND_POSITION")
-	private String secondPosition;
-	
-	private Boolean active;
-	
-	private Date birthday;
-	
-	@Column(name = "PLAYING_SINCE")
-	private Date playingSince;
+    private String name;
 
+    private String type;
+
+    @Lob
+    @Column(name = "imagedata", length = 65555)
+    
+    private byte[] imageData;
 }
