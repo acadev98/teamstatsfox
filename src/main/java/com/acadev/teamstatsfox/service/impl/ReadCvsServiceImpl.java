@@ -9,10 +9,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import com.acadev.teamstatsfox.model.response.PlayerStatsFromCvs;
+import com.acadev.teamstatsfox.service.ReadCvsService;
 import com.acadev.teamstatsfox.utils.Constants;
 
 @Service
-public class ReadCvsService {
+public class ReadCvsServiceImpl implements ReadCvsService {
 
 	public ArrayList<PlayerStatsFromCvs> getStatsPlayers() {
 		try {

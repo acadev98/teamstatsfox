@@ -1,7 +1,5 @@
 package com.acadev.teamstatsfox.database.entity;
 
-
-
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -22,11 +20,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name = "PLAYERS")
 public class Player {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	private String dni;
 	private String lastname;
 	private String name;
@@ -37,5 +35,5 @@ public class Player {
 	private Date birthday;
 	@Column(name = "PLAYING_SINCE")
 	private Date playingSince;
-	
+
 }

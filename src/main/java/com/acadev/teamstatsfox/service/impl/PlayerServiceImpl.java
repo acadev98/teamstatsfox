@@ -7,19 +7,24 @@ import org.springframework.stereotype.Service;
 
 import com.acadev.teamstatsfox.database.repository.PlayerRepositoy;
 import com.acadev.teamstatsfox.handler.ResponseHandler;
+import com.acadev.teamstatsfox.service.PlayerService;
 
 @Service
-public class PlayerService {
-	
+public class PlayerServiceImpl implements PlayerService {
+
 	@Autowired
 	private PlayerRepositoy repository;
-	
-	public ResponseEntity<Object> echoTest() {
+
+	public ResponseEntity<Object> echo() {
 		return ResponseHandler.generateResponse("player echo message", HttpStatus.OK);
 	}
 
-	public ResponseEntity<Object> findAll() {
+	public ResponseEntity<Object> get() {
 		return ResponseHandler.generateResponse(repository.findAll(), HttpStatus.OK);
 	}
-	
+
+	public ResponseEntity<Object> get(Long id) {
+		return ResponseHandler.generateResponse(repository.findById(id), HttpStatus.OK);
+	}
+
 }
