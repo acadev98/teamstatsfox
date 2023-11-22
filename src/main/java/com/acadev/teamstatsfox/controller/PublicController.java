@@ -30,4 +30,9 @@ public class PublicController {
 		return service.getDataCvs();
 	}
 
+	@GetMapping("/players")
+	public ResponseEntity<Object> getPlayers() {
+		return service.getPlayers();
+	}
+
 }
