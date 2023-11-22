@@ -8,9 +8,9 @@ public interface PlayerService {
 
 	ResponseEntity<Object> echo();
 
-	ResponseEntity<Object> get();
+	ResponseEntity<Object> getPlayers();
 
-	ResponseEntity<Object> get(Long id);
+	ResponseEntity<Object> getPlayer(Long id);
 
 	ResponseEntity<Object> create(Player player);
 

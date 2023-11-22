@@ -10,4 +10,6 @@ public interface PublicService {
 
 	ResponseEntity<Object> getDataCvs();
 
+	ResponseEntity<Object> getPlayers();
+
 }

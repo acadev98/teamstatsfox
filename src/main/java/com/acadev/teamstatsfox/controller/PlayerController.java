@@ -28,12 +28,12 @@ public class PlayerController {
 
 	@GetMapping
 	public ResponseEntity<Object> get() {
-		return service.get();
+		return service.getPlayers();
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getPlayersById(@PathVariable("id") Long id) {
-		return service.get(id);
+		return service.getPlayer(id);
 	}
 
 	@PostMapping

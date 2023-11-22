@@ -20,16 +20,16 @@ import lombok.NoArgsConstructor;
 @Table(name = "IMAGES")
 public class Images {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    private String name;
+	private String name;
 
-    private String type;
+	private String type;
 
-    @Lob
-    @Column(name = "imagedata", length = 65555)
-    
-    private byte[] imageData;
+	@Lob
+	@Column(name = "imagedata", length = 65555)
+
+	private byte[] imageData;
 }

@@ -1,6 +1,8 @@
 package com.acadev.teamstatsfox.database.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,21 +28,23 @@ public class Player {
 	private long id;
 
 	private String dni;
-	
+
 	private String lastname;
-	
+
 	private String name;
-	
+
 	private String position;
-	
+
 	@Column(name = "SECOND_POSITION")
 	private String secondPosition;
-	
+
 	private Boolean active;
-	
-	private Date birthday;
-	
+
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private LocalDate birthday;
+
 	@Column(name = "PLAYING_SINCE")
-	private Date playingSince;
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private LocalDate playingSince;
 
 }
