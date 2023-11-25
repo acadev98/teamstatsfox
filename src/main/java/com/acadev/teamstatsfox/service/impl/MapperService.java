@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.acadev.teamstatsfox.database.entity.Player;
-import com.acadev.teamstatsfox.model.response.PlayerDTOResponse;
+import com.acadev.teamstatsfox.model.response.PlayerStatsResponse;
 
 @Service
 public class MapperService {
@@ -16,8 +16,8 @@ public class MapperService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	public PlayerDTOResponse convertToDto(Player player) {
-		PlayerDTOResponse playerDTO = modelMapper.map(player, PlayerDTOResponse.class);
+	public PlayerStatsResponse convertToDto(Player player) {
+		PlayerStatsResponse playerDTO = modelMapper.map(player, PlayerStatsResponse.class);
 
 		if (null != player.getBirthday()) {
 			playerDTO.setAge(Period.between(player.getBirthday(), LocalDate.now()).getYears());
