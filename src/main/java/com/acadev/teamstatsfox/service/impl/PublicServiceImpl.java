@@ -10,19 +10,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.acadev.teamstatsfox.database.entity.Player;
-import com.acadev.teamstatsfox.database.repository.PlayerRepositoy;
+import com.acadev.teamstatsfox.database.repository.PlayerRepository;
 import com.acadev.teamstatsfox.handler.ResponseHandler;
-import com.acadev.teamstatsfox.model.response.PlayerDTOResponse;
+import com.acadev.teamstatsfox.model.response.PlayerStatsResponse;
 import com.acadev.teamstatsfox.model.response.StatsFromCvsResponse;
 import com.acadev.teamstatsfox.service.PublicService;
-import com.acadev.teamstatsfox.utils.FunctionUtils;
-import com.acadev.teamstatsfox.utils.Messages;
+import com.acadev.teamstatsfox.utils.FunctionsUtils;
+import com.acadev.teamstatsfox.utils.MessagesUtils;
 
 @Service
 public class PublicServiceImpl implements PublicService {
 
 	@Autowired
-	private PlayerRepositoy repository;
+	private PlayerRepository repository;
 
 	@Autowired
 	private ReadCvsServiceImpl service;
@@ -37,9 +37,9 @@ public class PublicServiceImpl implements PublicService {
 	public ResponseEntity<Object> getDataStatic() {
 		StatsFromCvsResponse response = new StatsFromCvsResponse();
 		response.setDateImport(new Date());
-		response.setPlayers(FunctionUtils.generateArrayListOfPlayerStatsFromCvs());
+		response.setPlayers(FunctionsUtils.generateArrayListOfPlayerStatsFromCvs());
 
-		return ResponseHandler.generateResponse(response, HttpStatus.OK);
+		return ResponseHandler.generateResponse("", HttpStatus.OK, response);
 	}
 
 	public ResponseEntity<Object> getDataCvs() {
@@ -48,19 +48,19 @@ public class PublicServiceImpl implements PublicService {
 		response.setDateImport(new Date());
 		response.setPlayers(service.getStatsPlayers());
 
-		return ResponseHandler.generateResponse(response, HttpStatus.OK);
+		return ResponseHandler.generateResponse("", HttpStatus.OK, response);
 	}
 
 	public ResponseEntity<Object> getPlayers() {
 		List<Player> players = (List<Player>) repository.findAll();
 
-		List<PlayerDTOResponse> playersDTOResponseList = players.stream().map(mapperService::convertToDto)
+		List<PlayerStatsResponse> playersDTOResponseList = players.stream().map(mapperService::convertToDto)
 				.collect(Collectors.toList());
 
 		if (playersDTOResponseList.isEmpty())
-			return ResponseHandler.generateResponse(null, HttpStatus.NOT_FOUND, Messages.RESULT_NOT_FOUND);
+			return ResponseHandler.generateResponse(null, HttpStatus.NOT_FOUND, MessagesUtils.RESULT_NOT_FOUND);
 
-		return ResponseHandler.generateResponse(playersDTOResponseList, Messages.LIST_OF_PLAYERS);
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS, HttpStatus.OK, playersDTOResponseList);
 	}
 
 }

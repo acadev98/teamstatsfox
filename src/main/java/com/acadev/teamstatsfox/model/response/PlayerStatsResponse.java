@@ -5,7 +5,7 @@ import com.acadev.teamstatsfox.database.entity.Player;
 import lombok.Data;
 
 @Data
-public class PlayerDTOResponse extends Player {
+public class PlayerStatsResponse extends Player {
 
 	private Integer age;
 	private Integer matches;

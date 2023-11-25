@@ -15,9 +15,9 @@ import com.acadev.teamstatsfox.database.entity.Images;
 import com.acadev.teamstatsfox.database.repository.ImageDataRepository;
 import com.acadev.teamstatsfox.handler.ResponseHandler;
 import com.acadev.teamstatsfox.service.ImagesService;
-import com.acadev.teamstatsfox.utils.Constants;
-import com.acadev.teamstatsfox.utils.ImageUtil;
-import com.acadev.teamstatsfox.utils.Messages;
+import com.acadev.teamstatsfox.utils.ConstantsUtils;
+import com.acadev.teamstatsfox.utils.ImagesUtils;
+import com.acadev.teamstatsfox.utils.MessagesUtils;
 
 import jakarta.transaction.Transactional;
 
@@ -30,7 +30,7 @@ public class ImagesServiceImpl implements ImagesService {
 	public String uploadImage(MultipartFile file, String name) throws IOException {
 
 		imageDataRepository.save(Images.builder().name(name).type(file.getContentType())
-				.imageData(ImageUtil.compressImage(file.getBytes())).build());
+				.imageData(ImagesUtils.compressImage(file.getBytes())).build());
 
 		return file.getOriginalFilename();
 
@@ -41,7 +41,7 @@ public class ImagesServiceImpl implements ImagesService {
 		Optional<Images> dbImage = imageDataRepository.findByName(name);
 
 		return Images.builder().name(dbImage.get().getName()).type(dbImage.get().getType())
-				.imageData(ImageUtil.decompressImage(dbImage.get().getImageData())).build();
+				.imageData(ImagesUtils.decompressImage(dbImage.get().getImageData())).build();
 
 	}
 
@@ -52,18 +52,18 @@ public class ImagesServiceImpl implements ImagesService {
 
 		if (dbImage.isEmpty()) {
 			if (useDefault) {
-				dbImage = imageDataRepository.findByName(Constants.IMAGE_NOT_FOUND);
+				dbImage = imageDataRepository.findByName(ConstantsUtils.IMAGE_NOT_FOUND);
 			} else {
-				return ResponseHandler.generateResponse(null, HttpStatus.NOT_FOUND, Messages.RESULT_NOT_FOUND);
+				return ResponseHandler.generateResponse(null, HttpStatus.NOT_FOUND, MessagesUtils.RESULT_NOT_FOUND);
 			}
 		}
 
-		byte[] image = ImageUtil.decompressImage(dbImage.get().getImageData());
+		byte[] image = ImagesUtils.decompressImage(dbImage.get().getImageData());
 
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
 		headers.add("Content-Type", "image/png");
 
-		return ResponseHandler.generateResponse(image, headers);
+		return ResponseHandler.generateResponse("", HttpStatus.OK, image, headers);
 	}
 
 }
