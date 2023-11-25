@@ -8,4 +8,5 @@ public class MessagesUtils {
 	public static final String PLAYER_CREATED = "Jugador creado.";
 	public static final String PLAYER_UPDATED = "Jugador modificado.";
 	public static final String USER_CREATED = "Usuario creado.";
+	public static final String USER_LOGED = "Usuario logueado.";
 }
