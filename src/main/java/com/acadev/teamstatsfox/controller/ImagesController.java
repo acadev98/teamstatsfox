@@ -31,7 +31,7 @@ public class ImagesController {
 
 	@GetMapping("/info/{name}")
 	public ResponseEntity<Object> getImageInfoByName(@PathVariable("name") String name) {
-		return ResponseHandler.generateResponse(service.getInfoByImageByName(name), HttpStatus.OK);
+		return ResponseHandler.generateResponse("", HttpStatus.OK, service.getInfoByImageByName(name));
 	}
 
 	@GetMapping("/{name}")

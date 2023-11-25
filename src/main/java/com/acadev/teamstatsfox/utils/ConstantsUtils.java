@@ -1,6 +1,6 @@
 package com.acadev.teamstatsfox.utils;
 
-public class Constants {
+public class ConstantsUtils {
 
 	public static final String URL_ORIGIN_ALLOW = "http://localhost:3000";
 

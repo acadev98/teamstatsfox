@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.acadev.teamstatsfox.model.response.PlayerStatsFromCvs;
 
-public class FunctionUtils {
+public class FunctionsUtils {
 
 	public static ArrayList<PlayerStatsFromCvs> generateArrayListOfPlayerStatsFromCvs() {
 
