@@ -17,31 +17,28 @@ import com.acadev.teamstatsfox.utils.enums.ApiMessage;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-	
+
 	@Autowired
 	private UserRepository repository;
-	
+
 	public CustomUserDetailsService(UserRepository userRepository) {
-        this.repository = userRepository;
-    }
-	
+		this.repository = userRepository;
+	}
+
 	@Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> user = repository.findByEmail(email);
-        
-        if (user.isPresent()) {
-	        List<String> roles = new ArrayList<>();
-	        roles.add("USER");
-	        UserDetails userDetails =
-	                org.springframework.security.core.userdetails.User.builder()
-	                        .username(user.get().getEmail())
-	                        .password(user.get().getPassword())
-	                        .roles(roles.toArray(new String[0]))
-	                        .build();
-	        return userDetails;
-        } else {
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Optional<User> user = repository.findByEmail(email);
+
+		if (user.isPresent()) {
+			List<String> roles = new ArrayList<>();
+			roles.add("USER");
+			UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
+					.username(user.get().getEmail()).password(user.get().getPassword())
+					.roles(roles.toArray(new String[0])).build();
+			return userDetails;
+		} else {
 			throw new ApiException(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE);
-        }
-    }
+		}
+	}
 
 }

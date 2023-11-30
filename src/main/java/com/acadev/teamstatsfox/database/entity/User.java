@@ -22,12 +22,12 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-    private String email;
-    private String password;
-    private String name;
-    private String lastname;
+	private String email;
+	private String password;
+	private String name;
+	private String lastname;
 	private String username;
-    private String status;
+	private String status;
 	private String role;
 
 }

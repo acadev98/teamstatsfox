@@ -24,16 +24,16 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository repository;
-	
+
 	@Autowired
 	AuthenticationManager authenticationManager;
-	
+
 	@Autowired
 	CustomUserDetailsService customerDetailsService;
-	
+
 	@Autowired
 	JwtUtil jwtUtil;
-	
+
 	public String echo() {
 		return "user echo message";
 	}
@@ -45,50 +45,47 @@ public class UserServiceImpl implements UserService {
 		}
 		return repository.save(user);
 	}
-	
-	public LoginResponse login(LoginRequest request) {
-		try {
-            Authentication authentication =
-                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-            String email = authentication.getName();
-            User user = User.builder().email(email).build();
-            String token = jwtUtil.createToken(user);
-            LoginResponse response = LoginResponse.builder().email(email).token(token).build();
-            
-            return response;
 
-        }catch (BadCredentialsException e){
-			throw new ApiException(ApiMessage.CREDENTIALS_INCORRECT);
-        }catch (Exception e){
-			throw new ApiException(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE);
-        }
-	}
-	
-	/**
 	public LoginResponse login(LoginRequest request) {
-//		log.info("loadUserByUsername > login: {}", request.toString());
 		try {
-			Authentication authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-			);
-		
-			if (authentication.isAuthenticated()) {
-				if (customerDetailsService.getUserDetaiUser().getStatus().equalsIgnoreCase("true")) {
-					String token = jwtUtil.generateToken(customerDetailsService.getUserDetaiUser().getEmail(), customerDetailsService.getUserDetaiUser().getRole());
-					LoginResponse response = new LoginResponse();
-						response.setEmail(customerDetailsService.getUserDetaiUser().getEmail());
-						response.setToken(token);
-					return response;
-				} else {
-					throw new ApiException(ApiMessage.LOGIN_NO_ACTIVE);
-				}
-			}
+			Authentication authentication = authenticationManager
+					.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+			String email = authentication.getName();
+			User user = User.builder().email(email).build();
+			String token = jwtUtil.createToken(user);
+			LoginResponse response = LoginResponse.builder().email(email).token(token).build();
+
+			return response;
+
+		} catch (BadCredentialsException e) {
 			throw new ApiException(ApiMessage.CREDENTIALS_INCORRECT);
-			
 		} catch (Exception e) {
-			throw new ApiException(ApiMessage.CREDENTIALS_INCORRECT);
+			throw new ApiException(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE);
 		}
-		
-	}*/
+	}
+
+	/**
+	 * public LoginResponse login(LoginRequest request) { //
+	 * log.info("loadUserByUsername > login: {}", request.toString()); try {
+	 * Authentication authentication = authenticationManager.authenticate( new
+	 * UsernamePasswordAuthenticationToken(request.getEmail(),
+	 * request.getPassword()) );
+	 * 
+	 * if (authentication.isAuthenticated()) { if
+	 * (customerDetailsService.getUserDetaiUser().getStatus().equalsIgnoreCase("true"))
+	 * { String token =
+	 * jwtUtil.generateToken(customerDetailsService.getUserDetaiUser().getEmail(),
+	 * customerDetailsService.getUserDetaiUser().getRole()); LoginResponse response
+	 * = new LoginResponse();
+	 * response.setEmail(customerDetailsService.getUserDetaiUser().getEmail());
+	 * response.setToken(token); return response; } else { throw new
+	 * ApiException(ApiMessage.LOGIN_NO_ACTIVE); } } throw new
+	 * ApiException(ApiMessage.CREDENTIALS_INCORRECT);
+	 * 
+	 * } catch (Exception e) { throw new
+	 * ApiException(ApiMessage.CREDENTIALS_INCORRECT); }
+	 * 
+	 * }
+	 */
 
 }

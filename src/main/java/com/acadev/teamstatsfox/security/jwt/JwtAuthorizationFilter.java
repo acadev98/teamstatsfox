@@ -24,43 +24,44 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
-    private final JwtUtil jwtUtil;
-    private final ObjectMapper mapper;
+	private final JwtUtil jwtUtil;
+	private final ObjectMapper mapper;
 
-    public JwtAuthorizationFilter(JwtUtil jwtUtil, ObjectMapper mapper) {
-        this.jwtUtil = jwtUtil;
-        this.mapper = mapper;
-    }
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Map<String, Object> errorDetails = new HashMap<>();
+	public JwtAuthorizationFilter(JwtUtil jwtUtil, ObjectMapper mapper) {
+		this.jwtUtil = jwtUtil;
+		this.mapper = mapper;
+	}
 
-        try {
-            String accessToken = jwtUtil.resolveToken(request);
-            if (accessToken == null ) {
-                filterChain.doFilter(request, response);
-                return;
-            }
-            System.out.println("token : "+accessToken);
-            Claims claims = jwtUtil.resolveClaims(request);
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		Map<String, Object> errorDetails = new HashMap<>();
 
-            if(claims != null & jwtUtil.validateClaims(claims)){
-                String email = claims.getSubject();
-                System.out.println("email : "+email);
-                Authentication authentication =
-                        new UsernamePasswordAuthenticationToken(email,"",new ArrayList<>());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+		try {
+			String accessToken = jwtUtil.resolveToken(request);
+			if (accessToken == null) {
+				filterChain.doFilter(request, response);
+				return;
+			}
+			System.out.println("token : " + accessToken);
+			Claims claims = jwtUtil.resolveClaims(request);
 
-        }catch (Exception e){
-            errorDetails.put("message", "Authentication Error");
-            errorDetails.put("details",e.getMessage());
-            response.setStatus(HttpStatus.FORBIDDEN.value());
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			if (claims != null & jwtUtil.validateClaims(claims)) {
+				String email = claims.getSubject();
+				System.out.println("email : " + email);
+				Authentication authentication = new UsernamePasswordAuthenticationToken(email, "", new ArrayList<>());
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+			}
 
-            mapper.writeValue(response.getWriter(), errorDetails);
+		} catch (Exception e) {
+			errorDetails.put("message", "Authentication Error");
+			errorDetails.put("details", e.getMessage());
+			response.setStatus(HttpStatus.FORBIDDEN.value());
+			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        }
-        filterChain.doFilter(request, response);
-    }
+			mapper.writeValue(response.getWriter(), errorDetails);
+
+		}
+		filterChain.doFilter(request, response);
+	}
 }

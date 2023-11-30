@@ -19,14 +19,15 @@ import com.acadev.teamstatsfox.utils.MessagesUtils;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-	
+
 	private final AuthenticationManager authenticationManager;
-	 
+
 	private JwtUtil jwtUtil;
+
 	public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
-	    this.authenticationManager = authenticationManager;
-	    this.jwtUtil = jwtUtil;
-	
+		this.authenticationManager = authenticationManager;
+		this.jwtUtil = jwtUtil;
+
 	}
 
 	@Autowired
@@ -41,5 +42,5 @@ public class AuthController {
 	public ResponseEntity<Object> login(@RequestBody LoginRequest user) {
 		return ResponseHandler.generateResponse(MessagesUtils.USER_LOGED, HttpStatus.OK, service.login(user));
 	}
-	
+
 }

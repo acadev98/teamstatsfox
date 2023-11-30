@@ -30,5 +30,5 @@ public class UserController {
 	public ResponseEntity<Object> createUser(@RequestBody User user) {
 		return ResponseHandler.generateResponse(MessagesUtils.USER_CREATED, HttpStatus.CREATED, service.create(user));
 	}
-	
+
 }
