@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
 			error.setCode(apiMessage.getHttpStatus().value());
 			error.setMessage(apiMessage.getMessage());
 			
-			return new ResponseEntity<ResponseDTO>(error, ApiMessage.E5XX_GENERIC_ERROR_MESSAGE.getHttpStatus());
+			return new ResponseEntity<ResponseDTO>(error, ex.getApiMessage().getHttpStatus());
 	}
 
 }

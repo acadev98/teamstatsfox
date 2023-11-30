@@ -1,61 +1,93 @@
 package com.acadev.teamstatsfox.security.jwt;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Component;
+
+import com.acadev.teamstatsfox.database.entity.User;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
 
-@Service
+@Component
 public class JwtUtil {
-	
-	private String secret = "acadev";
-	
-	public String extractUsername(String token) {
-		return extractClaims(token, Claims::getSubject);
-	}
-	
-	public Date extractExpiration(String token) {
-		return extractClaims(token, Claims::getExpiration);
-	}
-	
-	public <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
-		final Claims claims = extractAllClaims(token);
-		return claimsResolver.apply(claims);
-	}
 
-	public Claims extractAllClaims(String token) {
-		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-	}
-	
-	private Boolean isTokenExpired(String token) {
-		return extractExpiration(token).before(new Date());
-	}
-	
-	public String generateToken(String username, String role) {
-		Map<String, Object> claims = new HashMap<>();
-		claims.put("role", role);
-		return createToken(claims, username);
-	}
-	
-	public String createToken(Map<String, Object> claims, String subject) {
-		return Jwts.builder()
-				.setClaims(claims)
-				.setSubject(subject)
-				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 100 * 60 * 60 * 10))
-				.signWith(SignatureAlgorithm.HS256, secret).compact();
-	}
-	
-	public Boolean validateToken(String token, UserDetails userDetails) {
-		final String username = extractUsername(token);
-		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-	}
+    private final String secret_key = "mysecretkey";
+    private long accessTokenValidity = 60*60*1000;
+
+    private final JwtParser jwtParser;
+
+    private final String TOKEN_HEADER = "Authorization";
+    private final String TOKEN_PREFIX = "Bearer ";
+
+    public JwtUtil(){
+        this.jwtParser = Jwts.parser().setSigningKey(secret_key);
+    }
+
+    public String createToken(User user) {
+        Claims claims = Jwts.claims().setSubject(user.getEmail());
+        claims.put("firstName",user.getName());
+        claims.put("lastName",user.getLastname());
+        Date tokenCreateTime = new Date();
+        Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
+        return Jwts.builder()
+                .setClaims(claims)
+                .setExpiration(tokenValidity)
+                .signWith(SignatureAlgorithm.HS256, secret_key)
+                .compact();
+    }
+
+    private Claims parseJwtClaims(String token) {
+        return jwtParser.parseClaimsJws(token).getBody();
+    }
+
+    public Claims resolveClaims(HttpServletRequest req) {
+        try {
+            String token = resolveToken(req);
+            if (token != null) {
+                return parseJwtClaims(token);
+            }
+            return null;
+        } catch (ExpiredJwtException ex) {
+            req.setAttribute("expired", ex.getMessage());
+            throw ex;
+        } catch (Exception ex) {
+            req.setAttribute("invalid", ex.getMessage());
+            throw ex;
+        }
+    }
+
+    public String resolveToken(HttpServletRequest request) {
+
+        String bearerToken = request.getHeader(TOKEN_HEADER);
+        if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
+            return bearerToken.substring(TOKEN_PREFIX.length());
+        }
+        return null;
+    }
+
+    public boolean validateClaims(Claims claims) throws AuthenticationException {
+        try {
+            return claims.getExpiration().after(new Date());
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String getEmail(Claims claims) {
+        return claims.getSubject();
+    }
+
+    private List<String> getRoles(Claims claims) {
+        return (List<String>) claims.get("roles");
+    }
+
 
 }
