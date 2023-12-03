@@ -12,7 +12,10 @@ public enum ApiMessage {
 	E5XX_GENERIC_ERROR_MESSAGE(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno de sistema."),
 	EMAIL_USER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "Usuario ya existe."),
 	LOGIN_NO_ACTIVE(HttpStatus.BAD_REQUEST, "Esperar activacion de admin."),
-	CREDENTIALS_INCORRECT(HttpStatus.BAD_REQUEST, "Credenciales incorrectas."),;
+	CREDENTIALS_INCORRECT(HttpStatus.BAD_REQUEST, "Credenciales incorrectas."),
+	USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "Usuario inexistente."),
+	
+	;
 
 	private final HttpStatus httpStatus;
 	private final String message;
