@@ -3,6 +3,7 @@ package com.acadev.teamstatsfox.service;
 import java.util.List;
 
 import com.acadev.teamstatsfox.database.entity.Player;
+import com.acadev.teamstatsfox.model.request.PlayerRequest;
 
 public interface PlayerService {
 
@@ -12,9 +13,9 @@ public interface PlayerService {
 
 	Player getPlayer(Long id);
 
-	Player create(Player player);
+	Player create(PlayerRequest player);
 
-	Player update(Long id, Player player);
+	Player update(Long id, PlayerRequest player);
 
 	Player delete(Long id);
 

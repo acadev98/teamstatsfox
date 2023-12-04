@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.acadev.teamstatsfox.database.entity.Player;
 import com.acadev.teamstatsfox.handler.ResponseHandler;
+import com.acadev.teamstatsfox.model.request.PlayerRequest;
 import com.acadev.teamstatsfox.service.PlayerService;
 import com.acadev.teamstatsfox.utils.MessagesUtils;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/players")
@@ -42,12 +44,12 @@ public class PlayerController {
 
 	@PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Object> createPlayer(@RequestBody Player player) {
+	public ResponseEntity<Object> createPlayer(@Valid @RequestBody PlayerRequest player) {
 		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_CREATED, HttpStatus.CREATED, service.create(player));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> updatePlayer(@PathVariable("id") Long id, @RequestBody Player player) {
+	public ResponseEntity<Object> updatePlayer(@PathVariable("id") Long id, @RequestBody PlayerRequest player) {
 		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_UPDATED, HttpStatus.ACCEPTED, service.update(id, player));
 	}
 

@@ -1,9 +1,15 @@
 package com.acadev.teamstatsfox.handler;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,8 +48,6 @@ public class GlobalExceptionHandler {
 
 		return new ResponseEntity<ResponseDTO>(error, ApiMessage.ACCESS_DENIED.getHttpStatus());
 	}
-	
-	
 
 	@ExceptionHandler(ApiException.class)
 	public final ResponseEntity<ResponseDTO> apiExceptionHandler(ApiException ex, WebRequest request) {
@@ -57,6 +61,21 @@ public class GlobalExceptionHandler {
 			error.setMessage(apiMessage.getMessage());
 
 		return new ResponseEntity<ResponseDTO>(error, ex.getApiMessage().getHttpStatus());
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public final ResponseEntity<ResponseDTO> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex, WebRequest request) {
+
+		LOG.info("GlobalExceptionHandler > methodArgumentNotValidExceptionHandler > ex: {}", ex);
+
+		List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+				.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+
+		ResponseDTO error = new ResponseDTO();
+			error.setCode(HttpStatus.BAD_REQUEST.value());
+			error.setMessage(errors.get(0));
+
+		return new ResponseEntity<ResponseDTO>(error, HttpStatus.BAD_REQUEST);
 	}
 
 }

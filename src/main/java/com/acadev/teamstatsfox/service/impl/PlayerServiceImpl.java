@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.acadev.teamstatsfox.database.entity.Player;
 import com.acadev.teamstatsfox.database.repository.PlayerRepository;
 import com.acadev.teamstatsfox.handler.exception.ApiException;
+import com.acadev.teamstatsfox.model.request.PlayerRequest;
 import com.acadev.teamstatsfox.service.PlayerService;
 import com.acadev.teamstatsfox.utils.enums.ApiMessage;
 
@@ -40,24 +41,36 @@ public class PlayerServiceImpl implements PlayerService {
 		return player.get();
 	}
 
-	public Player create(Player player) {
+	public Player create(PlayerRequest request) {
+		Player player = Player.builder()
+			.id(request.getId())
+			.dni(request.getDni())
+			.lastname(request.getLastname().toUpperCase())
+			.name(request.getName().toUpperCase())
+			.position(request.getPosition().toUpperCase())
+			.secondPosition(request.getSecondPosition().toUpperCase())
+			.active(request.getActive())
+			.birthday(request.getBirthday())
+			.playingSince(request.getPlayingSince())
+			.build();
+		
 		return repository.save(player);
 	}
 
-	public Player update(Long id, Player player) {
-		Optional<Player> playerToUpdate = repository.findById(id);
+	public Player update(Long id, PlayerRequest request) {
+		Optional<Player> player = repository.findById(id);
 
-		if (playerToUpdate.isEmpty())
+		if (player.isEmpty())
 			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 
-		Player playerUpdated = playerToUpdate.get();
-			playerUpdated.setDni(player.getDni());
-			playerUpdated.setLastname(player.getLastname());
-			playerUpdated.setName(player.getName());
-			playerUpdated.setPosition(player.getPosition());
-			playerUpdated.setSecondPosition(player.getSecondPosition());
-			playerUpdated.setBirthday(player.getBirthday());
-			playerUpdated.setPlayingSince(player.getPlayingSince());
+		Player playerUpdated = player.get();
+			playerUpdated.setDni(request.getDni());
+			playerUpdated.setLastname(request.getLastname().toUpperCase());
+			playerUpdated.setName(request.getName().toUpperCase());
+			playerUpdated.setPosition(request.getPosition().toUpperCase());
+			playerUpdated.setSecondPosition(request.getSecondPosition().toUpperCase());
+			playerUpdated.setBirthday(request.getBirthday());
+			playerUpdated.setPlayingSince(request.getPlayingSince());
 
 		repository.save(playerUpdated);
 
