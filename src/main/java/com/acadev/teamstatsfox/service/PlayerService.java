@@ -1,21 +1,21 @@
 package com.acadev.teamstatsfox.service;
 
-import org.springframework.http.ResponseEntity;
+import java.util.List;
 
 import com.acadev.teamstatsfox.database.entity.Player;
 
 public interface PlayerService {
 
-	ResponseEntity<Object> echo();
+	String echo();
 
-	ResponseEntity<Object> getPlayers();
+	List<Player> getPlayers();
 
-	ResponseEntity<Object> getPlayer(Long id);
+	Player getPlayer(Long id);
 
-	ResponseEntity<Object> create(Player player);
+	Player create(Player player);
 
-	ResponseEntity<Object> update(Long id, Player player);
+	Player update(Long id, Player player);
 
-	ResponseEntity<Object> delete(Long id);
+	Player delete(Long id);
 
 }

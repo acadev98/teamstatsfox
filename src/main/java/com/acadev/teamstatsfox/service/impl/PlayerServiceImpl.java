@@ -4,15 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.acadev.teamstatsfox.database.entity.Player;
 import com.acadev.teamstatsfox.database.repository.PlayerRepository;
-import com.acadev.teamstatsfox.handler.ResponseHandler;
+import com.acadev.teamstatsfox.handler.exception.ApiException;
 import com.acadev.teamstatsfox.service.PlayerService;
-import com.acadev.teamstatsfox.utils.MessagesUtils;
+import com.acadev.teamstatsfox.utils.enums.ApiMessage;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -20,67 +18,60 @@ public class PlayerServiceImpl implements PlayerService {
 	@Autowired
 	private PlayerRepository repository;
 
-	public ResponseEntity<Object> echo() {
-		return ResponseHandler.generateResponse(null, HttpStatus.OK, "player echo message");
+	public String echo() {
+		return "player echo message";
 	}
 
-	public ResponseEntity<Object> getPlayers() {
+	public List<Player> getPlayers() {
 
 		List<Player> players = (List<Player>) repository.findAll();
-
 		if (players.isEmpty())
-			return ResponseHandler.generateResponse(null, HttpStatus.NOT_FOUND, MessagesUtils.RESULT_NOT_FOUND);
+			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS, HttpStatus.OK, players);
-
+		return players;
 	}
 
-	public ResponseEntity<Object> getPlayer(Long id) {
+	public Player getPlayer(Long id) {
 
 		Optional<Player> player = repository.findById(id);
-
 		if (player.isEmpty())
-			return ResponseHandler.generateResponse(null, HttpStatus.NOT_FOUND, MessagesUtils.RESULT_NOT_FOUND);
+			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 
-		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, player.get());
-
+		return player.get();
 	}
 
-	public ResponseEntity<Object> create(Player player) {
-
-		Player playerSaved = repository.save(player);
-		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_CREATED, HttpStatus.CREATED, playerSaved);
+	public Player create(Player player) {
+		return repository.save(player);
 	}
 
-	public ResponseEntity<Object> update(Long id, Player player) {
+	public Player update(Long id, Player player) {
 		Optional<Player> playerToUpdate = repository.findById(id);
 
 		if (playerToUpdate.isEmpty())
-			return ResponseHandler.generateResponse(MessagesUtils.RESULT_NOT_FOUND, HttpStatus.NOT_FOUND);
+			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 
 		Player playerUpdated = playerToUpdate.get();
-		playerUpdated.setDni(player.getDni());
-		playerUpdated.setLastname(player.getLastname());
-		playerUpdated.setName(player.getName());
-		playerUpdated.setPosition(player.getPosition());
-		playerUpdated.setSecondPosition(player.getSecondPosition());
-		playerUpdated.setBirthday(player.getBirthday());
-		playerUpdated.setPlayingSince(player.getPlayingSince());
+			playerUpdated.setDni(player.getDni());
+			playerUpdated.setLastname(player.getLastname());
+			playerUpdated.setName(player.getName());
+			playerUpdated.setPosition(player.getPosition());
+			playerUpdated.setSecondPosition(player.getSecondPosition());
+			playerUpdated.setBirthday(player.getBirthday());
+			playerUpdated.setPlayingSince(player.getPlayingSince());
 
 		repository.save(playerUpdated);
 
-		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_UPDATED, HttpStatus.ACCEPTED, playerUpdated);
+		return repository.save(playerUpdated);
 	}
 
-	public ResponseEntity<Object> delete(Long id) {
+	public Player delete(Long id) {
 		Optional<Player> player = repository.findById(id);
 
 		if (player.isEmpty())
-			return ResponseHandler.generateResponse(MessagesUtils.RESULT_NOT_FOUND, HttpStatus.NOT_FOUND);
+			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 
 		repository.delete(player.get());
-
-		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_DELETED, HttpStatus.OK);
+		return player.get();
 	}
 
 }

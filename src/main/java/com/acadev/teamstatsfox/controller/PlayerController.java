@@ -1,6 +1,7 @@
 package com.acadev.teamstatsfox.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.acadev.teamstatsfox.database.entity.Player;
+import com.acadev.teamstatsfox.handler.ResponseHandler;
 import com.acadev.teamstatsfox.service.PlayerService;
+import com.acadev.teamstatsfox.utils.MessagesUtils;
 
 @RestController
 @RequestMapping("/api/players")
@@ -24,33 +27,33 @@ public class PlayerController {
 
 	@GetMapping("/echo")
 	public ResponseEntity<Object> echoTest() {
-		return service.echo();
+    	return ResponseHandler.generateResponse(service.echo(), HttpStatus.OK);
 	}
 
 	@GetMapping
 	public ResponseEntity<Object> get() {
-		return service.getPlayers();
+    	return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS, HttpStatus.OK, service.getPlayers());
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getPlayersById(@PathVariable("id") Long id) {
-		return service.getPlayer(id);
+		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, service.getPlayer(id));
 	}
 
 	@PostMapping
     @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> createPlayer(@RequestBody Player player) {
-		return service.create(player);
+		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_CREATED, HttpStatus.CREATED, service.create(player));
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Object> updatePlayer(@PathVariable("id") Long id, @RequestBody Player player) {
-		return service.update(id, player);
+		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_UPDATED, HttpStatus.ACCEPTED, service.update(id, player));
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deletePlayer(@PathVariable("id") Long id) {
-		return service.delete(id);
+		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_DELETED, HttpStatus.OK, service.delete(id));
 	}
 
 }
