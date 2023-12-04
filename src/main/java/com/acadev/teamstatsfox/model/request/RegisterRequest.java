@@ -3,7 +3,8 @@ package com.acadev.teamstatsfox.model.request;
 import lombok.Data;
 
 @Data
-public class LoginRequest {
+public class RegisterRequest {
     private String username;
+    private String email;
     private String password;
 }

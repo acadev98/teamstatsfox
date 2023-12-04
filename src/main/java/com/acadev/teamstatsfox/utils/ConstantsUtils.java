@@ -11,4 +11,6 @@ public class ConstantsUtils {
 	public static final Object PATH_RESOURCE_CVS_ROW_TITLE = "JUGADOR,PJ,G,A,TR,TA,C";
 
 	public static final String IMAGE_NOT_FOUND = "imagenotfound";
+
+	public static final String JWT_TYPE = "Bearer";
 }

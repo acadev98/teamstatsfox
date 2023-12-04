@@ -2,6 +2,7 @@ package com.acadev.teamstatsfox.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +16,7 @@ import com.acadev.teamstatsfox.database.entity.Player;
 import com.acadev.teamstatsfox.service.PlayerService;
 
 @RestController
-@RequestMapping("/players")
+@RequestMapping("/api/players")
 public class PlayerController {
 
 	@Autowired
@@ -37,6 +38,7 @@ public class PlayerController {
 	}
 
 	@PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> createPlayer(@RequestBody Player player) {
 		return service.create(player);
 	}
