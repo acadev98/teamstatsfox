@@ -14,7 +14,8 @@ public class RegexsUtils {
 	public static final String REGEX_ONLY_LETTERS_AND_DIGITS = "[a-zA-Z0-9]*";
 	public static final String REGEX_ONLY_LETTERS_UPPER_AND_DIGITS = "[A-Z0-9]*";
 	public static final String REGEX_ONLY_LETTERS_LOWER_AND_DIGITS = "[a-z0-9]*";
-	
+
 	public static final String REGEX_POSITIONS = "ARQUERO|DEFENSOR|VOLANTE|DELANTERO";
+	public static final String REGEX_SECOND_POSITIONS = "ARQUERO|DEFENSOR|VOLANTE|DELANTERO";
 	
 }

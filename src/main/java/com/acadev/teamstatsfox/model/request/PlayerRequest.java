@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import com.acadev.teamstatsfox.utils.MessagesUtils;
 import com.acadev.teamstatsfox.utils.RegexsUtils;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -36,7 +35,6 @@ public class PlayerRequest {
 	@Pattern(regexp = RegexsUtils.REGEX_POSITIONS, message = MessagesUtils.POSITION_NOT_VALID)
 	private String position;
 
-	@Column(name = "SECOND_POSITION")
 	private String secondPosition;
 
 	private Boolean active;

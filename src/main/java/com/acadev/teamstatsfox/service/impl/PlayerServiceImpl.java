@@ -48,7 +48,7 @@ public class PlayerServiceImpl implements PlayerService {
 			.lastname(request.getLastname().toUpperCase())
 			.name(request.getName().toUpperCase())
 			.position(request.getPosition().toUpperCase())
-			.secondPosition(request.getSecondPosition().toUpperCase())
+			.secondPosition(request.getSecondPosition()!=null?request.getSecondPosition().toUpperCase():null)
 			.active(request.getActive())
 			.birthday(request.getBirthday())
 			.playingSince(request.getPlayingSince())
