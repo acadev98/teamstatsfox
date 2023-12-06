@@ -9,6 +9,9 @@ public class MessagesUtils {
 	public static final String PLAYER_UPDATED = "Jugador modificado.";
 	public static final String USER_CREATED = "Usuario creado.";
 	public static final String USER_LOGED = "Usuario logueado.";
+	public static final String TOP_10_PLAYED_MATCHS = "Top 10 de partidos jugados.";
+	public static final String TOP_10_PLAYED_GOALS = "Top 10 de goles.";
+	public static final String TOP_10_PLAYED_ASSISTS = "Top 10 de asistencias.";
 	
 	/** validaciones */
 	public static final String DNI_REQUIRED = "DNI es requerido.";

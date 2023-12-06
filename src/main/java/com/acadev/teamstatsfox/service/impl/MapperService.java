@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.acadev.teamstatsfox.database.entity.Player;
+import com.acadev.teamstatsfox.model.response.AssistsPlayedResponse;
+import com.acadev.teamstatsfox.model.response.GamesPlayedResponse;
+import com.acadev.teamstatsfox.model.response.GoalsPlayedResponse;
+import com.acadev.teamstatsfox.model.response.PlayerStatsFromCvs;
 import com.acadev.teamstatsfox.model.response.PlayerStatsResponse;
 
 @Service
@@ -17,13 +21,28 @@ public class MapperService {
 	private ModelMapper modelMapper;
 
 	public PlayerStatsResponse convertToDto(Player player) {
-		PlayerStatsResponse playerDTO = modelMapper.map(player, PlayerStatsResponse.class);
+		PlayerStatsResponse response = modelMapper.map(player, PlayerStatsResponse.class);
 
 		if (null != player.getBirthday()) {
-			playerDTO.setAge(Period.between(player.getBirthday(), LocalDate.now()).getYears());
+			response.setAge(Period.between(player.getBirthday(), LocalDate.now()).getYears());
 		}
 
-		return playerDTO;
+		return response;
+	}
+
+	public GamesPlayedResponse convertToDtoGames(PlayerStatsFromCvs player) {
+		GamesPlayedResponse response = GamesPlayedResponse.builder().matches(player.getMatches()).name(player.getName()).build();
+		return response;
+	}
+
+	public GoalsPlayedResponse convertToDtoGoals(PlayerStatsFromCvs player) {
+		GoalsPlayedResponse response = GoalsPlayedResponse.builder().goals(player.getGoals()).name(player.getName()).build();
+		return response;
+	}
+
+	public AssistsPlayedResponse convertToDtoAssists(PlayerStatsFromCvs player) {
+		AssistsPlayedResponse response = AssistsPlayedResponse.builder().assists(player.getAssists()).name(player.getName()).build();
+		return response;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.acadev.teamstatsfox.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.acadev.teamstatsfox.handler.ResponseHandler;
 import com.acadev.teamstatsfox.service.PublicService;
 import com.acadev.teamstatsfox.service.impl.UserDetailsImpl;
+import com.acadev.teamstatsfox.utils.MessagesUtils;
 
 @RestController
 @RequestMapping("/api/public")
@@ -23,6 +26,21 @@ public class PublicController {
 	@GetMapping("/echo")
 	public ResponseEntity<Object> echo() {
 		return service.echo();
+	}
+
+	@GetMapping("/top/games")
+	public ResponseEntity<Object> topGames() {
+    	return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_MATCHS, HttpStatus.OK, service.topGames());
+	}
+
+	@GetMapping("/top/goals")
+	public ResponseEntity<Object> topGoals() {
+    	return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_GOALS, HttpStatus.OK, service.topGoals());
+	}
+
+	@GetMapping("/top/assists")
+	public ResponseEntity<Object> topAssists() {
+    	return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_ASSISTS, HttpStatus.OK, service.topAssists());
 	}
 
     @GetMapping("/user")

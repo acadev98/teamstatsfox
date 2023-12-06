@@ -49,11 +49,13 @@ public class PlayerController {
 	}
 
 	@PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> updatePlayer(@PathVariable("id") Long id, @RequestBody PlayerRequest player) {
 		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_UPDATED, HttpStatus.ACCEPTED, service.update(id, player));
 	}
 
 	@DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> deletePlayer(@PathVariable("id") Long id) {
 		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_DELETED, HttpStatus.OK, service.delete(id));
 	}
