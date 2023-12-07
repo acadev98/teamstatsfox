@@ -17,7 +17,7 @@ public class PlayerRequest {
 	private Long id;
 
 	@NotBlank(message = MessagesUtils.DNI_REQUIRED)
-	@Size(min=RegexsUtils.SIZE_MIN_DNI, max=RegexsUtils.SIZE_MAX_DNI, message = MessagesUtils.DNI_SIZE_NOT_VALID)
+	@Size(min = RegexsUtils.SIZE_MIN_DNI, max = RegexsUtils.SIZE_MAX_DNI, message = MessagesUtils.DNI_SIZE_NOT_VALID)
 	@Pattern(regexp = RegexsUtils.REGEX_ONLY_DIGITS, message = MessagesUtils.DNI_FORMAT_NOT_VALID)
 	private String dni;
 

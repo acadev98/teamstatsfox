@@ -1,7 +1,7 @@
 package com.acadev.teamstatsfox.utils;
 
 public class RegexsUtils {
-	
+
 	/** Sizes */
 	public static final int SIZE_MIN_DNI = 5;
 	public static final int SIZE_MAX_DNI = 8;
@@ -17,5 +17,5 @@ public class RegexsUtils {
 
 	public static final String REGEX_POSITIONS = "ARQUERO|DEFENSOR|VOLANTE|DELANTERO";
 	public static final String REGEX_SECOND_POSITIONS = "ARQUERO|DEFENSOR|VOLANTE|DELANTERO";
-	
+
 }

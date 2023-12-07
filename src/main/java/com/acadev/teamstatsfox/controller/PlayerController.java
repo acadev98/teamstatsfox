@@ -27,14 +27,27 @@ public class PlayerController {
 	@Autowired
 	private PlayerService service;
 
+	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Object> createPlayer(@Valid @RequestBody PlayerRequest player) {
+		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_CREATED, HttpStatus.CREATED,
+				service.create(player));
+	}
+
+	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Object> deletePlayer(@PathVariable("id") Long id) {
+		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_DELETED, HttpStatus.OK, service.delete(id));
+	}
+
 	@GetMapping("/echo")
 	public ResponseEntity<Object> echoTest() {
-    	return ResponseHandler.generateResponse(service.echo(), HttpStatus.OK);
+		return ResponseHandler.generateResponse(service.echo(), HttpStatus.OK);
 	}
 
 	@GetMapping
 	public ResponseEntity<Object> get() {
-    	return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS, HttpStatus.OK, service.getPlayers());
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS, HttpStatus.OK, service.getPlayers());
 	}
 
 	@GetMapping("/{id}")
@@ -42,22 +55,11 @@ public class PlayerController {
 		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, service.getPlayer(id));
 	}
 
-	@PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Object> createPlayer(@Valid @RequestBody PlayerRequest player) {
-		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_CREATED, HttpStatus.CREATED, service.create(player));
-	}
-
 	@PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> updatePlayer(@PathVariable("id") Long id, @RequestBody PlayerRequest player) {
-		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_UPDATED, HttpStatus.ACCEPTED, service.update(id, player));
-	}
-
-	@DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Object> deletePlayer(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_DELETED, HttpStatus.OK, service.delete(id));
+		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_UPDATED, HttpStatus.ACCEPTED,
+				service.update(id, player));
 	}
 
 }

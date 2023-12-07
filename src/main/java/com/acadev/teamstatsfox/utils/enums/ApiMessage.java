@@ -14,11 +14,11 @@ public enum ApiMessage {
 	USERNAME_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "Nombre de usuario ya existe."),
 	LOGIN_NO_ACTIVE(HttpStatus.BAD_REQUEST, "Esperar activacion de admin."),
 	CREDENTIALS_INCORRECT(HttpStatus.BAD_REQUEST, "Credenciales incorrectas."),
-	USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "Usuario inexistente."), 
-	ROLE_USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "Usuario no tiene rol asignado."), 
-	ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "Acceso denegado."), 
-	CONTENT_NOT_FOUND(HttpStatus.NOT_FOUND, "No se encontraron resultados."), 
-	
+	USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "Usuario inexistente."),
+	ROLE_USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "Usuario no tiene rol asignado."),
+	ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "Acceso denegado."),
+	CONTENT_NOT_FOUND(HttpStatus.NOT_FOUND, "No se encontraron resultados."),
+
 	;
 
 	private final HttpStatus httpStatus;

@@ -12,19 +12,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "roles")
-public class Role {
-	
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "ROLES")
+public class Roles {
 
-    @Enumerated(EnumType.STRING)
-    @Column
-    private ERole name;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    public ERole getName() {
-        return name;
-    }
-    
+	@Enumerated(EnumType.STRING)
+	@Column
+	private ERole name;
+
+	public ERole getName() {
+		return name;
+	}
+
 }

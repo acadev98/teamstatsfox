@@ -27,24 +27,6 @@ public class ImagesServiceImpl implements ImagesService {
 	@Autowired
 	private ImageDataRepository imageDataRepository;
 
-	public String uploadImage(MultipartFile file, String name) throws IOException {
-
-		imageDataRepository.save(Images.builder().name(name).type(file.getContentType())
-				.imageData(ImagesUtils.compressImage(file.getBytes())).build());
-
-		return file.getOriginalFilename();
-
-	}
-
-	@Transactional
-	public Images getInfoByImageByName(String name) {
-		Optional<Images> dbImage = imageDataRepository.findByName(name);
-
-		return Images.builder().name(dbImage.get().getName()).type(dbImage.get().getType())
-				.imageData(ImagesUtils.decompressImage(dbImage.get().getImageData())).build();
-
-	}
-
 	@Transactional
 	public ResponseEntity<Object> getImage(String name, boolean useDefault) {
 
@@ -64,6 +46,24 @@ public class ImagesServiceImpl implements ImagesService {
 		headers.add("Content-Type", "image/png");
 
 		return ResponseHandler.generateResponse("", HttpStatus.OK, image, headers);
+	}
+
+	@Transactional
+	public Images getInfoByImageByName(String name) {
+		Optional<Images> dbImage = imageDataRepository.findByName(name);
+
+		return Images.builder().name(dbImage.get().getName()).type(dbImage.get().getType())
+				.imageData(ImagesUtils.decompressImage(dbImage.get().getImageData())).build();
+
+	}
+
+	public String uploadImage(MultipartFile file, String name) throws IOException {
+
+		imageDataRepository.save(Images.builder().name(name).type(file.getContentType())
+				.imageData(ImagesUtils.compressImage(file.getBytes())).build());
+
+		return file.getOriginalFilename();
+
 	}
 
 }

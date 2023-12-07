@@ -15,6 +15,16 @@ import com.acadev.teamstatsfox.utils.ConstantsUtils;
 @Service
 public class ReadCvsServiceImpl implements ReadCvsService {
 
+	private PlayerStatsFromCvs getRecordFromLine(String line) {
+		String[] rowList = line.split(ConstantsUtils.COMMA_DELIMITER);
+		PlayerStatsFromCvs player = PlayerStatsFromCvs.builder().name(rowList[0].replaceAll("\"", ""))
+				.matches(Integer.valueOf(rowList[1])).goals(Integer.valueOf(rowList[2]))
+				.assists(Integer.valueOf(rowList[3])).redCard(Integer.valueOf(rowList[4]))
+				.yellowCard(Integer.valueOf(rowList[5])).captains(Integer.valueOf(rowList[6])).build();
+
+		return player;
+	}
+
 	public ArrayList<PlayerStatsFromCvs> getStatsPlayers() {
 		try {
 
@@ -36,16 +46,6 @@ public class ReadCvsServiceImpl implements ReadCvsService {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	private PlayerStatsFromCvs getRecordFromLine(String line) {
-		String[] rowList = line.split(ConstantsUtils.COMMA_DELIMITER);
-		PlayerStatsFromCvs player = PlayerStatsFromCvs.builder().name(rowList[0].replaceAll("\"", ""))
-				.matches(Integer.valueOf(rowList[1])).goals(Integer.valueOf(rowList[2]))
-				.assists(Integer.valueOf(rowList[3])).redCard(Integer.valueOf(rowList[4]))
-				.yellowCard(Integer.valueOf(rowList[5])).captains(Integer.valueOf(rowList[6])).build();
-
-		return player;
 	}
 
 }

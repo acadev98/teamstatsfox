@@ -28,26 +28,24 @@ import lombok.NoArgsConstructor;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	private String email;
-	
+
 	@JsonIgnore
 	private String password;
 	private String name;
 	private String lastname;
 	private String username;
 	private String status;
-	
-	@ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_to_roles",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="role_id"))
-    private Set<Role> roles = new HashSet<>();
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "users_to_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Roles> roles = new HashSet<>();
+
+	public void setRoles(Set<Roles> roles) {
+		this.roles = roles;
+	}
 
 }

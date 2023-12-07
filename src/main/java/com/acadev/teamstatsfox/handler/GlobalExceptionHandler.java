@@ -25,28 +25,28 @@ public class GlobalExceptionHandler {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-	@ExceptionHandler(Exception.class)
-	public final ResponseEntity<ResponseDTO> allExceptionHandler(Exception ex, WebRequest request) {
-
-		LOG.info("GlobalExceptionHandler > allExceptionHandler > ex: {}", ex);
-
-		ResponseDTO error = new ResponseDTO();
-			error.setCode(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE.getHttpStatus().value());
-			error.setMessage(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE.getMessage());
-
-		return new ResponseEntity<ResponseDTO>(error, ApiMessage.E5XX_GENERIC_ERROR_MESSAGE.getHttpStatus());
-	}
-
 	@ExceptionHandler(AccessDeniedException.class)
 	public final ResponseEntity<ResponseDTO> accessDeniedExceptionHandler(ApiException ex, WebRequest request) {
 
 		LOG.info("GlobalExceptionHandler > accessDeniedExceptionHandler > ex: {}", ex);
 
 		ResponseDTO error = new ResponseDTO();
-			error.setCode(ApiMessage.ACCESS_DENIED.getHttpStatus().value());
-			error.setMessage(ApiMessage.ACCESS_DENIED.getMessage());
+		error.setCode(ApiMessage.ACCESS_DENIED.getHttpStatus().value());
+		error.setMessage(ApiMessage.ACCESS_DENIED.getMessage());
 
 		return new ResponseEntity<ResponseDTO>(error, ApiMessage.ACCESS_DENIED.getHttpStatus());
+	}
+
+	@ExceptionHandler(Exception.class)
+	public final ResponseEntity<ResponseDTO> allExceptionHandler(Exception ex, WebRequest request) {
+
+		LOG.info("GlobalExceptionHandler > allExceptionHandler > ex: {}", ex);
+
+		ResponseDTO error = new ResponseDTO();
+		error.setCode(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE.getHttpStatus().value());
+		error.setMessage(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE.getMessage());
+
+		return new ResponseEntity<ResponseDTO>(error, ApiMessage.E5XX_GENERIC_ERROR_MESSAGE.getHttpStatus());
 	}
 
 	@ExceptionHandler(ApiException.class)
@@ -57,14 +57,15 @@ public class GlobalExceptionHandler {
 		ApiMessage apiMessage = ex.getApiMessage();
 
 		ResponseDTO error = new ResponseDTO();
-			error.setCode(apiMessage.getHttpStatus().value());
-			error.setMessage(apiMessage.getMessage());
+		error.setCode(apiMessage.getHttpStatus().value());
+		error.setMessage(apiMessage.getMessage());
 
 		return new ResponseEntity<ResponseDTO>(error, ex.getApiMessage().getHttpStatus());
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public final ResponseEntity<ResponseDTO> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex, WebRequest request) {
+	public final ResponseEntity<ResponseDTO> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex,
+			WebRequest request) {
 
 		LOG.info("GlobalExceptionHandler > methodArgumentNotValidExceptionHandler > ex: {}", ex);
 
@@ -72,8 +73,8 @@ public class GlobalExceptionHandler {
 				.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
 
 		ResponseDTO error = new ResponseDTO();
-			error.setCode(HttpStatus.BAD_REQUEST.value());
-			error.setMessage(errors.get(0));
+		error.setCode(HttpStatus.BAD_REQUEST.value());
+		error.setMessage(errors.get(0));
 
 		return new ResponseEntity<ResponseDTO>(error, HttpStatus.BAD_REQUEST);
 	}

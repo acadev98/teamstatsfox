@@ -9,5 +9,5 @@ public class AssistsPlayedResponse {
 	private Long id;
 	private Integer position;
 	private String name;
-    private Integer assists;
+	private Integer assists;
 }

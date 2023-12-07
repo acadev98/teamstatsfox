@@ -12,7 +12,9 @@ public class MessagesUtils {
 	public static final String TOP_10_PLAYED_MATCHS = "Top 10 de partidos jugados.";
 	public static final String TOP_10_PLAYED_GOALS = "Top 10 de goles.";
 	public static final String TOP_10_PLAYED_ASSISTS = "Top 10 de asistencias.";
-	
+	public static final String LIST_OF_MATCHES = "Lista de partidos encontrados.";
+	public static final String MATCHES_CREATED = "Partido creado.";
+
 	/** validaciones */
 	public static final String DNI_REQUIRED = "DNI es requerido.";
 	public static final String DNI_SIZE_NOT_VALID = "DNI debe tener un mínimo de 5 caracteres y un máximo de 8.";
@@ -23,5 +25,5 @@ public class MessagesUtils {
 	public static final String NAME_NOT_VALID = "Nombre solo debe contener letras.";
 	public static final String POSITION_REQUIRED = "Posicion es requerida.";
 	public static final String POSITION_NOT_VALID = "Posicion solo puede ser: (ARQUERO, DEFENSOR, VOLANTE, DELANTERO).";
-	
+
 }

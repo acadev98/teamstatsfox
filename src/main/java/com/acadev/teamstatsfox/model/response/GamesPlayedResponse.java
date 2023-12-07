@@ -9,5 +9,5 @@ public class GamesPlayedResponse {
 	private Long id;
 	private Integer position;
 	private String name;
-    private Integer matches;
+	private Integer matches;
 }

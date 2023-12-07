@@ -23,17 +23,6 @@ public class ImagesController {
 	@Autowired
 	private ImagesService service;
 
-	@PostMapping
-	public ResponseEntity<Object> uploadImage(@RequestParam("image") MultipartFile file,
-			@RequestParam("name") String name) throws IOException {
-		return ResponseHandler.generateResponse(service.uploadImage(file, name), HttpStatus.OK);
-	}
-
-	@GetMapping("/info/{name}")
-	public ResponseEntity<Object> getImageInfoByName(@PathVariable("name") String name) {
-		return ResponseHandler.generateResponse("", HttpStatus.OK, service.getInfoByImageByName(name));
-	}
-
 	@GetMapping("/{name}")
 	public ResponseEntity<Object> getImageByName(@PathVariable("name") String name) {
 		return service.getImage(name, false);
@@ -42,6 +31,17 @@ public class ImagesController {
 	@GetMapping("/{name}/default")
 	public ResponseEntity<Object> getImageByNameOrDefault(@PathVariable("name") String name) {
 		return service.getImage(name, true);
+	}
+
+	@GetMapping("/info/{name}")
+	public ResponseEntity<Object> getImageInfoByName(@PathVariable("name") String name) {
+		return ResponseHandler.generateResponse("", HttpStatus.OK, service.getInfoByImageByName(name));
+	}
+
+	@PostMapping
+	public ResponseEntity<Object> uploadImage(@RequestParam("image") MultipartFile file,
+			@RequestParam("name") String name) throws IOException {
+		return ResponseHandler.generateResponse(service.uploadImage(file, name), HttpStatus.OK);
 	}
 
 }

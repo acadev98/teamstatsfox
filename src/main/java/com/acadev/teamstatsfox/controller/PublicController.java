@@ -23,56 +23,15 @@ public class PublicController {
 	@Autowired
 	private PublicService service;
 
+	@GetMapping("/admin")
+	@PreAuthorize("hasRole('ADMIN')")
+	public String adminAccess() {
+		return "Admin Board.";
+	}
+
 	@GetMapping("/echo")
 	public ResponseEntity<Object> echo() {
 		return service.echo();
-	}
-
-	@GetMapping("/top/games")
-	public ResponseEntity<Object> topGames() {
-    	return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_MATCHS, HttpStatus.OK, service.topGames());
-	}
-
-	@GetMapping("/top/goals")
-	public ResponseEntity<Object> topGoals() {
-    	return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_GOALS, HttpStatus.OK, service.topGoals());
-	}
-
-	@GetMapping("/top/assists")
-	public ResponseEntity<Object> topAssists() {
-    	return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_ASSISTS, HttpStatus.OK, service.topAssists());
-	}
-
-    @GetMapping("/user")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public String userAccess() {
-        return "User Content.";
-    }
-
-    @GetMapping("/mod")
-    @PreAuthorize("hasRole('MODERATOR')")
-    public String moderatorAccess() {
-        return "Moderator Board.";
-    }
-
-    @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String adminAccess() {
-        return "Admin Board.";
-    }
-
-    @GetMapping("/profile")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public UserDetailsImpl profile() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        return userDetails;
-    }
-
-	@GetMapping("/statsFromStaticData")
-	public ResponseEntity<Object> getDataStatic() {
-		return service.getDataStatic();
 	}
 
 	@GetMapping("/statsFromCvs")
@@ -80,9 +39,51 @@ public class PublicController {
 		return service.getDataCvs();
 	}
 
+	@GetMapping("/statsFromStaticData")
+	public ResponseEntity<Object> getDataStatic() {
+		return service.getDataStatic();
+	}
+
 	@GetMapping("/players")
 	public ResponseEntity<Object> getPlayers() {
 		return service.getPlayers();
+	}
+
+	@GetMapping("/mod")
+	@PreAuthorize("hasRole('MODERATOR')")
+	public String moderatorAccess() {
+		return "Moderator Board.";
+	}
+
+	@GetMapping("/profile")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public UserDetailsImpl profile() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication authentication = context.getAuthentication();
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		return userDetails;
+	}
+
+	@GetMapping("/top/assists")
+	public ResponseEntity<Object> topAssists() {
+		return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_ASSISTS, HttpStatus.OK,
+				service.topAssists());
+	}
+
+	@GetMapping("/top/games")
+	public ResponseEntity<Object> topGames() {
+		return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_MATCHS, HttpStatus.OK, service.topGames());
+	}
+
+	@GetMapping("/top/goals")
+	public ResponseEntity<Object> topGoals() {
+		return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_GOALS, HttpStatus.OK, service.topGoals());
+	}
+
+	@GetMapping("/user")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public String userAccess() {
+		return "User Content.";
 	}
 
 }

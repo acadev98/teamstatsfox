@@ -9,10 +9,10 @@ import com.acadev.teamstatsfox.database.entity.Images;
 
 public interface ImagesService {
 
-	String uploadImage(MultipartFile file, String name) throws IOException;
+	ResponseEntity<Object> getImage(String name, boolean useDefault);
 
 	Images getInfoByImageByName(String name);
 
-	ResponseEntity<Object> getImage(String name, boolean useDefault);
+	String uploadImage(MultipartFile file, String name) throws IOException;
 
 }

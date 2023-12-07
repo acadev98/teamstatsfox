@@ -9,5 +9,5 @@ public class GoalsPlayedResponse {
 	private Long id;
 	private Integer position;
 	private String name;
-    private Integer goals;
+	private Integer goals;
 }

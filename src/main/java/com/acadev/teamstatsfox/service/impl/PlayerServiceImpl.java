@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.acadev.teamstatsfox.database.entity.Player;
+import com.acadev.teamstatsfox.database.entity.Players;
 import com.acadev.teamstatsfox.database.repository.PlayerRepository;
 import com.acadev.teamstatsfox.handler.exception.ApiException;
 import com.acadev.teamstatsfox.model.request.PlayerRequest;
@@ -18,73 +18,75 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@Autowired
 	private PlayerRepository repository;
+	
+	public Long getNextId() {
+		Optional<Players> entityMaxId = repository.findTopByOrderByIdDesc();
+		if (entityMaxId.isPresent())
+				return (entityMaxId.get().getId()+1);
+        return 1L;
+    }
 
-	public String echo() {
-		return "player echo message";
-	}
+	public Players create(PlayerRequest request) {
+		Players player = Players.builder().id(getNextId()).dni(request.getDni())
+				.lastname(request.getLastname().toUpperCase()).name(request.getName().toUpperCase())
+				.position(request.getPosition().toUpperCase())
+				.secondPosition(request.getSecondPosition() != null ? request.getSecondPosition().toUpperCase() : null)
+				.active(request.getActive()).birthday(request.getBirthday()).playingSince(request.getPlayingSince())
+				.build();
 
-	public List<Player> getPlayers() {
-
-		List<Player> players = (List<Player>) repository.findAll();
-		if (players.isEmpty())
-			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
-
-		return players;
-	}
-
-	public Player getPlayer(Long id) {
-
-		Optional<Player> player = repository.findById(id);
-		if (player.isEmpty())
-			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
-
-		return player.get();
-	}
-
-	public Player create(PlayerRequest request) {
-		Player player = Player.builder()
-			.id(request.getId())
-			.dni(request.getDni())
-			.lastname(request.getLastname().toUpperCase())
-			.name(request.getName().toUpperCase())
-			.position(request.getPosition().toUpperCase())
-			.secondPosition(request.getSecondPosition()!=null?request.getSecondPosition().toUpperCase():null)
-			.active(request.getActive())
-			.birthday(request.getBirthday())
-			.playingSince(request.getPlayingSince())
-			.build();
-		
 		return repository.save(player);
 	}
 
-	public Player update(Long id, PlayerRequest request) {
-		Optional<Player> player = repository.findById(id);
-
-		if (player.isEmpty())
-			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
-
-		Player playerUpdated = player.get();
-			playerUpdated.setDni(request.getDni());
-			playerUpdated.setLastname(request.getLastname().toUpperCase());
-			playerUpdated.setName(request.getName().toUpperCase());
-			playerUpdated.setPosition(request.getPosition().toUpperCase());
-			playerUpdated.setSecondPosition(request.getSecondPosition().toUpperCase());
-			playerUpdated.setBirthday(request.getBirthday());
-			playerUpdated.setPlayingSince(request.getPlayingSince());
-
-		repository.save(playerUpdated);
-
-		return repository.save(playerUpdated);
-	}
-
-	public Player delete(Long id) {
-		Optional<Player> player = repository.findById(id);
+	public Players delete(Long id) {
+		Optional<Players> player = repository.findById(id);
 
 		if (player.isEmpty())
 			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 
 		repository.delete(player.get());
 		return player.get();
+	}
+
+	public String echo() {
+		return "player echo message";
+	}
+
+	public Players getPlayer(Long id) {
+
+		Optional<Players> player = repository.findById(id);
+		if (player.isEmpty())
+			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+
+		return player.get();
+	}
+
+	public List<Players> getPlayers() {
+
+		List<Players> players = (List<Players>) repository.findAll();
+		if (players.isEmpty())
+			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+
+		return players;
+	}
+
+	public Players update(Long id, PlayerRequest request) {
+		Optional<Players> player = repository.findById(id);
+
+		if (player.isEmpty())
+			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+
+		Players playerUpdated = player.get();
+		playerUpdated.setDni(request.getDni());
+		playerUpdated.setLastname(request.getLastname().toUpperCase());
+		playerUpdated.setName(request.getName().toUpperCase());
+		playerUpdated.setPosition(request.getPosition().toUpperCase());
+		playerUpdated.setSecondPosition(request.getSecondPosition().toUpperCase());
+		playerUpdated.setBirthday(request.getBirthday());
+		playerUpdated.setPlayingSince(request.getPlayingSince());
+
+		repository.save(playerUpdated);
+
+		return repository.save(playerUpdated);
 	}
 
 }

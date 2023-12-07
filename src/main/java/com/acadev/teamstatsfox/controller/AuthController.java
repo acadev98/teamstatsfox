@@ -17,18 +17,19 @@ import com.acadev.teamstatsfox.utils.MessagesUtils;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    
-    @Autowired
-    private AuthServiceImpl service;
 
-    @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
-    	return ResponseHandler.generateResponse(MessagesUtils.USER_LOGED, HttpStatus.OK, service.login(loginRequest));
-    }
+	@Autowired
+	private AuthServiceImpl service;
 
-    @PostMapping("/register")
-    public ResponseEntity<Object> register(@RequestBody RegisterRequest registerRequest) {
-    	return ResponseHandler.generateResponse(MessagesUtils.USER_CREATED, HttpStatus.CREATED, service.register(registerRequest));
-    }
-    
+	@PostMapping("/login")
+	public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest) {
+		return ResponseHandler.generateResponse(MessagesUtils.USER_LOGED, HttpStatus.OK, service.login(loginRequest));
+	}
+
+	@PostMapping("/register")
+	public ResponseEntity<Object> register(@RequestBody RegisterRequest registerRequest) {
+		return ResponseHandler.generateResponse(MessagesUtils.USER_CREATED, HttpStatus.CREATED,
+				service.register(registerRequest));
+	}
+
 }

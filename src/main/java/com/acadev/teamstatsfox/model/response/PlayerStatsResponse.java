@@ -1,11 +1,11 @@
 package com.acadev.teamstatsfox.model.response;
 
-import com.acadev.teamstatsfox.database.entity.Player;
+import com.acadev.teamstatsfox.database.entity.Players;
 
 import lombok.Data;
 
 @Data
-public class PlayerStatsResponse extends Player {
+public class PlayerStatsResponse extends Players {
 
 	private Integer age;
 	private Integer matches;
