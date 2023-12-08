@@ -1,9 +1,5 @@
 package com.acadev.teamstatsfox.database.entity;
 
-import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,26 +16,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "MATCHES")
-public class Matches {
+@Table(name = "PRESENTS")
+public class Presents {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-	private LocalDateTime datetime;
-
-	private String opponent;
-
-	private String competition;
-
-	private String description;
-
-	@Column(name = "OUR_GOALS")
-	private Integer ourGoals;
-
-	@Column(name = "RIVAL_GOALS")
-	private Integer rivalGoals;
+	@Column(name = "MATCH_ID")
+	private Long matchId;
+	
+	@Column(name = "PLAYER_ID")
+	private Long playerId;
 
 }

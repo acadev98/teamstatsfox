@@ -7,7 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.acadev.teamstatsfox.database.entity.Cards;
 import com.acadev.teamstatsfox.database.entity.Players;
+import com.acadev.teamstatsfox.database.entity.Presents;
 import com.acadev.teamstatsfox.model.response.AssistsPlayedResponse;
 import com.acadev.teamstatsfox.model.response.GamesPlayedResponse;
 import com.acadev.teamstatsfox.model.response.GoalsPlayedResponse;
@@ -46,6 +48,14 @@ public class MapperService {
 		GoalsPlayedResponse response = GoalsPlayedResponse.builder().goals(player.getGoals()).name(player.getName())
 				.build();
 		return response;
+	}
+
+	public Long getPlayerIds(Presents presents) {
+		return presents.getPlayerId();
+	}
+
+	public Long getPlayerIds(Cards cards) {
+		return cards.getPlayerId();
 	}
 
 }

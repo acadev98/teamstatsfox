@@ -56,6 +56,7 @@ public class SecurityConfiguration {
 				.requestMatchers("/api/public/**").permitAll()
 				.requestMatchers("/api/players/**").permitAll()
 				.requestMatchers("/api/matches/**").permitAll()
+				.requestMatchers("/api/goals/**").permitAll()
 				.anyRequest().authenticated();
 		http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();

@@ -14,6 +14,8 @@ public class MessagesUtils {
 	public static final String TOP_10_PLAYED_ASSISTS = "Top 10 de asistencias.";
 	public static final String LIST_OF_MATCHES = "Lista de partidos encontrados.";
 	public static final String MATCHES_CREATED = "Partido creado.";
+	public static final String MATCHES_FOUND = "Partido encontrado.";
+	public static final String LIST_OF_GOALS = "Lista de goles encontrados.";
 
 	/** validaciones */
 	public static final String DNI_REQUIRED = "DNI es requerido.";

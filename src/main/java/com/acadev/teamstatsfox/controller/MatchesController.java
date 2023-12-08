@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,16 @@ public class MatchesController {
 	@GetMapping
 	public ResponseEntity<Object> get() {
 		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_MATCHES, HttpStatus.OK, service.getMatches());
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Object> getMatchesById(@PathVariable("id") Long id) {
+		return ResponseHandler.generateResponse(MessagesUtils.MATCHES_FOUND, HttpStatus.OK, service.getMatch(id));
+	}
+
+	@GetMapping("/{id}/details")
+	public ResponseEntity<Object> getMatchesDetailsById(@PathVariable("id") Long id) {
+		return ResponseHandler.generateResponse(MessagesUtils.MATCHES_FOUND, HttpStatus.OK, service.getMatchDetails(id));
 	}
 
 	@PostMapping
