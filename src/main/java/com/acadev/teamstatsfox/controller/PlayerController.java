@@ -46,8 +46,13 @@ public class PlayerController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Object> get() {
+	public ResponseEntity<Object> getPlayers() {
 		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS, HttpStatus.OK, service.getPlayers());
+	}
+
+	@GetMapping("/actives")
+	public ResponseEntity<Object> getPlayersActive() {
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS_ACTIVES, HttpStatus.OK, service.getPlayersActives());
 	}
 
 	@GetMapping("/{id}")

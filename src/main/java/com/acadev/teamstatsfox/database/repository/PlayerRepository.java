@@ -12,4 +12,5 @@ import com.acadev.teamstatsfox.database.entity.Players;
 public interface PlayerRepository extends PagingAndSortingRepository<Players, Long>, JpaRepository<Players, Long> {
 	List<Players> findByName(@Param("name") String name);
 	Optional<Players> findTopByOrderByIdDesc();
+	List<Players> findByActiveTrue();
 }

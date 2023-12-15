@@ -16,8 +16,6 @@ import com.acadev.teamstatsfox.handler.ResponseHandler;
 import com.acadev.teamstatsfox.service.MatchesService;
 import com.acadev.teamstatsfox.utils.MessagesUtils;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/api/matches")
 public class MatchesController {
@@ -47,7 +45,7 @@ public class MatchesController {
 
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Object> createMatches(@Valid @RequestBody Matches matches) {
+	public ResponseEntity<Object> createMatches(@RequestBody Matches matches) {
 		return ResponseHandler.generateResponse(MessagesUtils.MATCHES_CREATED, HttpStatus.CREATED,
 				service.create(matches));
 	}

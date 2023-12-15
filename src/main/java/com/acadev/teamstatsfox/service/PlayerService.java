@@ -17,6 +17,8 @@ public interface PlayerService {
 
 	List<Players> getPlayers();
 
+	List<Players> getPlayersActives();
+
 	Players update(Long id, PlayerRequest player);
 
 }

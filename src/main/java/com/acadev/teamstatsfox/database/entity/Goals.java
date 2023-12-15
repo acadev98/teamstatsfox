@@ -1,7 +1,11 @@
 package com.acadev.teamstatsfox.database.entity;
 
+import com.acadev.teamstatsfox.utils.enums.EGoalType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,11 +36,11 @@ public class Goals {
 	@Column(name = "ASSIST_PLAYER_ID")
 	private Long assistPlayerId;
 	
-	@Column(name = "FREE_KICK")
-	private Boolean freeKick;
-	
+	@Enumerated(EnumType.STRING)
+	private EGoalType type;
+
 	private Integer minute;
+	
 	private Boolean our;
-	private Boolean penalty;
 
 }

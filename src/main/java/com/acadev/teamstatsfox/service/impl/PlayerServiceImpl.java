@@ -69,6 +69,15 @@ public class PlayerServiceImpl implements PlayerService {
 		return players;
 	}
 
+	public List<Players> getPlayersActives() {
+
+		List<Players> players = (List<Players>) repository.findByActiveTrue();
+		if (players.isEmpty())
+			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+
+		return players;
+	}
+
 	public Players update(Long id, PlayerRequest request) {
 		Optional<Players> player = repository.findById(id);
 
