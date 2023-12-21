@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.acadev.teamstatsfox.database.entity.Matches;
 import com.acadev.teamstatsfox.handler.ResponseHandler;
+import com.acadev.teamstatsfox.model.request.MatchDetailsRequest;
 import com.acadev.teamstatsfox.service.MatchesService;
 import com.acadev.teamstatsfox.utils.MessagesUtils;
 
@@ -45,9 +45,9 @@ public class MatchesController {
 
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Object> createMatches(@RequestBody Matches matches) {
+	public ResponseEntity<Object> createMatches(@RequestBody MatchDetailsRequest matchDetails) {
 		return ResponseHandler.generateResponse(MessagesUtils.MATCHES_CREATED, HttpStatus.CREATED,
-				service.create(matches));
+				service.create(matchDetails));
 	}
 
 }

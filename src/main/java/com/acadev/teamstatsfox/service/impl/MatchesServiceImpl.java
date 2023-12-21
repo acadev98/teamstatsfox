@@ -16,6 +16,7 @@ import com.acadev.teamstatsfox.database.entity.Presents;
 import com.acadev.teamstatsfox.database.repository.MatchesRepository;
 import com.acadev.teamstatsfox.database.repository.PlayerRepository;
 import com.acadev.teamstatsfox.handler.exception.ApiException;
+import com.acadev.teamstatsfox.model.request.MatchDetailsRequest;
 import com.acadev.teamstatsfox.model.response.MatchesDetailsResponse;
 import com.acadev.teamstatsfox.service.CardsService;
 import com.acadev.teamstatsfox.service.GoalsService;
@@ -104,6 +105,10 @@ public class MatchesServiceImpl implements MatchesService {
 			.build();
 		
 		return matchDetails;
+	}
+
+	public Matches create(MatchDetailsRequest matchDetails) {
+		return null;
 	}
 
 }
