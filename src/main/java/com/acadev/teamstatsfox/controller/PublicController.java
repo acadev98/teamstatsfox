@@ -1,7 +1,5 @@
 package com.acadev.teamstatsfox.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +29,18 @@ public class PublicController {
 		return "Admin Board.";
 	}
 
+	@GetMapping("/mod")
+	@PreAuthorize("hasRole('MODERATOR')")
+	public String moderatorAccess() {
+		return "Moderator Board.";
+	}
+
+	@GetMapping("/user")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public String userAccess() {
+		return "User Content.";
+	}
+
 	@GetMapping("/echo")
 	public ResponseEntity<Object> echo() {
 		return service.echo();
@@ -49,12 +59,6 @@ public class PublicController {
 	@GetMapping("/players")
 	public ResponseEntity<Object> getPlayers() {
 		return service.getPlayers();
-	}
-
-	@GetMapping("/mod")
-	@PreAuthorize("hasRole('MODERATOR')")
-	public String moderatorAccess() {
-		return "Moderator Board.";
 	}
 
 	@GetMapping("/profile")
@@ -86,11 +90,4 @@ public class PublicController {
 	public ResponseEntity<Object> availableNumbers() {
 		return ResponseHandler.generateResponse(MessagesUtils.AVAILABLE_NUMBERS, HttpStatus.OK, service.availableNumbers());
 	}
-
-	@GetMapping("/user")
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public String userAccess() {
-		return "User Content.";
-	}
-
 }

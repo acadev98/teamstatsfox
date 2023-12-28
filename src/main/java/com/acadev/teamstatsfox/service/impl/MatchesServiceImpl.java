@@ -164,4 +164,20 @@ public class MatchesServiceImpl implements MatchesService {
 		return matchDetails;
 	}
 
+	public Matches delete(Long id) {
+		
+		Optional<Matches> match = repository.findById(id);
+
+		if (match.isEmpty())
+			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+
+		repository.delete(match.get());
+
+		goalsService.deleteByMatchId(id);
+		cardsService.deleteByMatchId(id);
+		presentsService.deleteByMatchId(id);
+		
+		return match.get();
+	}
+
 }

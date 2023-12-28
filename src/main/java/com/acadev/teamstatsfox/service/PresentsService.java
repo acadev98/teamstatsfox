@@ -12,4 +12,6 @@ public interface PresentsService {
 	
 	Presents create(Presents request);
 
+	void deleteByMatchId(Long id);
+
 }

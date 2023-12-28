@@ -39,5 +39,12 @@ public class PresentsServiceImpl implements PresentsService {
 
 		return repository.save(present);
 	}
+	
+	public void deleteByMatchId(Long matchId) {
+		List<Presents> presentsByMatchId = repository.findAllByMatchId(matchId);		
+		if (presentsByMatchId.size()>0) {
+			repository.deleteAll(presentsByMatchId);
+		}
+	}
 
 }

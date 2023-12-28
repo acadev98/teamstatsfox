@@ -46,5 +46,12 @@ public class GoalsServiceImpl implements GoalsService {
 		request.setId(getNextId());
 		return repository.save(request);
 	}
+	
+	public void deleteByMatchId(Long matchId) {
+		List<Goals> goalsByMatchId = repository.findAllByMatchId(matchId);		
+		if (goalsByMatchId.size()>0) {
+			repository.deleteAll(goalsByMatchId);
+		}
+	}
 
 }

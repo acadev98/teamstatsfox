@@ -18,4 +18,6 @@ public interface MatchesService {
 
 	MatchesDetailsResponse getMatchDetails(Long id);
 
+	Matches delete(Long id);
+
 }

@@ -46,5 +46,12 @@ public class CardsServiceImpl implements CardsService {
 		request.setId(getNextId());
 		return repository.save(request);
 	}
-
+	
+	public void deleteByMatchId(Long matchId) {
+		List<Cards> cardsByMatchId = repository.findAllByMatchId(matchId);		
+		if (cardsByMatchId.size()>0) {
+			repository.deleteAll(cardsByMatchId);
+		}
+	}
+	
 }

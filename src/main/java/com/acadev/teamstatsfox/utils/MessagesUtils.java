@@ -29,5 +29,6 @@ public class MessagesUtils {
 	public static final String NAME_NOT_VALID = "Nombre solo debe contener letras.";
 	public static final String POSITION_REQUIRED = "Posicion es requerida.";
 	public static final String POSITION_NOT_VALID = "Posicion solo puede ser: (ARQUERO, DEFENSOR, VOLANTE, DELANTERO).";
+	public static final String MATCH_DELETED = "Partido eliminado.";
 
 }

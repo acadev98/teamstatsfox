@@ -14,4 +14,6 @@ public interface GoalsService {
 	
 	Goals create(Goals request);
 
+	void deleteByMatchId(Long id);
+
 }

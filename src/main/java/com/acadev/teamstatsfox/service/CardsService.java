@@ -14,4 +14,6 @@ public interface CardsService {
 
 	Cards create(Cards cardsEntity);
 
+	void deleteByMatchId(Long id);
+
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,12 @@ public class MatchesController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getMatchesById(@PathVariable("id") Long id) {
 		return ResponseHandler.generateResponse(MessagesUtils.MATCHES_FOUND, HttpStatus.OK, service.getMatch(id));
+	}
+
+	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Object> deleteMatch(@PathVariable("id") Long id) {
+		return ResponseHandler.generateResponse(MessagesUtils.MATCH_DELETED, HttpStatus.OK, service.delete(id));
 	}
 
 	@GetMapping("/{id}/details")
