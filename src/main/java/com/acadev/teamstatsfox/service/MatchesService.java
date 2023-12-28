@@ -12,7 +12,7 @@ public interface MatchesService {
 
 	List<Matches> getMatches();
 
-	Matches create(MatchDetailsRequest matchDetails);
+	MatchesDetailsResponse create(MatchDetailsRequest matchDetails);
 
 	Matches getMatch(Long id);
 

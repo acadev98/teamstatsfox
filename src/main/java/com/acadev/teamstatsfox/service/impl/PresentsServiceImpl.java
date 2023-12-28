@@ -31,4 +31,13 @@ public class PresentsServiceImpl implements PresentsService {
 		return repository.findAllByMatchId(id);
 	}
 
+	public Presents create(Presents request) {
+		Presents present = Presents.builder().id(getNextId())
+				.matchId(request.getMatchId())
+				.playerId(request.getPlayerId())
+				.build();
+
+		return repository.save(present);
+	}
+
 }

@@ -30,6 +30,7 @@ public class PlayerServiceImpl implements PlayerService {
 		Players player = Players.builder().id(getNextId()).dni(request.getDni())
 				.lastname(request.getLastname().toUpperCase()).name(request.getName().toUpperCase())
 				.position(request.getPosition().toUpperCase())
+				.number(request.getNumber() != null ? request.getNumber() : null)
 				.secondPosition(request.getSecondPosition() != null ? request.getSecondPosition().toUpperCase() : null)
 				.active(request.getActive()).birthday(request.getBirthday()).playingSince(request.getPlayingSince())
 				.build();
@@ -96,6 +97,15 @@ public class PlayerServiceImpl implements PlayerService {
 		repository.save(playerUpdated);
 
 		return repository.save(playerUpdated);
+	}
+
+	public List<Integer> findNumbers() {
+		List<Integer> numbersPlayers = repository.findNumbers();
+		
+		if (numbersPlayers.isEmpty())
+			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+		
+		return numbersPlayers;
 	}
 
 }

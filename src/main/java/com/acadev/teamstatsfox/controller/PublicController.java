@@ -1,5 +1,7 @@
 package com.acadev.teamstatsfox.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,6 +80,11 @@ public class PublicController {
 	@GetMapping("/top/goals")
 	public ResponseEntity<Object> topGoals() {
 		return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_GOALS, HttpStatus.OK, service.topGoals());
+	}
+
+	@GetMapping("/numbers/avaibles")
+	public ResponseEntity<Object> availableNumbers() {
+		return ResponseHandler.generateResponse(MessagesUtils.AVAILABLE_NUMBERS, HttpStatus.OK, service.availableNumbers());
 	}
 
 	@GetMapping("/user")

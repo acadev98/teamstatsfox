@@ -21,4 +21,6 @@ public interface PlayerService {
 
 	Players update(Long id, PlayerRequest player);
 
+	List<Integer> findNumbers();
+
 }

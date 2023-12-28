@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.acadev.teamstatsfox.database.entity.Players;
-import com.acadev.teamstatsfox.database.repository.PlayerRepository;
 import com.acadev.teamstatsfox.handler.ResponseHandler;
 import com.acadev.teamstatsfox.model.response.AssistsPlayedResponse;
 import com.acadev.teamstatsfox.model.response.GamesPlayedResponse;
@@ -20,7 +19,9 @@ import com.acadev.teamstatsfox.model.response.GoalsPlayedResponse;
 import com.acadev.teamstatsfox.model.response.PlayerStatsFromCvs;
 import com.acadev.teamstatsfox.model.response.PlayerStatsResponse;
 import com.acadev.teamstatsfox.model.response.StatsFromCvsResponse;
+import com.acadev.teamstatsfox.service.PlayerService;
 import com.acadev.teamstatsfox.service.PublicService;
+import com.acadev.teamstatsfox.service.ReadCvsService;
 import com.acadev.teamstatsfox.utils.FunctionsUtils;
 import com.acadev.teamstatsfox.utils.MessagesUtils;
 
@@ -28,10 +29,10 @@ import com.acadev.teamstatsfox.utils.MessagesUtils;
 public class PublicServiceImpl implements PublicService {
 
 	@Autowired
-	private PlayerRepository repository;
+	private PlayerService playerService;
 
 	@Autowired
-	private ReadCvsServiceImpl service;
+	private ReadCvsService service;
 
 	@Autowired
 	private MapperService mapperService;
@@ -58,7 +59,7 @@ public class PublicServiceImpl implements PublicService {
 	}
 
 	public ResponseEntity<Object> getPlayers() {
-		List<Players> players = (List<Players>) repository.findAll();
+		List<Players> players = playerService.getPlayers();
 
 		List<PlayerStatsResponse> playersDTOResponseList = players.stream().map(mapperService::convertToDto)
 				.collect(Collectors.toList());
@@ -115,6 +116,20 @@ public class PublicServiceImpl implements PublicService {
 				.collect(Collectors.toList());
 
 		return responseList;
+	}
+
+	public List<Integer> availableNumbers() {
+		
+		List<Integer> numbersPlayers = playerService.findNumbers();
+		List<Integer> availableNumbers = new ArrayList<>();
+		
+		for (int i = 1; i < 100; i++) {
+			if(!numbersPlayers.contains(i)) {
+				availableNumbers.add(i);				
+			}
+		}
+		
+		return availableNumbers;
 	}
 
 }

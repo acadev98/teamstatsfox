@@ -35,6 +35,8 @@ public class Players {
 
 	private String position;
 
+	private Integer number;
+
 	@Column(name = "SECOND_POSITION")
 	private String secondPosition;
 

@@ -42,4 +42,9 @@ public class CardsServiceImpl implements CardsService {
 		return repository.findAllByMatchId(id);
 	}
 
+	public Cards create(Cards request) {
+		request.setId(getNextId());
+		return repository.save(request);
+	}
+
 }

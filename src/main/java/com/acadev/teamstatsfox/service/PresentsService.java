@@ -9,5 +9,7 @@ public interface PresentsService {
 	String echo();
 
 	List<Presents> getPresentsByMatchId(Long id);
+	
+	Presents create(Presents request);
 
 }

@@ -42,4 +42,9 @@ public class GoalsServiceImpl implements GoalsService {
 		return repository.findAllByMatchId(id);
 	}
 
+	public Goals create(Goals request) {
+		request.setId(getNextId());
+		return repository.save(request);
+	}
+
 }

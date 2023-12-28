@@ -35,6 +35,8 @@ public class PlayerRequest {
 	@Pattern(regexp = RegexsUtils.REGEX_POSITIONS, message = MessagesUtils.POSITION_NOT_VALID)
 	private String position;
 
+	private Integer number;
+
 	private String secondPosition;
 
 	private Boolean active;

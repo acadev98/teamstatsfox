@@ -13,6 +13,7 @@ public class MessagesUtils {
 	public static final String TOP_10_PLAYED_MATCHS = "Top 10 de partidos jugados.";
 	public static final String TOP_10_PLAYED_GOALS = "Top 10 de goles.";
 	public static final String TOP_10_PLAYED_ASSISTS = "Top 10 de asistencias.";
+	public static final String AVAILABLE_NUMBERS = "Números habilitados.";
 	public static final String LIST_OF_MATCHES = "Lista de partidos encontrados.";
 	public static final String MATCHES_CREATED = "Partido creado.";
 	public static final String MATCHES_FOUND = "Partido encontrado.";

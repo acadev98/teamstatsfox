@@ -11,5 +11,7 @@ public interface GoalsService {
 	List<Goals> getGoals();
 
 	List<Goals> getGoalsByMatchId(Long id);
+	
+	Goals create(Goals request);
 
 }

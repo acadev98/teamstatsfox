@@ -24,4 +24,6 @@ public interface PublicService {
 
 	List<GoalsPlayedResponse> topGoals();
 
+	List<Integer> availableNumbers();
+
 }

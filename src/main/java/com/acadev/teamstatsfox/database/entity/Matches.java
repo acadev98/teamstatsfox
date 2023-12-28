@@ -36,6 +36,8 @@ public class Matches {
 
 	private String description;
 
+	private Integer captain;
+
 	@Column(name = "OUR_GOALS")
 	private Integer ourGoals;
 

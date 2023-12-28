@@ -12,4 +12,6 @@ public interface CardsService {
 
 	List<Cards> getCardsByMatchId(Long id);
 
+	Cards create(Cards cardsEntity);
+
 }
