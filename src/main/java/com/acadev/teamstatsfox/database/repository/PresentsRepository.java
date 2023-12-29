@@ -11,4 +11,5 @@ import com.acadev.teamstatsfox.database.entity.Presents;
 public interface PresentsRepository extends PagingAndSortingRepository<Presents, Long>, JpaRepository<Presents, Long> {
 	Optional<Presents> findTopByOrderByIdDesc();
 	List<Presents> findAllByMatchId(Long id);
+	List<Presents> findAllByPlayerId(Long id);
 }

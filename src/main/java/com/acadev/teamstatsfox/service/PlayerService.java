@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.acadev.teamstatsfox.database.entity.Players;
 import com.acadev.teamstatsfox.model.request.PlayerRequest;
+import com.acadev.teamstatsfox.model.response.PlayersPlayersDetailsResponse;
 
 public interface PlayerService {
 
@@ -22,5 +23,7 @@ public interface PlayerService {
 	Players update(Long id, PlayerRequest player);
 
 	List<Integer> findNumbers();
+
+	PlayersPlayersDetailsResponse getPlayerDetails(Long id);
 
 }

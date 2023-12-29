@@ -1,20 +1,42 @@
 package com.acadev.teamstatsfox.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.acadev.teamstatsfox.database.entity.Cards;
+import com.acadev.teamstatsfox.database.entity.Goals;
+import com.acadev.teamstatsfox.database.entity.Matches;
 import com.acadev.teamstatsfox.database.entity.Players;
+import com.acadev.teamstatsfox.database.entity.Presents;
 import com.acadev.teamstatsfox.database.repository.PlayerRepository;
 import com.acadev.teamstatsfox.handler.exception.ApiException;
 import com.acadev.teamstatsfox.model.request.PlayerRequest;
+import com.acadev.teamstatsfox.model.response.PlayersPlayersDetailsResponse;
+import com.acadev.teamstatsfox.service.CardsService;
+import com.acadev.teamstatsfox.service.GoalsService;
+import com.acadev.teamstatsfox.service.MatchesService;
 import com.acadev.teamstatsfox.service.PlayerService;
+import com.acadev.teamstatsfox.service.PresentsService;
 import com.acadev.teamstatsfox.utils.enums.ApiMessage;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
+	
+	@Autowired
+	private GoalsService goalsService;
+	
+	@Autowired
+	private CardsService cardsService;
+	
+	@Autowired
+	private PresentsService presentsService;
+	
+	@Autowired
+	private MatchesService matchesService;
 
 	@Autowired
 	private PlayerRepository repository;
@@ -59,6 +81,36 @@ public class PlayerServiceImpl implements PlayerService {
 			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 
 		return player.get();
+	}
+
+	public PlayersPlayersDetailsResponse getPlayerDetails(Long id) {
+
+		Optional<Players> player = repository.findById(id);
+		if (player.isEmpty())
+			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+
+		List<Goals> goals = goalsService.getGoalsByPlayerId(id);
+		List<Goals> assists = goalsService.getAssistsByPlayerId(id);
+		List<Cards> cards = cardsService.getCardsPlayerId(id);
+		List<Presents> presents = presentsService.getPresentsByPlayerId(id);
+		
+		List<Matches> matches = new ArrayList<>();
+
+		if (!presents.isEmpty()) {
+			for (Presents present: presents) {
+				matches.add(matchesService.getMatch(present.getMatchId()));
+			}
+		}
+		
+		PlayersPlayersDetailsResponse playerDetails = PlayersPlayersDetailsResponse.builder()
+				.player(player.get())
+				.goals(goals)
+				.cards(cards)
+				.assists(assists)
+				.matches(matches)
+				.build();
+				
+		return playerDetails;
 	}
 
 	public List<Players> getPlayers() {

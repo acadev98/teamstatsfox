@@ -16,4 +16,6 @@ public interface CardsService {
 
 	void deleteByMatchId(Long id);
 
+	List<Cards> getCardsPlayerId(Long id);
+
 }

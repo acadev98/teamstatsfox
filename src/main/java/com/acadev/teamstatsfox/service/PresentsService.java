@@ -14,4 +14,6 @@ public interface PresentsService {
 
 	void deleteByMatchId(Long id);
 
+	List<Presents> getPresentsByPlayerId(Long id);
+
 }

@@ -16,4 +16,8 @@ public interface GoalsService {
 
 	void deleteByMatchId(Long id);
 
+	List<Goals> getGoalsByPlayerId(Long id);
+
+	List<Goals> getAssistsByPlayerId(Long id);
+
 }

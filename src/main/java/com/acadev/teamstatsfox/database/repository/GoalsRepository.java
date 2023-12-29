@@ -13,4 +13,8 @@ public interface GoalsRepository extends PagingAndSortingRepository<Goals, Long>
 	Optional<Goals> findTopByOrderByIdDesc();
 
 	List<Goals> findAllByMatchId(Long id);
+
+	List<Goals> findAllByPlayerId(Long id);
+
+	List<Goals> findAllByAssistPlayerId(Long id);
 }

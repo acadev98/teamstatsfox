@@ -13,4 +13,6 @@ public interface CardsRepository extends PagingAndSortingRepository<Cards, Long>
 	Optional<Cards> findTopByOrderByIdDesc();
 
 	List<Cards> findAllByMatchId(Long id);
+
+	List<Cards> findAllByPlayerId(Long id);
 }

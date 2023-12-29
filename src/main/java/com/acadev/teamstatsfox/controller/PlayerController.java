@@ -60,6 +60,11 @@ public class PlayerController {
 		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, service.getPlayer(id));
 	}
 
+	@GetMapping("/{id}/details")
+	public ResponseEntity<Object> getPlayersDetailsById(@PathVariable("id") Long id) {
+		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, service.getPlayerDetails(id));
+	}
+
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> updatePlayer(@PathVariable("id") Long id, @RequestBody PlayerRequest player) {

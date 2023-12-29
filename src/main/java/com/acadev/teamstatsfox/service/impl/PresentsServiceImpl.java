@@ -47,4 +47,9 @@ public class PresentsServiceImpl implements PresentsService {
 		}
 	}
 
+	@Override
+	public List<Presents> getPresentsByPlayerId(Long id) {
+		return repository.findAllByPlayerId(id);
+	}
+
 }

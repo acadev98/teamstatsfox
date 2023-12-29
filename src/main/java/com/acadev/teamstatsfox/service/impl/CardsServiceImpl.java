@@ -53,5 +53,9 @@ public class CardsServiceImpl implements CardsService {
 			repository.deleteAll(cardsByMatchId);
 		}
 	}
+
+	public List<Cards> getCardsPlayerId(Long id) {
+		return repository.findAllByPlayerId(id);
+	}
 	
 }
