@@ -1,8 +1,10 @@
 package com.acadev.teamstatsfox.service.impl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import com.acadev.teamstatsfox.database.repository.PlayerRepository;
 import com.acadev.teamstatsfox.handler.exception.ApiException;
 import com.acadev.teamstatsfox.model.request.PlayerRequest;
 import com.acadev.teamstatsfox.model.response.PlayersPlayersDetailsResponse;
+import com.acadev.teamstatsfox.model.response.PrevAndNextPlayersResponse;
 import com.acadev.teamstatsfox.service.CardsService;
 import com.acadev.teamstatsfox.service.GoalsService;
 import com.acadev.teamstatsfox.service.MatchesService;
@@ -158,6 +161,28 @@ public class PlayerServiceImpl implements PlayerService {
 			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 		
 		return numbersPlayers;
+	}
+
+	public PrevAndNextPlayersResponse getPlayerPrevAndNext(Long id) {
+
+		List<Players> playersList = getPlayersActives();
+		
+		List<Players> playersListOrdered = playersList.stream()
+				  .sorted(Comparator.comparing(Players::getNumber))
+				  .collect(Collectors.toList());
+		
+		Players player = getPlayer(id);
+
+		Integer index = playersListOrdered.indexOf(player);
+		Integer lastIndex = playersListOrdered.size()-1;
+		
+		Integer indexPrev = (index==0?lastIndex:index-1); 
+		Integer indexNext = (index==lastIndex?0:index+1); 
+		
+		Players prev = playersListOrdered.get(indexPrev);
+		Players next = playersListOrdered.get(indexNext);
+		
+		return PrevAndNextPlayersResponse.builder().prev(prev).next(next).build();
 	}
 
 }

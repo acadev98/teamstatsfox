@@ -65,6 +65,11 @@ public class PlayerController {
 		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, service.getPlayerDetails(id));
 	}
 
+	@GetMapping("/{id}/prevandnext")
+	public ResponseEntity<Object> getPlayersPrevAndNextById(@PathVariable("id") Long id) {
+		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, service.getPlayerPrevAndNext(id));
+	}
+
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> updatePlayer(@PathVariable("id") Long id, @RequestBody PlayerRequest player) {

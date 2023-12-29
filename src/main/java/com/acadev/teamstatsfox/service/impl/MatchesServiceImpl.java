@@ -2,6 +2,7 @@ package com.acadev.teamstatsfox.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ import com.acadev.teamstatsfox.model.request.MatchDetailsRequest;
 import com.acadev.teamstatsfox.model.request.MatchRequest;
 import com.acadev.teamstatsfox.model.request.PresentRequest;
 import com.acadev.teamstatsfox.model.response.MatchesDetailsResponse;
+import com.acadev.teamstatsfox.model.response.PrevAndNextMatchesResponse;
 import com.acadev.teamstatsfox.service.CardsService;
 import com.acadev.teamstatsfox.service.GoalsService;
 import com.acadev.teamstatsfox.service.MatchesService;
@@ -67,8 +69,12 @@ public class MatchesServiceImpl implements MatchesService {
 		List<Matches> matches = (List<Matches>) repository.findAll();
 		if (matches.isEmpty())
 			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+		
+		List<Matches> matchesListOrdered = matches.stream()
+				  .sorted(Comparator.comparing(Matches::getDatetime))
+				  .collect(Collectors.toList());
 
-		return matches;
+		return matchesListOrdered;
 	}
 
 	public MatchesDetailsResponse create(MatchDetailsRequest matchDetails) {
@@ -162,6 +168,28 @@ public class MatchesServiceImpl implements MatchesService {
 				.build();
 
 		return matchDetails;
+	}
+
+	public PrevAndNextMatchesResponse getMatchesPrevAndNext(Long id) {
+
+		List<Matches> matchesList = getMatches();
+		
+		List<Matches> matchesListOrdered = matchesList.stream()
+				  .sorted(Comparator.comparing(Matches::getDatetime))
+				  .collect(Collectors.toList());
+		
+		Matches match = getMatch(id);
+
+		Integer index = matchesListOrdered.indexOf(match);
+		Integer lastIndex = matchesListOrdered.size()-1;
+		
+		Integer indexPrev = (index==0?lastIndex:index-1); 
+		Integer indexNext = (index==lastIndex?0:index+1); 
+		
+		Matches prev = matchesListOrdered.get(indexPrev);
+		Matches next = matchesListOrdered.get(indexNext);
+		
+		return PrevAndNextMatchesResponse.builder().prev(prev).next(next).build();
 	}
 
 	public Matches delete(Long id) {

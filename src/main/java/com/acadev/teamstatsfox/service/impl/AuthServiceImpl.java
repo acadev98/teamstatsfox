@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.acadev.teamstatsfox.database.entity.Matches;
 import com.acadev.teamstatsfox.database.entity.Roles;
 import com.acadev.teamstatsfox.database.entity.User;
 import com.acadev.teamstatsfox.database.repository.RoleRepository;

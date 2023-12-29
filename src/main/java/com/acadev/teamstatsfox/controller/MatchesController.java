@@ -50,6 +50,11 @@ public class MatchesController {
 		return ResponseHandler.generateResponse(MessagesUtils.MATCHES_FOUND, HttpStatus.OK, service.getMatchDetails(id));
 	}
 
+	@GetMapping("/{id}/prevandnext")
+	public ResponseEntity<Object> getMatchesPrevAndNextById(@PathVariable("id") Long id) {
+		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, service.getMatchesPrevAndNext(id));
+	}
+
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> createMatches(@RequestBody MatchDetailsRequest matchDetails) {
