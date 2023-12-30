@@ -165,7 +165,7 @@ public class PlayerServiceImpl implements PlayerService {
 
 	public PrevAndNextPlayersResponse getPlayerPrevAndNext(Long id) {
 
-		List<Players> playersList = getPlayersActives();
+		List<Players> playersList = getPlayers();
 		
 		List<Players> playersListOrdered = playersList.stream()
 				  .sorted(Comparator.comparing(Players::getNumber))
