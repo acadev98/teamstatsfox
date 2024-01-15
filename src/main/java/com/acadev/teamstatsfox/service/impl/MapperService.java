@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.acadev.teamstatsfox.database.entity.Cards;
 import com.acadev.teamstatsfox.database.entity.Players;
+import com.acadev.teamstatsfox.database.entity.PlayersTourment;
 import com.acadev.teamstatsfox.database.entity.Presents;
 import com.acadev.teamstatsfox.model.response.AssistsPlayedResponse;
 import com.acadev.teamstatsfox.model.response.GamesPlayedResponse;
@@ -52,6 +53,10 @@ public class MapperService {
 
 	public Long getPlayerIds(Presents presents) {
 		return presents.getPlayerId();
+	}
+
+	public Long getPlayerIds(PlayersTourment playersTournments) {
+		return playersTournments.getPlayerId();
 	}
 
 	public Long getPlayerIds(Cards cards) {
