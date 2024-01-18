@@ -8,7 +8,7 @@ import lombok.Data;
 public class MatchRequest {
 	private LocalDate date;
 	private String time;
-	private String opponent;
-	private String tournment;
+	private Long opponent;
+	private Long tournment;
 	private String resume;
 }

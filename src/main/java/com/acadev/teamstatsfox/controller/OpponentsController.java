@@ -11,17 +11,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.acadev.teamstatsfox.database.entity.Opponents;
 import com.acadev.teamstatsfox.database.entity.Tournments;
 import com.acadev.teamstatsfox.handler.ResponseHandler;
-import com.acadev.teamstatsfox.service.TournmentsService;
+import com.acadev.teamstatsfox.service.OpponentsService;
 import com.acadev.teamstatsfox.utils.MessagesUtils;
 
 @RestController
-@RequestMapping("/api/tournments")
-public class TournmentController {
+@RequestMapping("/api/opponents")
+public class OpponentsController {
 
 	@Autowired
-	private TournmentsService service;
+	private OpponentsService service;
 
 	@GetMapping("/echo")
 	public ResponseEntity<Object> echoTest() {
@@ -30,24 +31,24 @@ public class TournmentController {
 
 	@GetMapping
 	public ResponseEntity<Object> get() {
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS, HttpStatus.OK, service.getTournments());
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_OPPONENTS, HttpStatus.OK, service.getOpponents());
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getById(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.TOURNMENTS_FOUND, HttpStatus.OK, service.getTournmentById(id));
+		return ResponseHandler.generateResponse(MessagesUtils.OPPONENTS_FOUND, HttpStatus.OK, service.getOpponentById(id));
 	}
 
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Object> create(@RequestBody Tournments tournment) {
-		return ResponseHandler.generateResponse(MessagesUtils.TOURNMENT_CREATED, HttpStatus.CREATED,
-				service.create(tournment));
+	public ResponseEntity<Object> create(@RequestBody Opponents opponents) {
+		return ResponseHandler.generateResponse(MessagesUtils.OPPONENTS_CREATED, HttpStatus.CREATED,
+				service.create(opponents));
 	}
 
-	@GetMapping("/{id}/details")
-	public ResponseEntity<Object> getPlayersByTournmentId(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS_TOURNMENTS, HttpStatus.OK, service.getPlayersByTournmentId(id));
-	}
+//	@GetMapping("/{id}/details")
+//	public ResponseEntity<Object> getPlayersByTournmentId(@PathVariable("id") Long id) {
+//		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS_TOURNMENTS, HttpStatus.OK, service.getPlayersByTournmentId(id));
+//	}
 
 }

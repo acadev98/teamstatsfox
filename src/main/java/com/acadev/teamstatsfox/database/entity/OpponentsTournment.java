@@ -1,9 +1,6 @@
 package com.acadev.teamstatsfox.database.entity;
 
-import java.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,20 +16,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "TOURNMENT")
-public class Tournment {
+@Table(name = "OPPONENTS_TOURNMENTS")
+public class OpponentsTournment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private LocalDate startDate;
-
-	private String name;
-
-	private String description;
+	@Column(name = "TOURNMENT_ID")
+	private Long tournmentId;
 	
-	private Boolean active;
+	@Column(name = "OPPONENT_ID")
+	private Long opponentId;
 
 }

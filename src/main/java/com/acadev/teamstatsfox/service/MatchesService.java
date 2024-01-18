@@ -5,13 +5,14 @@ import java.util.List;
 import com.acadev.teamstatsfox.database.entity.Matches;
 import com.acadev.teamstatsfox.model.request.MatchDetailsRequest;
 import com.acadev.teamstatsfox.model.response.MatchesDetailsResponse;
+import com.acadev.teamstatsfox.model.response.MatchesResponse;
 import com.acadev.teamstatsfox.model.response.PrevAndNextMatchesResponse;
 
 public interface MatchesService {
 
 	String echo();
 
-	List<Matches> getMatches();
+	List<MatchesResponse> getMatchesResponse();
 
 	MatchesDetailsResponse create(MatchDetailsRequest matchDetails);
 

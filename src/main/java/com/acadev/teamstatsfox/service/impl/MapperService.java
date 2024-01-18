@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.acadev.teamstatsfox.database.entity.Cards;
+import com.acadev.teamstatsfox.database.entity.OpponentsTournment;
 import com.acadev.teamstatsfox.database.entity.Players;
-import com.acadev.teamstatsfox.database.entity.PlayersTourment;
+import com.acadev.teamstatsfox.database.entity.PlayersTournment;
 import com.acadev.teamstatsfox.database.entity.Presents;
 import com.acadev.teamstatsfox.model.response.AssistsPlayedResponse;
 import com.acadev.teamstatsfox.model.response.GamesPlayedResponse;
@@ -55,12 +56,16 @@ public class MapperService {
 		return presents.getPlayerId();
 	}
 
-	public Long getPlayerIds(PlayersTourment playersTournments) {
+	public Long getPlayerIds(PlayersTournment playersTournments) {
 		return playersTournments.getPlayerId();
 	}
 
 	public Long getPlayerIds(Cards cards) {
 		return cards.getPlayerId();
+	}
+
+	public Long getOpponentsIds(OpponentsTournment opponentsTournments) {
+		return opponentsTournments.getOpponentId();
 	}
 
 }

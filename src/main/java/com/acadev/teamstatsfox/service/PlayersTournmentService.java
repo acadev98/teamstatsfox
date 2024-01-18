@@ -2,15 +2,15 @@ package com.acadev.teamstatsfox.service;
 
 import java.util.List;
 
-import com.acadev.teamstatsfox.database.entity.PlayersTourment;
+import com.acadev.teamstatsfox.database.entity.PlayersTournment;
 
 public interface PlayersTournmentService {
 
 	String echo();
 
-	List<PlayersTourment> getPlayersByTournmentId(Long id);
+	List<PlayersTournment> getPlayersByTournmentId(Long id);
 	
-	PlayersTourment create(PlayersTourment request);
+	PlayersTournment create(PlayersTournment request);
 
 	void deleteByTournmentId(Long id);
 

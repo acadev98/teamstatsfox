@@ -31,7 +31,7 @@ public class MatchesController {
 
 	@GetMapping
 	public ResponseEntity<Object> get() {
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_MATCHES, HttpStatus.OK, service.getMatches());
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_MATCHES, HttpStatus.OK, service.getMatchesResponse());
 	}
 
 	@GetMapping("/{id}")

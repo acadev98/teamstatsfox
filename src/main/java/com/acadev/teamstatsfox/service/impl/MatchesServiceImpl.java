@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 import com.acadev.teamstatsfox.database.entity.Cards;
 import com.acadev.teamstatsfox.database.entity.Goals;
 import com.acadev.teamstatsfox.database.entity.Matches;
+import com.acadev.teamstatsfox.database.entity.Opponents;
 import com.acadev.teamstatsfox.database.entity.Players;
 import com.acadev.teamstatsfox.database.entity.Presents;
+import com.acadev.teamstatsfox.database.entity.Tournments;
 import com.acadev.teamstatsfox.database.repository.MatchesRepository;
 import com.acadev.teamstatsfox.database.repository.PlayerRepository;
 import com.acadev.teamstatsfox.handler.exception.ApiException;
@@ -24,11 +26,14 @@ import com.acadev.teamstatsfox.model.request.MatchDetailsRequest;
 import com.acadev.teamstatsfox.model.request.MatchRequest;
 import com.acadev.teamstatsfox.model.request.PresentRequest;
 import com.acadev.teamstatsfox.model.response.MatchesDetailsResponse;
+import com.acadev.teamstatsfox.model.response.MatchesResponse;
 import com.acadev.teamstatsfox.model.response.PrevAndNextMatchesResponse;
 import com.acadev.teamstatsfox.service.CardsService;
 import com.acadev.teamstatsfox.service.GoalsService;
 import com.acadev.teamstatsfox.service.MatchesService;
+import com.acadev.teamstatsfox.service.OpponentsService;
 import com.acadev.teamstatsfox.service.PresentsService;
+import com.acadev.teamstatsfox.service.TournmentsService;
 import com.acadev.teamstatsfox.utils.FunctionsUtils;
 import com.acadev.teamstatsfox.utils.enums.ApiMessage;
 
@@ -51,6 +56,12 @@ public class MatchesServiceImpl implements MatchesService {
 	private CardsService cardsService;
 
 	@Autowired
+	private OpponentsService opponentsService;
+
+	@Autowired
+	private TournmentsService tournmentsService;
+
+	@Autowired
 	private MapperService mapperService;
 
 	public Long getNextId() {
@@ -66,7 +77,7 @@ public class MatchesServiceImpl implements MatchesService {
 
 	public List<Matches> getMatches() {
 
-		List<Matches> matches = (List<Matches>) repository.findAll();
+		List<Matches> matches = repository.findAll();
 		if (matches.isEmpty())
 			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 		
@@ -75,6 +86,24 @@ public class MatchesServiceImpl implements MatchesService {
 				  .collect(Collectors.toList());
 
 		return matchesListOrdered;
+	}
+
+	public List<MatchesResponse> getMatchesResponse() {
+
+		List<Matches> matches = getMatches();
+		
+		List<MatchesResponse> response = new ArrayList<>();
+		for (Matches mt : matches) {
+			MatchesResponse matchResponse = MatchesResponse.builder()
+				.match(mt)
+				.opponent(opponentsService.getOpponentById(mt.getOpponentId()))
+				.tournment(tournmentsService.getTournmentById(mt.getTournmentId()))
+				.build();
+			
+			response.add(matchResponse);		
+		}
+
+		return response;
 	}
 
 	public MatchesDetailsResponse create(MatchDetailsRequest matchDetails) {
@@ -90,9 +119,9 @@ public class MatchesServiceImpl implements MatchesService {
 
 		Matches matchEntity = Matches.builder()
 			.datetime(localDateTimeMatch)
-			.opponent(matchRequest.getOpponent())
+			.opponentId(matchRequest.getOpponent())
 			.description(matchRequest.getResume())
-			.competition(matchRequest.getTournment())
+			.tournmentId(matchRequest.getTournment())
 			.ourGoals(ourGoals)
 			.captain(matchDetails.getCaptain()==null?0:matchDetails.getCaptain())
 			.rivalGoals(rivalsGoals)
@@ -147,9 +176,13 @@ public class MatchesServiceImpl implements MatchesService {
 
 	public MatchesDetailsResponse getMatchDetails(Long id) {
 
+		Matches match = getMatch(id);
 		List<Goals> goals = goalsService.getGoalsByMatchId(id);
 		List<Presents> presents = presentsService.getPresentsByMatchId(id);
 		List<Cards> cards = cardsService.getCardsByMatchId(id);
+		Opponents opponent = opponentsService.getOpponentById(match.getOpponentId());
+		Tournments tournment = tournmentsService.getTournmentById(match.getTournmentId());
+		
 		List<Players> playersPresents = new ArrayList<>();
 
 		if (!presents.isEmpty()) {
@@ -161,7 +194,9 @@ public class MatchesServiceImpl implements MatchesService {
 		}
 
 		MatchesDetailsResponse matchDetails = MatchesDetailsResponse.builder()
-				.match(getMatch(id))
+				.match(match)
+				.opponent(opponent)
+				.tournment(tournment)
 				.goals(goals)
 				.players(playersPresents)
 				.cards(cards)
@@ -189,7 +224,19 @@ public class MatchesServiceImpl implements MatchesService {
 		Matches prev = matchesListOrdered.get(indexPrev);
 		Matches next = matchesListOrdered.get(indexNext);
 		
-		return PrevAndNextMatchesResponse.builder().prev(prev).next(next).build();
+		MatchesResponse prevMatchResponse = MatchesResponse.builder()
+				.match(prev)
+				.opponent(opponentsService.getOpponentById(prev.getOpponentId()))
+				.tournment(tournmentsService.getTournmentById(prev.getTournmentId()))
+				.build();
+		
+		MatchesResponse nextMatchResponse = MatchesResponse.builder()
+				.match(next)
+				.opponent(opponentsService.getOpponentById(next.getOpponentId()))
+				.tournment(tournmentsService.getTournmentById(next.getTournmentId()))
+				.build();
+		
+		return PrevAndNextMatchesResponse.builder().prev(prevMatchResponse).next(nextMatchResponse).build();
 	}
 
 	public Matches delete(Long id) {

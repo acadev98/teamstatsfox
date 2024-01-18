@@ -2,8 +2,9 @@ package com.acadev.teamstatsfox.model.response;
 
 import java.util.List;
 
+import com.acadev.teamstatsfox.database.entity.Opponents;
 import com.acadev.teamstatsfox.database.entity.Players;
-import com.acadev.teamstatsfox.database.entity.Tournment;
+import com.acadev.teamstatsfox.database.entity.Tournments;
 
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,8 @@ import lombok.Data;
 @Builder
 public class TournmentsDetailsResponse {
 	
-	private Tournment tournment;
+	private Tournments tournment;
 	private List<Players> players;
+	private List<Opponents> opponents;
 
 }
