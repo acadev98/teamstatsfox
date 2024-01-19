@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.acadev.teamstatsfox.database.entity.OpponentsTournment;
 import com.acadev.teamstatsfox.database.repository.OpponentsTournmentRepository;
-import com.acadev.teamstatsfox.service.OpponentsTournmentService;
+import com.acadev.teamstatsfox.service.OpponentsTournmentsService;
 
 @Service
-public class OpponentsTournmentServiceImpl implements OpponentsTournmentService {
+public class OpponentsTournmentsServiceImpl implements OpponentsTournmentsService {
 
 	@Autowired
 	private OpponentsTournmentRepository repository;
@@ -29,6 +29,10 @@ public class OpponentsTournmentServiceImpl implements OpponentsTournmentService 
 
 	public List<OpponentsTournment> getOpponentsByTournmentId(Long id) {
 		return repository.findAllByTournmentId(id);
+	}
+
+	public List<OpponentsTournment> getTournmentsByOpponentId(Long id) {
+		return repository.findAllByOpponentId(id);
 	}
 
 	public OpponentsTournment create(OpponentsTournment opponentTournment) {

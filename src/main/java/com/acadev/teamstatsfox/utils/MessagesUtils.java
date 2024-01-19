@@ -21,6 +21,7 @@ public class MessagesUtils {
 	public static final String PLAYER_UPDATED = "Jugador modificado.";
 	public static final String PLAYER_DELETED = "Jugador eliminado.";
 	public static final String MATCH_DELETED = "Partido eliminado.";
+	public static final String OPPONENTS_DELETED = "Rival eliminado.";
 	public static final String TOP_10_PLAYED_MATCHS = "Top 10 de partidos jugados.";
 	public static final String TOP_10_PLAYED_GOALS = "Top 10 de goles.";
 	public static final String TOP_10_PLAYED_ASSISTS = "Top 10 de asistencias.";

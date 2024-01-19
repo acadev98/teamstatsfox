@@ -30,6 +30,5 @@ public class Images {
 
 	@Lob
 	@Column(name = "imagedata", length = 65555)
-
 	private byte[] imageData;
 }

@@ -19,7 +19,7 @@ import com.acadev.teamstatsfox.database.repository.PlayerRepository;
 import com.acadev.teamstatsfox.database.repository.TournmentRepository;
 import com.acadev.teamstatsfox.handler.exception.ApiException;
 import com.acadev.teamstatsfox.model.response.TournmentsDetailsResponse;
-import com.acadev.teamstatsfox.service.OpponentsTournmentService;
+import com.acadev.teamstatsfox.service.OpponentsTournmentsService;
 import com.acadev.teamstatsfox.service.PlayersTournmentService;
 import com.acadev.teamstatsfox.service.TournmentsService;
 import com.acadev.teamstatsfox.utils.enums.ApiMessage;
@@ -40,7 +40,7 @@ public class TournmentsServiceImpl implements TournmentsService {
 	private PlayersTournmentService playersTournmentService;
 	
 	@Autowired
-	private OpponentsTournmentService opponentsTournmentService;
+	private OpponentsTournmentsService opponentsTournmentService;
 
 	@Autowired
 	private MapperService mapperService;

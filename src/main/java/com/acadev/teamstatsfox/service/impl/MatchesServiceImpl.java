@@ -88,6 +88,10 @@ public class MatchesServiceImpl implements MatchesService {
 		return matchesListOrdered;
 	}
 
+	public List<Matches> getMatchesByOpponentId(Long opponentId) {
+		return repository.findByOpponentId(opponentId);
+	}
+
 	public List<MatchesResponse> getMatchesResponse() {
 
 		List<Matches> matches = getMatches();

@@ -13,6 +13,10 @@ public interface MatchesService {
 	String echo();
 
 	List<MatchesResponse> getMatchesResponse();
+	
+	List<Matches> getMatches();
+	
+	List<Matches> getMatchesByOpponentId(Long opponentId);
 
 	MatchesDetailsResponse create(MatchDetailsRequest matchDetails);
 
