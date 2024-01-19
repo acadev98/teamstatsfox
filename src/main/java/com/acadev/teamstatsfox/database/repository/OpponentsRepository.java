@@ -10,4 +10,6 @@ import com.acadev.teamstatsfox.database.entity.Opponents;
 public interface OpponentsRepository extends PagingAndSortingRepository<Opponents, Long>, JpaRepository<Opponents, Long> {
 
 	Optional<Opponents> findTopByOrderByIdDesc();
+
+	Optional<Opponents> findByName(String name);
 }

@@ -18,6 +18,7 @@ public enum ApiMessage {
 	ROLE_USER_NOT_FOUND(HttpStatus.BAD_REQUEST, "Usuario no tiene rol asignado."),
 	ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "Acceso denegado."),
 	CONTENT_NOT_FOUND(HttpStatus.NOT_FOUND, "No se encontraron resultados."),
+	OPPONENT_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "El equipo rival ya existe."),
 
 	;
 

@@ -98,22 +98,50 @@ public class TournmentsServiceImpl implements TournmentsService {
 			}
 		}
 		
-		List<Opponents> opponnets = new ArrayList<>();
+		List<Opponents> opponents = new ArrayList<>();
 		if (!opponentsTournments.isEmpty()) {
 			List<Long> opponentsIds= opponentsTournments.stream().map(mapperService::getOpponentsIds).collect(Collectors.toList());
 
 			for (Long opponentId : opponentsIds) {
-				opponnets.add(opponentRepository.findById(opponentId).get());
+				opponents.add(opponentRepository.findById(opponentId).get());
 			}
 		}
 		
 		TournmentsDetailsResponse response = TournmentsDetailsResponse.builder()
 				.tournment(tournment)
 				.players(players)
-				.opponents(opponnets)
+				.opponents(opponents)
 				.build();
 
 		return response;
+	}
+
+	public List<TournmentsDetailsResponse> getTournmentsAndOpponents() {
+		List<Tournments> tournments = getTournments();
+		List<TournmentsDetailsResponse> tournmentsResponseList = new ArrayList<>();
+		
+		for (Tournments t : tournments) {
+			List<OpponentsTournment> opponentsTournments = opponentsTournmentService.getOpponentsByTournmentId(t.getId());
+			List<Opponents> opponents = new ArrayList<>();
+			if (!opponentsTournments.isEmpty()) {
+				List<Long> opponentsIds= opponentsTournments.stream().map(mapperService::getOpponentsIds).collect(Collectors.toList());
+
+				for (Long opponentId : opponentsIds) {
+					opponents.add(opponentRepository.findById(opponentId).get());
+				}
+			}
+			
+			TournmentsDetailsResponse tournmentsResponse = TournmentsDetailsResponse.builder()
+			.tournment(t)
+			.opponents(opponents)
+			.build();
+			
+			tournmentsResponseList.add(tournmentsResponse);
+			
+		}
+		
+		return tournmentsResponseList;
+		
 	}
 
 }

@@ -17,4 +17,6 @@ public interface TournmentsService {
 
 	TournmentsDetailsResponse getPlayersByTournmentId(Long id);
 
+	List<TournmentsDetailsResponse> getTournmentsAndOpponents();
+
 }

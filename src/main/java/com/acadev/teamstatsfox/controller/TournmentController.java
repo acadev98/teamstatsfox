@@ -33,6 +33,11 @@ public class TournmentController {
 		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS, HttpStatus.OK, service.getTournments());
 	}
 
+	@GetMapping("/opponents")
+	public ResponseEntity<Object> getTournmentsAndOpponents() {
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS, HttpStatus.OK, service.getTournmentsAndOpponents());
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getById(@PathVariable("id") Long id) {
 		return ResponseHandler.generateResponse(MessagesUtils.TOURNMENTS_FOUND, HttpStatus.OK, service.getTournmentById(id));

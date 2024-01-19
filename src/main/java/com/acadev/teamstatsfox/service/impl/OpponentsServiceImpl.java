@@ -45,7 +45,13 @@ public class OpponentsServiceImpl implements OpponentsService {
 	}
 
 	public Opponents create(Opponents opponent) {
+		
+		Optional<Opponents> opponentEntity = repository.findByName(opponent.getName().toUpperCase());
+		if (opponentEntity.isPresent())
+			throw new ApiException(ApiMessage.OPPONENT_ALREADY_EXISTS);
+		
 		opponent.setId(getNextId());
+		opponent.setName(opponent.getName().toUpperCase());
 		return repository.save(opponent);
 	}
 
