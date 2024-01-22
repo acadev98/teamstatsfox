@@ -53,14 +53,34 @@ public class PlayerServiceImpl implements PlayerService {
 
 	public Players create(PlayerRequest request) {
 		Players player = Players.builder().id(getNextId()).dni(request.getDni())
-				.lastname(request.getLastname().toUpperCase()).name(request.getName().toUpperCase())
+				.lastname(request.getLastname().toUpperCase())
+				.name(request.getName().toUpperCase())
 				.position(request.getPosition().toUpperCase())
 				.number(request.getNumber() != null ? request.getNumber() : null)
 				.secondPosition(request.getSecondPosition() != null ? request.getSecondPosition().toUpperCase() : null)
-				.active(request.getActive()).birthday(request.getBirthday()).playingSince(request.getPlayingSince())
+				.active(request.getActive())
+				.birthday(request.getBirthday())
+				.playingSince(request.getPlayingSince())
 				.build();
 
 		return repository.save(player);
+	}
+
+	public Players update(PlayerRequest player) {
+		
+		Players playerEntity = getPlayer(player.getId());
+
+		playerEntity.setDni(player.getDni());
+		playerEntity.setName(player.getName().toUpperCase());
+		playerEntity.setLastname(player.getLastname().toUpperCase());
+		playerEntity.setNumber(player.getNumber() != null ? player.getNumber() : null);
+		playerEntity.setPosition(player.getPosition());
+		playerEntity.setSecondPosition(player.getSecondPosition() != null ? player.getSecondPosition().toUpperCase() : null);
+		playerEntity.setActive(player.getActive());
+		playerEntity.setPlayingSince(player.getPlayingSince());
+		playerEntity.setBirthday(player.getBirthday());
+		
+		return repository.save(playerEntity);
 	}
 
 	public Players delete(Long id) {
