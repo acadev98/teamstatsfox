@@ -24,4 +24,6 @@ public interface OpponentsService {
 
 	PrevAndNextOpponentsResponse getOpponentsPrevAndNext(Long id);
 
+	Opponents update(Long id, Opponents opponents);
+
 }

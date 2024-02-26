@@ -34,11 +34,11 @@ public class PlayerController {
 				service.create(player));
 	}
 
-	@PutMapping
+	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Object> updatePlayer(@Valid @RequestBody PlayerRequest player) {
+	public ResponseEntity<Object> updatePlayer(@PathVariable("id") Long id, @Valid @RequestBody PlayerRequest player) {
 		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_UPDATED, HttpStatus.OK,
-				service.update(player));
+				service.update(id, player));
 	}
 
 	@DeleteMapping("/{id}")
@@ -75,13 +75,6 @@ public class PlayerController {
 	@GetMapping("/{id}/prevandnext")
 	public ResponseEntity<Object> getPlayersPrevAndNextById(@PathVariable("id") Long id) {
 		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, service.getPlayerPrevAndNext(id));
-	}
-
-	@PutMapping("/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Object> updatePlayer(@PathVariable("id") Long id, @RequestBody PlayerRequest player) {
-		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_UPDATED, HttpStatus.ACCEPTED,
-				service.update(id, player));
 	}
 
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,6 +66,13 @@ public class OpponentsController {
 	public ResponseEntity<Object> create(@RequestBody Opponents opponents) {
 		return ResponseHandler.generateResponse(MessagesUtils.OPPONENTS_CREATED, HttpStatus.CREATED,
 				service.create(opponents));
+	}
+
+	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody Opponents opponents) {
+		return ResponseHandler.generateResponse(MessagesUtils.OPPONENTS_UPDATED, HttpStatus.OK,
+				service.update(id, opponents));
 	}
 
 }

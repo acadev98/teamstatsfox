@@ -154,4 +154,13 @@ public class OpponentsServiceImpl implements OpponentsService {
 		
 	}
 
+	public Opponents update(Long id, Opponents opponent) {
+		
+		Opponents opponentEntity = getOpponentById(id);
+
+		opponentEntity.setName(opponent.getName().toUpperCase());
+		
+		return repository.save(opponentEntity);
+	}
+
 }

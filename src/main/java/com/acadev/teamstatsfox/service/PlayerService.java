@@ -29,6 +29,4 @@ public interface PlayerService {
 
 	PrevAndNextPlayersResponse getPlayerPrevAndNext(Long id);
 
-	Players update(PlayerRequest player);
-
 }

@@ -66,23 +66,6 @@ public class PlayerServiceImpl implements PlayerService {
 		return repository.save(player);
 	}
 
-	public Players update(PlayerRequest player) {
-		
-		Players playerEntity = getPlayer(player.getId());
-
-		playerEntity.setDni(player.getDni());
-		playerEntity.setName(player.getName().toUpperCase());
-		playerEntity.setLastname(player.getLastname().toUpperCase());
-		playerEntity.setNumber(player.getNumber() != null ? player.getNumber() : null);
-		playerEntity.setPosition(player.getPosition());
-		playerEntity.setSecondPosition(player.getSecondPosition() != null ? player.getSecondPosition().toUpperCase() : null);
-		playerEntity.setActive(player.getActive());
-		playerEntity.setPlayingSince(player.getPlayingSince());
-		playerEntity.setBirthday(player.getBirthday());
-		
-		return repository.save(playerEntity);
-	}
-
 	public Players delete(Long id) {
 		Optional<Players> player = repository.findById(id);
 
@@ -154,24 +137,21 @@ public class PlayerServiceImpl implements PlayerService {
 		return players;
 	}
 
-	public Players update(Long id, PlayerRequest request) {
-		Optional<Players> player = repository.findById(id);
+	public Players update(Long id, PlayerRequest player) {
+		
+		Players playerEntity = getPlayer(id);
 
-		if (player.isEmpty())
-			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
-
-		Players playerUpdated = player.get();
-		playerUpdated.setDni(request.getDni());
-		playerUpdated.setLastname(request.getLastname().toUpperCase());
-		playerUpdated.setName(request.getName().toUpperCase());
-		playerUpdated.setPosition(request.getPosition().toUpperCase());
-		playerUpdated.setSecondPosition(request.getSecondPosition().toUpperCase());
-		playerUpdated.setBirthday(request.getBirthday());
-		playerUpdated.setPlayingSince(request.getPlayingSince());
-
-		repository.save(playerUpdated);
-
-		return repository.save(playerUpdated);
+		playerEntity.setDni(player.getDni());
+		playerEntity.setName(player.getName().toUpperCase());
+		playerEntity.setLastname(player.getLastname().toUpperCase());
+		playerEntity.setNumber(player.getNumber() != null ? player.getNumber() : null);
+		playerEntity.setPosition(player.getPosition());
+		playerEntity.setSecondPosition(player.getSecondPosition() != null ? player.getSecondPosition().toUpperCase() : null);
+		playerEntity.setActive(player.getActive());
+		playerEntity.setPlayingSince(player.getPlayingSince());
+		playerEntity.setBirthday(player.getBirthday());
+		
+		return repository.save(playerEntity);
 	}
 
 	public List<Integer> findNumbers() {

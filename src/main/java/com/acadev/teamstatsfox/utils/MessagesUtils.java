@@ -19,6 +19,7 @@ public class MessagesUtils {
 	public static final String TOURNMENT_CREATED = "Torneo creado.";
 	public static final String OPPONENTS_CREATED = "Oponente creado.";
 	public static final String PLAYER_UPDATED = "Jugador modificado.";
+	public static final String OPPONENTS_UPDATED = "Oponente modificado.";
 	public static final String PLAYER_DELETED = "Jugador eliminado.";
 	public static final String MATCH_DELETED = "Partido eliminado.";
 	public static final String OPPONENTS_DELETED = "Rival eliminado.";
