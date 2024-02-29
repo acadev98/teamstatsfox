@@ -9,38 +9,60 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.acadev.teamstatsfox.database.entity.Cards;
+import com.acadev.teamstatsfox.database.entity.Goals;
+import com.acadev.teamstatsfox.database.entity.Matches;
 import com.acadev.teamstatsfox.database.entity.Opponents;
 import com.acadev.teamstatsfox.database.entity.OpponentsTournment;
 import com.acadev.teamstatsfox.database.entity.Players;
 import com.acadev.teamstatsfox.database.entity.PlayersTournment;
+import com.acadev.teamstatsfox.database.entity.Presents;
 import com.acadev.teamstatsfox.database.entity.Tournments;
-import com.acadev.teamstatsfox.database.repository.OpponentsRepository;
-import com.acadev.teamstatsfox.database.repository.PlayerRepository;
 import com.acadev.teamstatsfox.database.repository.TournmentRepository;
 import com.acadev.teamstatsfox.handler.exception.ApiException;
+import com.acadev.teamstatsfox.model.response.PlayerStatisticsResponse;
 import com.acadev.teamstatsfox.model.response.TournmentsDetailsResponse;
+import com.acadev.teamstatsfox.service.CardsService;
+import com.acadev.teamstatsfox.service.GoalsService;
+import com.acadev.teamstatsfox.service.MatchesService;
+import com.acadev.teamstatsfox.service.OpponentsService;
 import com.acadev.teamstatsfox.service.OpponentsTournmentsService;
+import com.acadev.teamstatsfox.service.PlayerService;
 import com.acadev.teamstatsfox.service.PlayersTournmentService;
+import com.acadev.teamstatsfox.service.PresentsService;
 import com.acadev.teamstatsfox.service.TournmentsService;
 import com.acadev.teamstatsfox.utils.enums.ApiMessage;
+import com.acadev.teamstatsfox.utils.enums.ECardType;
 
 @Service
 public class TournmentsServiceImpl implements TournmentsService {
 
 	@Autowired
 	private TournmentRepository repository;
-
-	@Autowired
-	private PlayerRepository playerRepository;
-
-	@Autowired
-	private OpponentsRepository opponentRepository;
 	
 	@Autowired
 	private PlayersTournmentService playersTournmentService;
 	
 	@Autowired
 	private OpponentsTournmentsService opponentsTournmentService;
+	
+	@Autowired
+	private OpponentsService opponentsService;
+	
+	@Autowired
+	private MatchesService matchesService;
+	
+	@Autowired
+	private PresentsService presentsService;
+	
+	@Autowired
+	private PlayerService playersService;
+	
+	@Autowired
+	private GoalsService goalsService;
+	
+	@Autowired
+	private CardsService cardsService;
 
 	@Autowired
 	private MapperService mapperService;
@@ -83,18 +105,56 @@ public class TournmentsServiceImpl implements TournmentsService {
 		return tournment.get();
 	}
 
+	public List<PlayerStatisticsResponse> getStatisticsPlayersByTournmentId(Long id) {
+		List<PlayersTournment> players = playersTournmentService.getPlayersByTournmentId(id);
+		List<Matches> matches = matchesService.getMatchesByTournmentId(id);
+		
+		List<Long> matchesIds = new ArrayList<>();
+		if (!matches.isEmpty()) {
+			matchesIds = matches.stream().map(mapperService::getMatchesIds).collect(Collectors.toList());
+		}
+		
+		List<PlayerStatisticsResponse> response = new ArrayList<>();
+		for (PlayersTournment pl : players) {
+			
+			Players player = playersService.getPlayer(pl.getPlayerId());
+			List<Presents> presents = presentsService.getPresentsByPlayerIdAndByMatchesIds(pl.getPlayerId(), matchesIds);
+			List<Goals> goals = goalsService.getGoalsByPlayerIdAndByMatchesIds(pl.getPlayerId(), matchesIds);	
+			List<Goals> assists = goalsService.getGoalsByAssistsPlayerIdAndByMatchesIds(pl.getPlayerId(), matchesIds);	
+			List<Matches> captains = matches.stream().filter(m -> m.getCaptain().equals(pl.getPlayerId())).collect(Collectors.toList());
+			List<Cards> yellowCards = cardsService.getCardsByPlayerIdAndTypeAndByMatchesIds(pl.getPlayerId(), ECardType.YELLOW, matchesIds);
+			List<Cards> redCards = cardsService.getCardsByPlayerIdAndTypeAndByMatchesIds(pl.getPlayerId(), ECardType.RED, matchesIds);
+			
+			PlayerStatisticsResponse playerStatistics = PlayerStatisticsResponse.builder()
+					.id(player.getId())
+					.player(player.getLastname() + " " + player.getName())
+					.matches(presents.size())
+					.goals(goals.size())
+					.assists(assists.size())
+					.captains(captains.size())
+					.yellowCards(yellowCards.size())
+					.redCards(redCards.size())
+					.build();
+					
+			response.add(playerStatistics);
+			
+		}
+		return response;
+	}
+
 	public TournmentsDetailsResponse getPlayersByTournmentId(Long id) {
 		
 		Tournments tournment = getTournmentById(id);
 		List<PlayersTournment> playersTournments = playersTournmentService.getPlayersByTournmentId(id);
 		List<OpponentsTournment> opponentsTournments = opponentsTournmentService.getOpponentsByTournmentId(id);
+		List<Matches> matches = matchesService.getMatchesByTournmentId(id);
 		
 		List<Players> players = new ArrayList<>();
 		if (!playersTournments.isEmpty()) {
 			List<Long> playersIds= playersTournments.stream().map(mapperService::getPlayerIds).collect(Collectors.toList());
 
 			for (Long playerId : playersIds) {
-				players.add(playerRepository.findById(playerId).get());
+				players.add(playersService.getPlayer(playerId));
 			}
 		}
 		
@@ -103,7 +163,7 @@ public class TournmentsServiceImpl implements TournmentsService {
 			List<Long> opponentsIds= opponentsTournments.stream().map(mapperService::getOpponentsIds).collect(Collectors.toList());
 
 			for (Long opponentId : opponentsIds) {
-				opponents.add(opponentRepository.findById(opponentId).get());
+				opponents.add(opponentsService.getOpponentById(opponentId));
 			}
 		}
 		
@@ -111,6 +171,7 @@ public class TournmentsServiceImpl implements TournmentsService {
 				.tournment(tournment)
 				.players(players)
 				.opponents(opponents)
+				.matches(matches)
 				.build();
 
 		return response;
@@ -127,7 +188,7 @@ public class TournmentsServiceImpl implements TournmentsService {
 				List<Long> opponentsIds= opponentsTournments.stream().map(mapperService::getOpponentsIds).collect(Collectors.toList());
 
 				for (Long opponentId : opponentsIds) {
-					opponents.add(opponentRepository.findById(opponentId).get());
+					opponents.add(opponentsService.getOpponentById(opponentId));
 				}
 			}
 			

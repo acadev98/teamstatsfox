@@ -13,4 +13,8 @@ public interface MatchesRepository extends PagingAndSortingRepository<Matches, L
 	Optional<Matches> findTopByOrderByIdDesc();
 
 	List<Matches> findByOpponentId(Long opponentId);
+
+	List<Matches> findByTournmentId(Long tournmentId);
+
+	List<Matches> findByCaptain(Long id);
 }

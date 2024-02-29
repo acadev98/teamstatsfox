@@ -36,7 +36,7 @@ public class Matches {
 
 	private String description;
 
-	private Integer captain;
+	private Long captain;
 
 	@Column(name = "OUR_GOALS")
 	private Integer ourGoals;

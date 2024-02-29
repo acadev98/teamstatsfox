@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class PlayersPlayersDetailsResponse {
+public class PlayersDetailsResponse {
 	private Players player;
 	private List<Goals> goals;
 	private List<Goals> assists;

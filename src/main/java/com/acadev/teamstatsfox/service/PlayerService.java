@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.acadev.teamstatsfox.database.entity.Players;
 import com.acadev.teamstatsfox.model.request.PlayerRequest;
-import com.acadev.teamstatsfox.model.response.PlayersPlayersDetailsResponse;
+import com.acadev.teamstatsfox.model.response.PlayerStatisticsResponse;
+import com.acadev.teamstatsfox.model.response.PlayersDetailsResponse;
 import com.acadev.teamstatsfox.model.response.PrevAndNextPlayersResponse;
 
 public interface PlayerService {
@@ -25,8 +26,10 @@ public interface PlayerService {
 
 	List<Integer> findNumbers();
 
-	PlayersPlayersDetailsResponse getPlayerDetails(Long id);
+	PlayersDetailsResponse getPlayerDetails(Long id);
 
 	PrevAndNextPlayersResponse getPlayerPrevAndNext(Long id);
+
+	List<PlayerStatisticsResponse> getPlayersStatistics();
 
 }

@@ -28,4 +28,8 @@ public interface MatchesService {
 
 	PrevAndNextMatchesResponse getMatchesPrevAndNext(Long id);
 
+	List<Matches> getMatchesByTournmentId(Long id);
+
+	List<Matches> getMatchesByCaptain(Long id);
+
 }

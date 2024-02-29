@@ -52,7 +52,12 @@ public class TournmentController {
 
 	@GetMapping("/{id}/details")
 	public ResponseEntity<Object> getPlayersByTournmentId(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS_TOURNMENTS, HttpStatus.OK, service.getPlayersByTournmentId(id));
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS_DETAILS, HttpStatus.OK, service.getPlayersByTournmentId(id));
+	}
+
+	@GetMapping("/{id}/statistics")
+	public ResponseEntity<Object> getStatisticsByTournmentId(@PathVariable("id") Long id) {
+		return ResponseHandler.generateResponse(MessagesUtils.STATISTICS_OF_TORUNMENT_PLAYERS, HttpStatus.OK, service.getStatisticsPlayersByTournmentId(id));
 	}
 
 }

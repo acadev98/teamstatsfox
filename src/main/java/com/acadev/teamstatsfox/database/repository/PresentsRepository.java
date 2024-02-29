@@ -12,4 +12,5 @@ public interface PresentsRepository extends PagingAndSortingRepository<Presents,
 	Optional<Presents> findTopByOrderByIdDesc();
 	List<Presents> findAllByMatchId(Long id);
 	List<Presents> findAllByPlayerId(Long id);
+	List<Presents> findAllByPlayerIdAndMatchIdIn(Long id, List<Long> matchesIds);
 }

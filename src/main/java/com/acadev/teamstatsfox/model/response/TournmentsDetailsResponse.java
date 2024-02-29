@@ -2,6 +2,7 @@ package com.acadev.teamstatsfox.model.response;
 
 import java.util.List;
 
+import com.acadev.teamstatsfox.database.entity.Matches;
 import com.acadev.teamstatsfox.database.entity.Opponents;
 import com.acadev.teamstatsfox.database.entity.Players;
 import com.acadev.teamstatsfox.database.entity.Tournments;
@@ -16,5 +17,6 @@ public class TournmentsDetailsResponse {
 	private Tournments tournment;
 	private List<Players> players;
 	private List<Opponents> opponents;
+	private List<Matches> matches;
 
 }

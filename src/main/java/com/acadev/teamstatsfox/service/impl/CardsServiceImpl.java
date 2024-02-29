@@ -11,6 +11,7 @@ import com.acadev.teamstatsfox.database.repository.CardsRepository;
 import com.acadev.teamstatsfox.handler.exception.ApiException;
 import com.acadev.teamstatsfox.service.CardsService;
 import com.acadev.teamstatsfox.utils.enums.ApiMessage;
+import com.acadev.teamstatsfox.utils.enums.ECardType;
 
 @Service
 public class CardsServiceImpl implements CardsService {
@@ -56,6 +57,14 @@ public class CardsServiceImpl implements CardsService {
 
 	public List<Cards> getCardsPlayerId(Long id) {
 		return repository.findAllByPlayerId(id);
+	}
+
+	public List<Cards> getCardsByPlayerIdAndTypeAndByMatchesIds(Long playerId, ECardType type, List<Long> matchesIds) {
+		return repository.findAllByPlayerIdAndTypeAndMatchIdIn(playerId, type, matchesIds);
+	}
+
+	public List<Cards> getCardsByPlayerIdAndType(Long playerId, ECardType type) {
+		return repository.findAllByPlayerIdAndType(playerId, type);
 	}
 	
 }

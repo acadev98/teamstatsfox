@@ -92,6 +92,10 @@ public class MatchesServiceImpl implements MatchesService {
 		return repository.findByOpponentId(opponentId);
 	}
 
+	public List<Matches> getMatchesByTournmentId(Long tournmentId) {
+		return repository.findByTournmentId(tournmentId);
+	}
+
 	public List<MatchesResponse> getMatchesResponse() {
 
 		List<Matches> matches = getMatches();
@@ -127,7 +131,7 @@ public class MatchesServiceImpl implements MatchesService {
 			.description(matchRequest.getResume())
 			.tournmentId(matchRequest.getTournment())
 			.ourGoals(ourGoals)
-			.captain(matchDetails.getCaptain()==null?0:matchDetails.getCaptain())
+			.captain(matchDetails.getCaptain()==null?0L:matchDetails.getCaptain().longValue())
 			.rivalGoals(rivalsGoals)
 			.build();
 		
@@ -257,6 +261,10 @@ public class MatchesServiceImpl implements MatchesService {
 		presentsService.deleteByMatchId(id);
 		
 		return match.get();
+	}
+
+	public List<Matches> getMatchesByCaptain(Long id) {
+		return repository.findByCaptain(id);
 	}
 
 }

@@ -6,6 +6,7 @@ public class MessagesUtils {
 	public static final String LIST_OF_MATCHES = "Lista de partidos encontrados.";
 	public static final String LIST_OF_GOALS = "Lista de goles encontrados.";
 	public static final String LIST_OF_TOURNMENTS = "Lista de torneos encontrados.";
+	public static final String LIST_OF_TOURNMENTS_DETAILS = "Detalles de torneos encontrados.";
 	public static final String LIST_OF_OPPONENTS = "Lista de oponentes encontrados.";
 	public static final String LIST_OF_PLAYERS_TOURNMENTS = "Lista jugadores del torneo.";
 	public static final String RESULT_NOT_FOUND = "No se encontraron resultados.";
@@ -28,6 +29,8 @@ public class MessagesUtils {
 	public static final String TOP_10_PLAYED_ASSISTS = "Top 10 de asistencias.";
 	public static final String USER_LOGED = "Usuario logueado.";
 	public static final String AVAILABLE_NUMBERS = "Números habilitados.";
+	public static final String STATISTICS_OF_TORUNMENT_PLAYERS = "Estadisticas por jugador de un torneo.";
+	public static final String LIST_OF_PLAYERS_STATISTICS = "Estadisticas historicas de todos los jugadadores del equipo.";
 
 	/** validaciones */
 	public static final String DNI_REQUIRED = "DNI es requerido.";

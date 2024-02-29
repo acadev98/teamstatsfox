@@ -17,4 +17,8 @@ public interface GoalsRepository extends PagingAndSortingRepository<Goals, Long>
 	List<Goals> findAllByPlayerId(Long id);
 
 	List<Goals> findAllByAssistPlayerId(Long id);
+
+	List<Goals> findAllByPlayerIdAndMatchIdIn(Long id, List<Long> matchesIds);
+
+	List<Goals> findAllByAssistPlayerIdAndMatchIdIn(Long id, List<Long> matchesIds);
 }

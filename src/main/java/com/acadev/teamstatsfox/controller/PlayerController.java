@@ -62,6 +62,11 @@ public class PlayerController {
 		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS_ACTIVES, HttpStatus.OK, service.getPlayersActives());
 	}
 
+	@GetMapping("/statistics")
+	public ResponseEntity<Object> getPlayersStatistics() {
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS_STATISTICS, HttpStatus.OK, service.getPlayersStatistics());
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getPlayersById(@PathVariable("id") Long id) {
 		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, service.getPlayer(id));

@@ -16,4 +16,6 @@ public interface PresentsService {
 
 	List<Presents> getPresentsByPlayerId(Long id);
 
+	List<Presents> getPresentsByPlayerIdAndByMatchesIds(Long playerId, List<Long> matchesIds);
+
 }

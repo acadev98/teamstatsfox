@@ -20,4 +20,8 @@ public interface GoalsService {
 
 	List<Goals> getAssistsByPlayerId(Long id);
 
+	List<Goals> getGoalsByPlayerIdAndByMatchesIds(Long id, List<Long> matchesIds);
+
+	List<Goals> getGoalsByAssistsPlayerIdAndByMatchesIds(Long id, List<Long> matchesIds);
+
 }

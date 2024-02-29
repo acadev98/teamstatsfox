@@ -62,4 +62,12 @@ public class GoalsServiceImpl implements GoalsService {
 		return repository.findAllByAssistPlayerId(id);
 	}
 
+	public List<Goals> getGoalsByPlayerIdAndByMatchesIds(Long id, List<Long> matchesIds) {
+		return repository.findAllByPlayerIdAndMatchIdIn(id, matchesIds);
+	}
+
+	public List<Goals> getGoalsByAssistsPlayerIdAndByMatchesIds(Long id, List<Long> matchesIds) {
+		return repository.findAllByAssistPlayerIdAndMatchIdIn(id, matchesIds);
+	}
+
 }

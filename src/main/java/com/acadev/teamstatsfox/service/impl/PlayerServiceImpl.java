@@ -17,7 +17,8 @@ import com.acadev.teamstatsfox.database.entity.Presents;
 import com.acadev.teamstatsfox.database.repository.PlayerRepository;
 import com.acadev.teamstatsfox.handler.exception.ApiException;
 import com.acadev.teamstatsfox.model.request.PlayerRequest;
-import com.acadev.teamstatsfox.model.response.PlayersPlayersDetailsResponse;
+import com.acadev.teamstatsfox.model.response.PlayerStatisticsResponse;
+import com.acadev.teamstatsfox.model.response.PlayersDetailsResponse;
 import com.acadev.teamstatsfox.model.response.PrevAndNextPlayersResponse;
 import com.acadev.teamstatsfox.service.CardsService;
 import com.acadev.teamstatsfox.service.GoalsService;
@@ -25,6 +26,7 @@ import com.acadev.teamstatsfox.service.MatchesService;
 import com.acadev.teamstatsfox.service.PlayerService;
 import com.acadev.teamstatsfox.service.PresentsService;
 import com.acadev.teamstatsfox.utils.enums.ApiMessage;
+import com.acadev.teamstatsfox.utils.enums.ECardType;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
@@ -89,7 +91,7 @@ public class PlayerServiceImpl implements PlayerService {
 		return player.get();
 	}
 
-	public PlayersPlayersDetailsResponse getPlayerDetails(Long id) {
+	public PlayersDetailsResponse getPlayerDetails(Long id) {
 
 		Optional<Players> player = repository.findById(id);
 		if (player.isEmpty())
@@ -108,7 +110,7 @@ public class PlayerServiceImpl implements PlayerService {
 			}
 		}
 		
-		PlayersPlayersDetailsResponse playerDetails = PlayersPlayersDetailsResponse.builder()
+		PlayersDetailsResponse playerDetails = PlayersDetailsResponse.builder()
 				.player(player.get())
 				.goals(goals)
 				.cards(cards)
@@ -183,6 +185,36 @@ public class PlayerServiceImpl implements PlayerService {
 		Players next = playersListOrdered.get(indexNext);
 		
 		return PrevAndNextPlayersResponse.builder().prev(prev).next(next).build();
+	}
+
+	public List<PlayerStatisticsResponse> getPlayersStatistics() {
+		List<Players> players = getPlayers();
+		List<PlayerStatisticsResponse> response = new ArrayList<>();
+		for (Players pl : players) {
+			
+			List<Presents> presents = presentsService.getPresentsByPlayerId(pl.getId());
+			List<Goals> goals = goalsService.getGoalsByPlayerId(pl.getId());	
+			List<Goals> assists = goalsService.getAssistsByPlayerId(pl.getId());	
+			List<Matches> captains = matchesService.getMatchesByCaptain(pl.getId());
+			List<Cards> yellowCards = cardsService.getCardsByPlayerIdAndType(pl.getId(), ECardType.YELLOW);
+			List<Cards> redCards = cardsService.getCardsByPlayerIdAndType(pl.getId(), ECardType.RED);
+			
+			PlayerStatisticsResponse playerStatistics = PlayerStatisticsResponse.builder()
+					.id(pl.getId())
+					.player(pl.getLastname() + " " + pl.getName())
+					.matches(presents.size())
+					.goals(goals.size())
+					.assists(assists.size())
+					.captains(captains.size())
+					.yellowCards(yellowCards.size())
+					.redCards(redCards.size())
+					.active(pl.getActive())
+					.build();
+					
+			response.add(playerStatistics);
+			
+		}
+		return response;
 	}
 
 }
