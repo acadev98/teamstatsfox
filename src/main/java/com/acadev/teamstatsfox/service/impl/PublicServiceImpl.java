@@ -32,30 +32,10 @@ public class PublicServiceImpl implements PublicService {
 	private PlayerService playerService;
 
 	@Autowired
-	private ReadCvsService service;
-
-	@Autowired
 	private MapperService mapperService;
 
 	public ResponseEntity<Object> echo() {
 		return ResponseHandler.generateResponse("echo message", HttpStatus.OK);
-	}
-
-	public ResponseEntity<Object> getDataCvs() {
-
-		StatsFromCvsResponse response = new StatsFromCvsResponse();
-		response.setDateImport(new Date());
-		response.setPlayers(service.getStatsPlayers());
-
-		return ResponseHandler.generateResponse("", HttpStatus.OK, response);
-	}
-
-	public ResponseEntity<Object> getDataStatic() {
-		StatsFromCvsResponse response = new StatsFromCvsResponse();
-		response.setDateImport(new Date());
-		response.setPlayers(FunctionsUtils.generateArrayListOfPlayerStatsFromCvs());
-
-		return ResponseHandler.generateResponse("", HttpStatus.OK, response);
 	}
 
 	public ResponseEntity<Object> getPlayers() {
@@ -70,53 +50,53 @@ public class PublicServiceImpl implements PublicService {
 		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS, HttpStatus.OK, playersDTOResponseList);
 	}
 
-	public List<AssistsPlayedResponse> topAssists() {
-
-		ArrayList<PlayerStatsFromCvs> playersStats = service.getStatsPlayers();
-
-		Comparator<PlayerStatsFromCvs> compareByAssistAndMatchesPlayed = Comparator
-				.comparing(PlayerStatsFromCvs::getAssists).reversed();
-
-		ArrayList<PlayerStatsFromCvs> sortedList = playersStats.stream().sorted(compareByAssistAndMatchesPlayed)
-				.collect(Collectors.toCollection(ArrayList::new));
-
-		List<AssistsPlayedResponse> responseList = sortedList.stream().limit(10).map(mapperService::convertToDtoAssists)
-				.collect(Collectors.toList());
-
-		return responseList;
-	}
-
-	public List<GamesPlayedResponse> topGames() {
-
-		ArrayList<PlayerStatsFromCvs> playersStats = service.getStatsPlayers();
-
-		Comparator<PlayerStatsFromCvs> compareByMatchsPlayed = Comparator.comparing(PlayerStatsFromCvs::getMatches)
-				.reversed();
-
-		ArrayList<PlayerStatsFromCvs> sortedList = playersStats.stream().sorted(compareByMatchsPlayed)
-				.collect(Collectors.toCollection(ArrayList::new));
-
-		List<GamesPlayedResponse> responseList = sortedList.stream().limit(10).map(mapperService::convertToDtoGames)
-				.collect(Collectors.toList());
-
-		return responseList;
-	}
-
-	public List<GoalsPlayedResponse> topGoals() {
-
-		ArrayList<PlayerStatsFromCvs> playersStats = service.getStatsPlayers();
-
-		Comparator<PlayerStatsFromCvs> compareByMatchsPlayed = Comparator.comparing(PlayerStatsFromCvs::getGoals)
-				.reversed();
-
-		ArrayList<PlayerStatsFromCvs> sortedList = playersStats.stream().sorted(compareByMatchsPlayed)
-				.collect(Collectors.toCollection(ArrayList::new));
-
-		List<GoalsPlayedResponse> responseList = sortedList.stream().limit(10).map(mapperService::convertToDtoGoals)
-				.collect(Collectors.toList());
-
-		return responseList;
-	}
+//	public List<AssistsPlayedResponse> topAssists() {
+//
+//		ArrayList<PlayerStatsFromCvs> playersStats = service.getStatsPlayers();
+//
+//		Comparator<PlayerStatsFromCvs> compareByAssistAndMatchesPlayed = Comparator
+//				.comparing(PlayerStatsFromCvs::getAssists).reversed();
+//
+//		ArrayList<PlayerStatsFromCvs> sortedList = playersStats.stream().sorted(compareByAssistAndMatchesPlayed)
+//				.collect(Collectors.toCollection(ArrayList::new));
+//
+//		List<AssistsPlayedResponse> responseList = sortedList.stream().limit(10).map(mapperService::convertToDtoAssists)
+//				.collect(Collectors.toList());
+//
+//		return responseList;
+//	}
+//
+//	public List<GamesPlayedResponse> topGames() {
+//
+//		ArrayList<PlayerStatsFromCvs> playersStats = service.getStatsPlayers();
+//
+//		Comparator<PlayerStatsFromCvs> compareByMatchsPlayed = Comparator.comparing(PlayerStatsFromCvs::getMatches)
+//				.reversed();
+//
+//		ArrayList<PlayerStatsFromCvs> sortedList = playersStats.stream().sorted(compareByMatchsPlayed)
+//				.collect(Collectors.toCollection(ArrayList::new));
+//
+//		List<GamesPlayedResponse> responseList = sortedList.stream().limit(10).map(mapperService::convertToDtoGames)
+//				.collect(Collectors.toList());
+//
+//		return responseList;
+//	}
+//
+//	public List<GoalsPlayedResponse> topGoals() {
+//
+//		ArrayList<PlayerStatsFromCvs> playersStats = service.getStatsPlayers();
+//
+//		Comparator<PlayerStatsFromCvs> compareByMatchsPlayed = Comparator.comparing(PlayerStatsFromCvs::getGoals)
+//				.reversed();
+//
+//		ArrayList<PlayerStatsFromCvs> sortedList = playersStats.stream().sorted(compareByMatchsPlayed)
+//				.collect(Collectors.toCollection(ArrayList::new));
+//
+//		List<GoalsPlayedResponse> responseList = sortedList.stream().limit(10).map(mapperService::convertToDtoGoals)
+//				.collect(Collectors.toList());
+//
+//		return responseList;
+//	}
 
 	public List<Integer> availableNumbers() {
 		

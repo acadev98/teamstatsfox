@@ -46,16 +46,6 @@ public class PublicController {
 		return service.echo();
 	}
 
-	@GetMapping("/statsFromCvs")
-	public ResponseEntity<Object> getDataCvs() {
-		return service.getDataCvs();
-	}
-
-	@GetMapping("/statsFromStaticData")
-	public ResponseEntity<Object> getDataStatic() {
-		return service.getDataStatic();
-	}
-
 	@GetMapping("/players")
 	public ResponseEntity<Object> getPlayers() {
 		return service.getPlayers();
@@ -70,21 +60,21 @@ public class PublicController {
 		return userDetails;
 	}
 
-	@GetMapping("/top/assists")
-	public ResponseEntity<Object> topAssists() {
-		return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_ASSISTS, HttpStatus.OK,
-				service.topAssists());
-	}
-
-	@GetMapping("/top/games")
-	public ResponseEntity<Object> topGames() {
-		return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_MATCHS, HttpStatus.OK, service.topGames());
-	}
-
-	@GetMapping("/top/goals")
-	public ResponseEntity<Object> topGoals() {
-		return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_GOALS, HttpStatus.OK, service.topGoals());
-	}
+//	@GetMapping("/top/assists")
+//	public ResponseEntity<Object> topAssists() {
+//		return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_ASSISTS, HttpStatus.OK,
+//				service.topAssists());
+//	}
+//
+//	@GetMapping("/top/games")
+//	public ResponseEntity<Object> topGames() {
+//		return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_MATCHS, HttpStatus.OK, service.topGames());
+//	}
+//
+//	@GetMapping("/top/goals")
+//	public ResponseEntity<Object> topGoals() {
+//		return ResponseHandler.generateResponse(MessagesUtils.TOP_10_PLAYED_GOALS, HttpStatus.OK, service.topGoals());
+//	}
 
 	@GetMapping("/numbers/avaibles")
 	public ResponseEntity<Object> availableNumbers() {

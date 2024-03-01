@@ -12,17 +12,13 @@ public interface PublicService {
 
 	ResponseEntity<Object> echo();
 
-	ResponseEntity<Object> getDataCvs();
-
-	ResponseEntity<Object> getDataStatic();
-
 	ResponseEntity<Object> getPlayers();
 
-	List<AssistsPlayedResponse> topAssists();
-
-	List<GamesPlayedResponse> topGames();
-
-	List<GoalsPlayedResponse> topGoals();
+//	List<AssistsPlayedResponse> topAssists();
+//
+//	List<GamesPlayedResponse> topGames();
+//
+//	List<GoalsPlayedResponse> topGoals();
 
 	List<Integer> availableNumbers();
 
