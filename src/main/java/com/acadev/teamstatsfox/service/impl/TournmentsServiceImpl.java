@@ -177,7 +177,7 @@ public class TournmentsServiceImpl implements TournmentsService {
 		return response;
 	}
 
-	public List<TournmentsDetailsResponse> getTournmentsAndOpponents() {
+	public List<TournmentsDetailsResponse> getTournmentsDetails() {
 		List<Tournments> tournments = getTournments();
 		List<TournmentsDetailsResponse> tournmentsResponseList = new ArrayList<>();
 		

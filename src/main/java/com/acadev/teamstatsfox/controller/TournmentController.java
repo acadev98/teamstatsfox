@@ -33,9 +33,9 @@ public class TournmentController {
 		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS, HttpStatus.OK, service.getTournments());
 	}
 
-	@GetMapping("/opponents")
+	@GetMapping("/details")
 	public ResponseEntity<Object> getTournmentsAndOpponents() {
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS, HttpStatus.OK, service.getTournmentsAndOpponents());
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS, HttpStatus.OK, service.getTournmentsDetails());
 	}
 
 	@GetMapping("/{id}")
