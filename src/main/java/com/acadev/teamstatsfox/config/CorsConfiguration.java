@@ -12,24 +12,6 @@ public class CorsConfiguration {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
-				System.out.println("##########################################cambios aplicados");
 				registry.addMapping("/**")
                 .allowedOrigins("*") // Reemplaza "*" con los orígenes permitidos de tu frontend
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
