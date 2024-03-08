@@ -19,10 +19,10 @@ import lombok.extern.log4j.Log4j2;
 @Component
 @Log4j2
 public class JwtUtil {
-	@Value("${fullstackbook.app.jwtSecret}")
+	@Value("${teamstatsfoxs.app.jwtSecret}")
 	private String jwtSecret;
 
-	@Value("${fullstackbook.app.jwtExpirationMs}")
+	@Value("${teamstatsfoxs.app.jwtExpirationMs}")
 	private int jwtExpirationMs;
 
 	public String generateJwtToken(Authentication authentication) {
