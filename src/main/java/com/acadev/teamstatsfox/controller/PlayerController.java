@@ -82,4 +82,8 @@ public class PlayerController {
 		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, service.getPlayerPrevAndNext(id));
 	}
 
+	@GetMapping("/numbers/avaibles")
+	public ResponseEntity<Object> availableNumbers() {
+		return ResponseHandler.generateResponse(MessagesUtils.AVAILABLE_NUMBERS, HttpStatus.OK, service.availableNumbers());
+	}
 }

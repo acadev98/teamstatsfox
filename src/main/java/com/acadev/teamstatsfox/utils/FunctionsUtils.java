@@ -3,24 +3,11 @@ package com.acadev.teamstatsfox.utils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.acadev.teamstatsfox.model.request.GoalRequest;
-import com.acadev.teamstatsfox.model.response.PlayerStatsFromCvs;
 
 public class FunctionsUtils {
-
-	public static ArrayList<PlayerStatsFromCvs> generateArrayListOfPlayerStatsFromCvs() {
-
-		ArrayList<PlayerStatsFromCvs> arrayList = new ArrayList<>();
-		for (int i = 0; i < 10; i++) {
-			arrayList.add(PlayerStatsFromCvs.builder().name("PLAYERMOCK" + i).matches(i).goals(i).assists(i).redCard(i)
-					.yellowCard(i).captains(i).build());
-		}
-
-		return arrayList;
-	}
 	
 	public static LocalDateTime generateLocalDateTimeFromLocalDateAndTimeString(LocalDate localDate, String timeString) {
 		

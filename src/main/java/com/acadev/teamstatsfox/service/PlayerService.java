@@ -32,4 +32,6 @@ public interface PlayerService {
 
 	List<PlayerStatisticsResponse> getPlayersStatistics();
 
+	List<Integer> availableNumbers();
+
 }

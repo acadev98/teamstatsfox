@@ -216,5 +216,19 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		return response;
 	}
+	
+	public List<Integer> availableNumbers() {
+		
+		List<Integer> numbersPlayers = this.findNumbers();
+		List<Integer> availableNumbers = new ArrayList<>();
+		
+		for (int i = 1; i < 100; i++) {
+			if(!numbersPlayers.contains(i)) {
+				availableNumbers.add(i);				
+			}
+		}
+		
+		return availableNumbers;
+	}
 
 }
