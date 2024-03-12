@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.acadev.teamstatsfox.database.entity.Tournments;
 import com.acadev.teamstatsfox.handler.ResponseHandler;
+import com.acadev.teamstatsfox.model.request.TournmentDetailsRequest;
 import com.acadev.teamstatsfox.service.TournmentsService;
 import com.acadev.teamstatsfox.utils.MessagesUtils;
 
@@ -34,7 +34,7 @@ public class TournmentController {
 	}
 
 	@GetMapping("/details")
-	public ResponseEntity<Object> getTournmentsAndOpponents() {
+	public ResponseEntity<Object> getTournmentsDetails() {
 		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS, HttpStatus.OK, service.getTournmentsDetails());
 	}
 
@@ -45,14 +45,14 @@ public class TournmentController {
 
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Object> create(@RequestBody Tournments tournment) {
+	public ResponseEntity<Object> create(@RequestBody TournmentDetailsRequest tournmentDetails) {
 		return ResponseHandler.generateResponse(MessagesUtils.TOURNMENT_CREATED, HttpStatus.CREATED,
-				service.create(tournment));
+				service.create(tournmentDetails));
 	}
 
 	@GetMapping("/{id}/details")
-	public ResponseEntity<Object> getPlayersByTournmentId(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS_DETAILS, HttpStatus.OK, service.getPlayersByTournmentId(id));
+	public ResponseEntity<Object> getTournmentsDetailsById(@PathVariable("id") Long id) {
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS_DETAILS, HttpStatus.OK, service.getTournmentsDetailsById(id));
 	}
 
 	@GetMapping("/{id}/statistics")

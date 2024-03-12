@@ -20,6 +20,7 @@ import com.acadev.teamstatsfox.database.entity.Presents;
 import com.acadev.teamstatsfox.database.entity.Tournments;
 import com.acadev.teamstatsfox.database.repository.TournmentRepository;
 import com.acadev.teamstatsfox.handler.exception.ApiException;
+import com.acadev.teamstatsfox.model.request.TournmentDetailsRequest;
 import com.acadev.teamstatsfox.model.response.PlayerStatisticsResponse;
 import com.acadev.teamstatsfox.model.response.TournmentsDetailsResponse;
 import com.acadev.teamstatsfox.service.CardsService;
@@ -142,7 +143,7 @@ public class TournmentsServiceImpl implements TournmentsService {
 		return response;
 	}
 
-	public TournmentsDetailsResponse getPlayersByTournmentId(Long id) {
+	public TournmentsDetailsResponse getTournmentsDetailsById(Long id) {
 		
 		Tournments tournment = getTournmentById(id);
 		List<PlayersTournment> playersTournments = playersTournmentService.getPlayersByTournmentId(id);
@@ -203,6 +204,34 @@ public class TournmentsServiceImpl implements TournmentsService {
 		
 		return tournmentsResponseList;
 		
+	}
+
+	public TournmentsDetailsResponse create(TournmentDetailsRequest tournmentDetails) {
+
+		Tournments tournmentsRequest = tournmentDetails.getTournment();
+		List<Players> playersRequest = tournmentDetails.getPlayers();
+		List<Opponents> opponentsRequest = tournmentDetails.getOpponents();
+
+		Tournments tournmentEntity = Tournments.builder()
+				.startDate(tournmentsRequest.getStartDate())
+				.name(tournmentsRequest.getName())
+				.description(tournmentsRequest.getDescription())
+				.active(tournmentsRequest.getActive())
+				.build();
+			
+		Tournments tournmentCreated = create(tournmentEntity);
+		
+		for (Players pr : playersRequest) {
+			PlayersTournment playerTournmentEntity = PlayersTournment.builder().playerId(pr.getId()).tournmentId(tournmentCreated.getId()).build();
+			playersTournmentService.create(playerTournmentEntity);
+		}
+		
+		for (Opponents op : opponentsRequest) {
+			OpponentsTournment opponentTournmentEntity = OpponentsTournment.builder().opponentId(op.getId()).tournmentId(tournmentCreated.getId()).build();
+			opponentsTournmentService.create(opponentTournmentEntity);
+		}
+		
+		return getTournmentsDetailsById(tournmentCreated.getId());
 	}
 
 }
