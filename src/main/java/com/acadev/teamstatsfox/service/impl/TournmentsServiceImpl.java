@@ -21,6 +21,7 @@ import com.acadev.teamstatsfox.database.entity.Tournments;
 import com.acadev.teamstatsfox.database.repository.TournmentRepository;
 import com.acadev.teamstatsfox.handler.exception.ApiException;
 import com.acadev.teamstatsfox.model.request.TournmentDetailsRequest;
+import com.acadev.teamstatsfox.model.request.TournmentRequest;
 import com.acadev.teamstatsfox.model.response.PlayerStatisticsResponse;
 import com.acadev.teamstatsfox.model.response.TournmentsDetailsResponse;
 import com.acadev.teamstatsfox.service.CardsService;
@@ -208,12 +209,12 @@ public class TournmentsServiceImpl implements TournmentsService {
 
 	public TournmentsDetailsResponse create(TournmentDetailsRequest tournmentDetails) {
 
-		Tournments tournmentsRequest = tournmentDetails.getTournment();
+		TournmentRequest tournmentsRequest = tournmentDetails.getTournment();
 		List<Players> playersRequest = tournmentDetails.getPlayers();
 		List<Opponents> opponentsRequest = tournmentDetails.getOpponents();
 
 		Tournments tournmentEntity = Tournments.builder()
-				.startDate(tournmentsRequest.getStartDate())
+				.startDate(tournmentsRequest.getDate())
 				.name(tournmentsRequest.getName())
 				.description(tournmentsRequest.getDescription())
 				.active(tournmentsRequest.getActive())
@@ -232,6 +233,17 @@ public class TournmentsServiceImpl implements TournmentsService {
 		}
 		
 		return getTournmentsDetailsById(tournmentCreated.getId());
+	}
+
+	public Tournments delete(Long id) {
+		
+		Tournments tournment = getTournmentById(id);
+		repository.delete(tournment);
+		
+		playersTournmentService.deleteByTournmentId(id);
+		opponentsTournmentService.deleteByTournmentId(id);
+		
+		return tournment;
 	}
 
 }

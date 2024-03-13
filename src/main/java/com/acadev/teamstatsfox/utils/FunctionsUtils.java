@@ -19,6 +19,15 @@ public class FunctionsUtils {
 		
 		return localDateTime;
 	}
+	
+	public static LocalDate generateLocalDateFromLocalDate(LocalDate localDate) {
+		
+		String localDateString = localDate.toString();
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		return LocalDate.parse(localDateString, formatter);
+		
+	}
 
 	public static Integer calculateOurGoals(List<GoalRequest> goalsRequest) {
 		Integer goalsOurCount = (int) goalsRequest

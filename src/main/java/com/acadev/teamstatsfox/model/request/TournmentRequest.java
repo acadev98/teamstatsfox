@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class TournmentRequest {
-	private LocalDate startDate;
+	private LocalDate date;
 	private String name;
 	private String description;
 	private Boolean active;
