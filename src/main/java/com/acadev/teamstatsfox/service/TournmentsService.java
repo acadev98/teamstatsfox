@@ -25,4 +25,6 @@ public interface TournmentsService {
 
 	Tournments delete(Long id);
 
+	TournmentsDetailsResponse update(Long id, TournmentDetailsRequest tournmentDetails);
+
 }

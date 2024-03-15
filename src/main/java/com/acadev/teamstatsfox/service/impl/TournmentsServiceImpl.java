@@ -246,4 +246,33 @@ public class TournmentsServiceImpl implements TournmentsService {
 		return tournment;
 	}
 
+	public TournmentsDetailsResponse update(Long id, TournmentDetailsRequest tournmentDetails) {
+		
+		Tournments tournmentEntity = getTournmentById(id);
+		TournmentRequest tournmentUpdate = tournmentDetails.getTournment();
+		
+		tournmentEntity.setName(tournmentUpdate.getName());
+		tournmentEntity.setDescription(tournmentUpdate.getDescription());
+		tournmentEntity.setStartDate(tournmentUpdate.getDate());
+		tournmentEntity.setActive(tournmentUpdate.getActive());
+		
+		repository.save(tournmentEntity);
+
+		//elimino jugadores del torneo y cargo la nueva lista
+		playersTournmentService.deleteByTournmentId(id);
+		for (Players pr : tournmentDetails.getPlayers()) {
+			PlayersTournment playerTournmentEntity = PlayersTournment.builder().playerId(pr.getId()).tournmentId(id).build();
+			playersTournmentService.create(playerTournmentEntity);
+		}
+		
+		//elimino rivales del torneo y cargo la nueva lista
+		opponentsTournmentService.deleteByTournmentId(id);
+		for (Opponents op : tournmentDetails.getOpponents()) {
+			OpponentsTournment opponentTournmentEntity = OpponentsTournment.builder().opponentId(op.getId()).tournmentId(id).build();
+			opponentsTournmentService.create(opponentTournmentEntity);
+		}
+		
+		return getTournmentsDetailsById(id);
+	}
+
 }
