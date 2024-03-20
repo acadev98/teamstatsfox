@@ -103,12 +103,18 @@ public class PlayerServiceImpl implements PlayerService {
 		List<Presents> presents = presentsService.getPresentsByPlayerId(id);
 		
 		List<Matches> matches = new ArrayList<>();
-
 		if (!presents.isEmpty()) {
 			for (Presents present: presents) {
 				matches.add(matchesService.getMatch(present.getMatchId()));
 			}
 		}
+		
+		Matches firstMatch = matches.stream()
+				  .sorted(Comparator.comparing(Matches::getDatetime))
+				  .collect(Collectors.toList())
+				  .get(0);
+		
+		player.get().setPlayingSince(firstMatch.getDatetime().toLocalDate());
 		
 		PlayersDetailsResponse playerDetails = PlayersDetailsResponse.builder()
 				.player(player.get())

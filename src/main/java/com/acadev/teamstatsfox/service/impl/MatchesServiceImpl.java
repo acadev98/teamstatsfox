@@ -100,8 +100,12 @@ public class MatchesServiceImpl implements MatchesService {
 
 		List<Matches> matches = getMatches();
 		
+		List<Matches> matchesOrdenated = matches.stream()
+				  .sorted(Comparator.comparing(Matches::getDatetime).reversed())
+				  .collect(Collectors.toList());
+		
 		List<MatchesResponse> response = new ArrayList<>();
-		for (Matches mt : matches) {
+		for (Matches mt : matchesOrdenated) {
 			MatchesResponse matchResponse = MatchesResponse.builder()
 				.match(mt)
 				.opponent(opponentsService.getOpponentById(mt.getOpponentId()))
