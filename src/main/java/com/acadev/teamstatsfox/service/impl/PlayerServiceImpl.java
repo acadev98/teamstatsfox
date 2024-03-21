@@ -1,5 +1,10 @@
 package com.acadev.teamstatsfox.service.impl;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -7,7 +12,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.acadev.teamstatsfox.database.entity.Cards;
 import com.acadev.teamstatsfox.database.entity.Goals;
@@ -30,6 +39,9 @@ import com.acadev.teamstatsfox.utils.enums.ECardType;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
+
+    @Value("${path.images.player}")
+    private String pathImagesPlayers;
 	
 	@Autowired
 	private GoalsService goalsService;
@@ -235,6 +247,41 @@ public class PlayerServiceImpl implements PlayerService {
 		}
 		
 		return availableNumbers;
+	}
+
+	@Override
+	public Boolean saveImage(Long id, MultipartFile file) {
+		
+		if (file.isEmpty()) {
+			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+        }
+		
+		try {
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(pathImagesPlayers+id);
+            Files.write(path, bytes);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+		
+	}
+
+	public Resource getImageByPlayerId(Long id) throws MalformedURLException {
+		
+		Path imagePath = Paths.get(pathImagesPlayers).resolve(id.toString());
+        Resource resource = new UrlResource(imagePath.toUri());
+		
+		Path imagePathNF = Paths.get(pathImagesPlayers).resolve("playerNotFound");
+        Resource resourceNF = new UrlResource(imagePathNF.toUri());
+
+        if (resource.exists() && resource.isReadable()) {
+            return resource;
+        } else {
+            return resourceNF;
+        }
+        
 	}
 
 }

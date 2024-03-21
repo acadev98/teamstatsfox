@@ -1,6 +1,10 @@
 package com.acadev.teamstatsfox.service;
 
+import java.net.MalformedURLException;
 import java.util.List;
+
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.acadev.teamstatsfox.database.entity.Players;
 import com.acadev.teamstatsfox.model.request.PlayerRequest;
@@ -33,5 +37,9 @@ public interface PlayerService {
 	List<PlayerStatisticsResponse> getPlayersStatistics();
 
 	List<Integer> availableNumbers();
+
+	Boolean saveImage(Long id, MultipartFile file);
+
+	Resource getImageByPlayerId(Long id) throws MalformedURLException;
 
 }
