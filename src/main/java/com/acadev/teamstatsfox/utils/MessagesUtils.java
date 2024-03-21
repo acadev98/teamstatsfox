@@ -15,6 +15,8 @@ public class MessagesUtils {
 	public static final String TOURNMENTS_FOUND = "Torneo encontrado.";
 	public static final String OPPONENTS_FOUND = "Oponente encontrado.";
 	public static final String PLAYER_CREATED = "Jugador creado.";
+	public static final String PLAYER_IMAGE_CREATED = "Imagen de jugador creada.";
+	public static final String PLAYER_IMAGE = "Imagen de jugador encontrada.";
 	public static final String USER_CREATED = "Usuario creado.";
 	public static final String MATCHES_CREATED = "Partido creado.";
 	public static final String TOURNMENT_CREATED = "Torneo creado.";

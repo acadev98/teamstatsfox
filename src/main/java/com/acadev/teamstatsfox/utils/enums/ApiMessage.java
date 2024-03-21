@@ -19,7 +19,7 @@ public enum ApiMessage {
 	ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "Acceso denegado."),
 	CONTENT_NOT_FOUND(HttpStatus.NOT_FOUND, "No se encontraron resultados."),
 	OPPONENT_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "El equipo rival ya existe."),
-
+	FILE_EMPTY(HttpStatus.BAD_REQUEST, "El archivo enviado es vacío."),
 	;
 
 	private final HttpStatus httpStatus;
