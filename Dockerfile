@@ -14,4 +14,4 @@ COPY target/teamstatsfox-1.0.0.war app.war
 EXPOSE 8090
 
 # Comando para ejecutar la aplicación cuando se inicie el contenedor
-CMD ["java", "-jar", "app.war"]
+CMD ["java", "-Dlogging.config=file:/app/logback.xml", "-jar", "app.war"]

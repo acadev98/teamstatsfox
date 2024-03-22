@@ -1,6 +1,22 @@
 <configuration>
     <property name="LOG_DIR" value="/opt/proyectos/teamstatsfoxs/logs"/>
 
+    <!-- Define el nivel de root logger para todos los logs -->
+    <root level="ERROR">
+        <!-- Define un appender para escribir en la consola -->
+        <appender-ref ref="STDOUT"/>
+        <!-- Define un appender para escribir en un archivo -->
+        <appender-ref ref="FILE"/>
+    </root>
+
+    <!-- Define un appender para escribir en la consola -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Define un appender para escribir en un archivo -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>${LOG_DIR}/be-teamstatsfoxs.log</file>
         <encoder>
@@ -8,18 +24,4 @@
         </encoder>
     </appender>
 
-    <root level="INFO">
-        <appender-ref ref="FILE"/>
-    </root>
-
-    <root level="ERROR">
-        <appender-ref ref="FILE"/>
-    </root>
-
-    <root level="DEBUG">
-        <appender-ref ref="FILE"/>
-    </root>
-    
-    <logger name="com.acadev.teamstatsfox" level="ERROR"/>
-    
 </configuration>
