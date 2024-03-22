@@ -34,6 +34,7 @@ import com.acadev.teamstatsfox.service.GoalsService;
 import com.acadev.teamstatsfox.service.MatchesService;
 import com.acadev.teamstatsfox.service.PlayerService;
 import com.acadev.teamstatsfox.service.PresentsService;
+import com.acadev.teamstatsfox.utils.ConstantsUtils;
 import com.acadev.teamstatsfox.utils.enums.ApiMessage;
 import com.acadev.teamstatsfox.utils.enums.ECardType;
 
@@ -272,13 +273,17 @@ public class PlayerServiceImpl implements PlayerService {
 		Path imagePath = Paths.get(pathImagesPlayers).resolve(id.toString());
         Resource resource = new UrlResource(imagePath.toUri());
 		
-		Path imagePathNF = Paths.get(pathImagesPlayers).resolve("playerNotFound");
+		Path imagePathNF = Paths.get(pathImagesPlayers).resolve(ConstantsUtils.IMAGE_NOT_FOUND);
         Resource resourceNF = new UrlResource(imagePathNF.toUri());
 
         if (resource.exists() && resource.isReadable()) {
             return resource;
         } else {
-            return resourceNF;
+        	if (resourceNF.exists() && resourceNF.isReadable()) {
+                return resourceNF;
+            } else {
+    			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+            }
         }
         
 	}
