@@ -4,6 +4,9 @@ FROM maven:3.8.4-openjdk-17-slim
 # Establece el directorio de trabajo en /app
 WORKDIR /app
 
+# Copia el archivo logback.xml al directorio de trabajo dentro del contenedor
+COPY logback.xml /app/logback.xml
+
 # Copia el código fuente de tu aplicación al contenedor
 COPY target/teamstatsfox-1.0.0.war app.war
 
