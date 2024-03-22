@@ -249,7 +249,6 @@ public class PlayerServiceImpl implements PlayerService {
 		return availableNumbers;
 	}
 
-	@Override
 	public Boolean saveImage(Long id, MultipartFile file) {
 		
 		if (file.isEmpty()) {
