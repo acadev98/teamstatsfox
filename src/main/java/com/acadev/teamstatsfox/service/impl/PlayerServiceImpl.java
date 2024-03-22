@@ -254,28 +254,39 @@ public class PlayerServiceImpl implements PlayerService {
 	public Boolean saveImage(Long id, MultipartFile file) {
 		
         try {
-		
+
+            System.out.println("saveImage.");
 			if (file.isEmpty()) {
+	            System.out.println("file.isEmpty().");
 				throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 	        }
 			
 	        String imageName = id+".jpg";
+            System.out.println("imageName." + imageName);
 	
 	        // Crea el directorio si no existe
 	        File directory = new File(pathImagesPlayers);
+            System.out.println("directory.");
+            System.out.println("pathImagesPlayers." + pathImagesPlayers);
 	        if (!directory.exists()) {
+	            System.out.println("!directory.exists().");
 	            directory.mkdirs();
+	            System.out.println("directory.mkdirs().");
 	        }
 	
 	        // Guarda la imagen en el directorio
 	        File imageFile = new File(pathImagesPlayers + imageName);
         	FileOutputStream fos = new FileOutputStream(imageFile);
+            System.out.println("imageFile.");
             fos.write(file.getBytes());
+            System.out.println("fos.write(file.getBytes()).");
         	
         } catch (IOException e) {
+            System.out.println("saveImage catch.");
 			e.printStackTrace();
 			throw new ApiException(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE);
 		}
+        System.out.println("saveImage return true.");
         
         return true;
 	}
@@ -283,7 +294,10 @@ public class PlayerServiceImpl implements PlayerService {
 	public Resource getImageByPlayerId(Long id) {
 		
         try {
-		
+
+            System.out.println("getImageByPlayerId.");
+            System.out.println("pathImagesPlayers." + pathImagesPlayers);
+            System.out.println("id." + id);
 			Path imagePath = Paths.get(pathImagesPlayers).resolve(id.toString());
 	        Resource resource = new UrlResource(imagePath.toUri());
 			
@@ -291,16 +305,25 @@ public class PlayerServiceImpl implements PlayerService {
 	        Resource resourceNF = new UrlResource(imagePathNF.toUri());
 	
 	        if (resource.exists() && resource.isReadable()) {
+	            System.out.println("resource.exists() && resource.isReadable().");
+	            System.out.println("resource.exists()." + resource.exists());
+	            System.out.println("resource.isReadable()." + resource.isReadable());
 	            return resource;
 	        } else {
+	            System.out.println("no encontro resources");
 	        	if (resourceNF.exists() && resourceNF.isReadable()) {
+		            System.out.println("resourceNF.exists() && resourceNF.isReadable().");
+		            System.out.println("resourceNF.exists()." + resourceNF.exists());
+		            System.out.println("resourceNF.isReadable()." + resourceNF.isReadable());
 	                return resourceNF;
 	            } else {
+		            System.out.println("no encontro resourceNF");
 	    			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 	            }
 	        }
 	       
         } catch (MalformedURLException e) {
+            System.out.println("getImageByPlayerId catch.");
 			e.printStackTrace();
 			throw new ApiException(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE);
 		}
