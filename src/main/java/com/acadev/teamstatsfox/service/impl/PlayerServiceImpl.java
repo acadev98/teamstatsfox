@@ -1,8 +1,9 @@
 package com.acadev.teamstatsfox.service.impl;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -252,39 +253,57 @@ public class PlayerServiceImpl implements PlayerService {
 
 	public Boolean saveImage(Long id, MultipartFile file) {
 		
-		if (file.isEmpty()) {
-			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
-        }
+        try {
 		
-		try {
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(pathImagesPlayers+id);
-            Files.write(path, bytes);
-            return true;
+			if (file.isEmpty()) {
+				throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+	        }
+			
+	        String imageName = id+".jpg";
+	
+	        // Crea el directorio si no existe
+	        File directory = new File(pathImagesPlayers);
+	        if (!directory.exists()) {
+	            directory.mkdirs();
+	        }
+	
+	        // Guarda la imagen en el directorio
+	        File imageFile = new File(pathImagesPlayers + imageName);
+        	FileOutputStream fos = new FileOutputStream(imageFile);
+            fos.write(file.getBytes());
+        	
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-		
+			e.printStackTrace();
+			throw new ApiException(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE);
+		}
+        
+        return true;
 	}
 
-	public Resource getImageByPlayerId(Long id) throws MalformedURLException {
+	public Resource getImageByPlayerId(Long id) {
 		
-		Path imagePath = Paths.get(pathImagesPlayers).resolve(id.toString());
-        Resource resource = new UrlResource(imagePath.toUri());
+        try {
 		
-		Path imagePathNF = Paths.get(pathImagesPlayers).resolve(ConstantsUtils.IMAGE_NOT_FOUND);
-        Resource resourceNF = new UrlResource(imagePathNF.toUri());
-
-        if (resource.exists() && resource.isReadable()) {
-            return resource;
-        } else {
-        	if (resourceNF.exists() && resourceNF.isReadable()) {
-                return resourceNF;
-            } else {
-    			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
-            }
-        }
+			Path imagePath = Paths.get(pathImagesPlayers).resolve(id.toString());
+	        Resource resource = new UrlResource(imagePath.toUri());
+			
+			Path imagePathNF = Paths.get(pathImagesPlayers).resolve(ConstantsUtils.IMAGE_NOT_FOUND);
+	        Resource resourceNF = new UrlResource(imagePathNF.toUri());
+	
+	        if (resource.exists() && resource.isReadable()) {
+	            return resource;
+	        } else {
+	        	if (resourceNF.exists() && resourceNF.isReadable()) {
+	                return resourceNF;
+	            } else {
+	    			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+	            }
+	        }
+	       
+        } catch (MalformedURLException e) {
+			e.printStackTrace();
+			throw new ApiException(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE);
+		}
         
 	}
 
