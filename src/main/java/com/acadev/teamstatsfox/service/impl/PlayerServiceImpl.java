@@ -270,7 +270,15 @@ public class PlayerServiceImpl implements PlayerService {
             System.out.println("pathImagesPlayers." + pathImagesPlayers);
 	        if (!directory.exists()) {
 	            System.out.println("!directory.exists().");
-	            directory.mkdirs();
+	            // Intentar crear la carpeta
+	            boolean created = directory.mkdirs();
+
+	            // Verificar si la carpeta se creó correctamente
+	            if (created) {
+	                System.out.println("Carpeta creada exitosamente");
+	            } else {
+	                System.out.println("Error al crear la carpeta");
+	            }
 	            System.out.println("directory.mkdirs().");
 	        }
 	
