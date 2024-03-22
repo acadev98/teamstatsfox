@@ -1,14 +1,18 @@
 <configuration>
-    <property name="LOG_DIR" value="/opt/logs"/>
+    <property name="LOG_DIR" value="/opt/proyectos/teamstatsfoxs/logs"/>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${LOG_DIR}/teamstatsfox.log</file>
+        <file>${LOG_DIR}/be-teamstatsfoxs.log</file>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
     <root level="INFO">
+        <appender-ref ref="FILE"/>
+    </root>
+
+    <root level="DEBUG">
         <appender-ref ref="FILE"/>
     </root>
 </configuration>
