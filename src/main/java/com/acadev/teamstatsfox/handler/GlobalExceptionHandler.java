@@ -1,4 +1,4 @@
- package com.acadev.teamstatsfox.handler;
+package com.acadev.teamstatsfox.handler;
 
 import java.util.List;
 import java.util.stream.Collectors;

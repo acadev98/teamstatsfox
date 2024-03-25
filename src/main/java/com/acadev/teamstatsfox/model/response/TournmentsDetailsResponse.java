@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @Builder
 public class TournmentsDetailsResponse {
-	
+
 	private Tournments tournment;
 	private List<Players> players;
 	private List<Opponents> opponents;

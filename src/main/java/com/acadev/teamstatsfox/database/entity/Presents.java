@@ -25,7 +25,7 @@ public class Presents {
 
 	@Column(name = "MATCH_ID")
 	private Long matchId;
-	
+
 	@Column(name = "PLAYER_ID")
 	private Long playerId;
 

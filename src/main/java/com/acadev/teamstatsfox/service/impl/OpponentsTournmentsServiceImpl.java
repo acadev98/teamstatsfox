@@ -15,13 +15,13 @@ public class OpponentsTournmentsServiceImpl implements OpponentsTournmentsServic
 
 	@Autowired
 	private OpponentsTournmentRepository repository;
-	
+
 	public Long getNextId() {
 		Optional<OpponentsTournment> entityMaxId = repository.findTopByOrderByIdDesc();
 		if (entityMaxId.isPresent())
-				return (entityMaxId.get().getId()+1);
-        return 1L;
-    }
+			return (entityMaxId.get().getId() + 1);
+		return 1L;
+	}
 
 	public String echo() {
 		return "opponents tournment echo message";
@@ -40,10 +40,10 @@ public class OpponentsTournmentsServiceImpl implements OpponentsTournmentsServic
 
 		return repository.save(opponentTournment);
 	}
-	
+
 	public void deleteByTournmentId(Long tournmentId) {
-		List<OpponentsTournment> opponentsByTournmentId = repository.findAllByTournmentId(tournmentId);		
-		if (opponentsByTournmentId.size()>0) {
+		List<OpponentsTournment> opponentsByTournmentId = repository.findAllByTournmentId(tournmentId);
+		if (opponentsByTournmentId.size() > 0) {
 			repository.deleteAll(opponentsByTournmentId);
 		}
 	}

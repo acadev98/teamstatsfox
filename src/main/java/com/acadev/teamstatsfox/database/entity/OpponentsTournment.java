@@ -25,7 +25,7 @@ public class OpponentsTournment {
 
 	@Column(name = "TOURNMENT_ID")
 	private Long tournmentId;
-	
+
 	@Column(name = "OPPONENT_ID")
 	private Long opponentId;
 

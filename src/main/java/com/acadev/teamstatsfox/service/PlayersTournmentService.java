@@ -9,7 +9,7 @@ public interface PlayersTournmentService {
 	String echo();
 
 	List<PlayersTournment> getPlayersByTournmentId(Long id);
-	
+
 	PlayersTournment create(PlayersTournment request);
 
 	void deleteByTournmentId(Long id);

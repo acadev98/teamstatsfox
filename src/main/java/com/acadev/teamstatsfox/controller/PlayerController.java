@@ -64,12 +64,14 @@ public class PlayerController {
 
 	@GetMapping("/actives")
 	public ResponseEntity<Object> getPlayersActive() {
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS_ACTIVES, HttpStatus.OK, service.getPlayersActives());
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS_ACTIVES, HttpStatus.OK,
+				service.getPlayersActives());
 	}
 
 	@GetMapping("/statistics")
 	public ResponseEntity<Object> getPlayersStatistics() {
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS_STATISTICS, HttpStatus.OK, service.getPlayersStatistics());
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_PLAYERS_STATISTICS, HttpStatus.OK,
+				service.getPlayersStatistics());
 	}
 
 	@GetMapping("/{id}")
@@ -84,23 +86,27 @@ public class PlayerController {
 
 	@PostMapping("/{id}/images")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Object> saveImageByPlayerId(@PathVariable("id") Long id, @RequestParam("file") MultipartFile file) {
+	public ResponseEntity<Object> saveImageByPlayerId(@PathVariable("id") Long id,
+			@RequestParam("file") MultipartFile file) {
 		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_IMAGE_CREATED, HttpStatus.CREATED,
 				service.saveImage(id, file));
 	}
 
 	@GetMapping("/{id}/details")
 	public ResponseEntity<Object> getPlayersDetailsById(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, service.getPlayerDetails(id));
+		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK,
+				service.getPlayerDetails(id));
 	}
 
 	@GetMapping("/{id}/prevandnext")
 	public ResponseEntity<Object> getPlayersPrevAndNextById(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, service.getPlayerPrevAndNext(id));
+		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK,
+				service.getPlayerPrevAndNext(id));
 	}
 
 	@GetMapping("/numbers/avaibles")
 	public ResponseEntity<Object> availableNumbers() {
-		return ResponseHandler.generateResponse(MessagesUtils.AVAILABLE_NUMBERS, HttpStatus.OK, service.availableNumbers());
+		return ResponseHandler.generateResponse(MessagesUtils.AVAILABLE_NUMBERS, HttpStatus.OK,
+				service.availableNumbers());
 	}
 }

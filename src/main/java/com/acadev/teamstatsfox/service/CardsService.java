@@ -8,7 +8,7 @@ import com.acadev.teamstatsfox.utils.enums.ECardType;
 public interface CardsService {
 
 	String echo();
-	
+
 	List<Cards> getCards();
 
 	List<Cards> getCardsByMatchId(Long id);

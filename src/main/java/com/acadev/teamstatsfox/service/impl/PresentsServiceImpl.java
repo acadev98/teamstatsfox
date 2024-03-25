@@ -15,13 +15,13 @@ public class PresentsServiceImpl implements PresentsService {
 
 	@Autowired
 	private PresentsRepository repository;
-	
+
 	public Long getNextId() {
 		Optional<Presents> entityMaxId = repository.findTopByOrderByIdDesc();
 		if (entityMaxId.isPresent())
-				return (entityMaxId.get().getId()+1);
-        return 1L;
-    }
+			return (entityMaxId.get().getId() + 1);
+		return 1L;
+	}
 
 	public String echo() {
 		return "presents echo message";
@@ -32,17 +32,15 @@ public class PresentsServiceImpl implements PresentsService {
 	}
 
 	public Presents create(Presents request) {
-		Presents present = Presents.builder().id(getNextId())
-				.matchId(request.getMatchId())
-				.playerId(request.getPlayerId())
-				.build();
+		Presents present = Presents.builder().id(getNextId()).matchId(request.getMatchId())
+				.playerId(request.getPlayerId()).build();
 
 		return repository.save(present);
 	}
-	
+
 	public void deleteByMatchId(Long matchId) {
-		List<Presents> presentsByMatchId = repository.findAllByMatchId(matchId);		
-		if (presentsByMatchId.size()>0) {
+		List<Presents> presentsByMatchId = repository.findAllByMatchId(matchId);
+		if (presentsByMatchId.size() > 0) {
 			repository.deleteAll(presentsByMatchId);
 		}
 	}

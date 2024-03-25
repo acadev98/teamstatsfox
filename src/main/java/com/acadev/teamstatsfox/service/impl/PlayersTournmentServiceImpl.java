@@ -15,13 +15,13 @@ public class PlayersTournmentServiceImpl implements PlayersTournmentService {
 
 	@Autowired
 	private PlayersTournmentRepository repository;
-	
+
 	public Long getNextId() {
 		Optional<PlayersTournment> entityMaxId = repository.findTopByOrderByIdDesc();
 		if (entityMaxId.isPresent())
-				return (entityMaxId.get().getId()+1);
-        return 1L;
-    }
+			return (entityMaxId.get().getId() + 1);
+		return 1L;
+	}
 
 	public String echo() {
 		return "players tournment echo message";
@@ -36,10 +36,10 @@ public class PlayersTournmentServiceImpl implements PlayersTournmentService {
 
 		return repository.save(playerTournment);
 	}
-	
+
 	public void deleteByTournmentId(Long tournmentId) {
-		List<PlayersTournment> playersByTournmentId = repository.findAllByTournmentId(tournmentId);		
-		if (playersByTournmentId.size()>0) {
+		List<PlayersTournment> playersByTournmentId = repository.findAllByTournmentId(tournmentId);
+		if (playersByTournmentId.size() > 0) {
 			repository.deleteAll(playersByTournmentId);
 		}
 	}

@@ -23,5 +23,5 @@ public class Opponents {
 	private Long id;
 
 	private String name;
-	
+
 }

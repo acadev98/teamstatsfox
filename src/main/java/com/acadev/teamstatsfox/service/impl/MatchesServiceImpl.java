@@ -67,7 +67,7 @@ public class MatchesServiceImpl implements MatchesService {
 	public Long getNextId() {
 		Optional<Matches> entityMaxId = repository.findTopByOrderByIdDesc();
 		if (entityMaxId.isPresent())
-			return (entityMaxId.get().getId()+1);
+			return (entityMaxId.get().getId() + 1);
 		return 1L;
 	}
 
@@ -80,10 +80,9 @@ public class MatchesServiceImpl implements MatchesService {
 		List<Matches> matches = repository.findAll();
 		if (matches.isEmpty())
 			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
-		
-		List<Matches> matchesListOrdered = matches.stream()
-				  .sorted(Comparator.comparing(Matches::getDatetime))
-				  .collect(Collectors.toList());
+
+		List<Matches> matchesListOrdered = matches.stream().sorted(Comparator.comparing(Matches::getDatetime))
+				.collect(Collectors.toList());
 
 		return matchesListOrdered;
 	}
@@ -99,20 +98,17 @@ public class MatchesServiceImpl implements MatchesService {
 	public List<MatchesResponse> getMatchesResponse() {
 
 		List<Matches> matches = getMatches();
-		
-		List<Matches> matchesOrdenated = matches.stream()
-				  .sorted(Comparator.comparing(Matches::getDatetime).reversed())
-				  .collect(Collectors.toList());
-		
+
+		List<Matches> matchesOrdenated = matches.stream().sorted(Comparator.comparing(Matches::getDatetime).reversed())
+				.collect(Collectors.toList());
+
 		List<MatchesResponse> response = new ArrayList<>();
 		for (Matches mt : matchesOrdenated) {
-			MatchesResponse matchResponse = MatchesResponse.builder()
-				.match(mt)
-				.opponent(opponentsService.getOpponentById(mt.getOpponentId()))
-				.tournment(tournmentsService.getTournmentById(mt.getTournmentId()))
-				.build();
-			
-			response.add(matchResponse);		
+			MatchesResponse matchResponse = MatchesResponse.builder().match(mt)
+					.opponent(opponentsService.getOpponentById(mt.getOpponentId()))
+					.tournment(tournmentsService.getTournmentById(mt.getTournmentId())).build();
+
+			response.add(matchResponse);
 		}
 
 		return response;
@@ -125,51 +121,41 @@ public class MatchesServiceImpl implements MatchesService {
 		List<CardRequest> cardsRequest = matchDetails.getCards();
 		List<PresentRequest> presentsRequest = matchDetails.getPresents();
 
-		LocalDateTime localDateTimeMatch = FunctionsUtils.generateLocalDateTimeFromLocalDateAndTimeString(matchRequest.getDate(), matchRequest.getTime());
+		LocalDateTime localDateTimeMatch = FunctionsUtils
+				.generateLocalDateTimeFromLocalDateAndTimeString(matchRequest.getDate(), matchRequest.getTime());
 		Integer ourGoals = FunctionsUtils.calculateOurGoals(goalsRequest);
-		Integer rivalsGoals = (goalsRequest.size()-ourGoals);
+		Integer rivalsGoals = (goalsRequest.size() - ourGoals);
 
-		Matches matchEntity = Matches.builder()
-			.datetime(localDateTimeMatch)
-			.opponentId(matchRequest.getOpponent())
-			.description(matchRequest.getResume())
-			.tournmentId(matchRequest.getTournment())
-			.ourGoals(ourGoals)
-			.captain(matchDetails.getCaptain()==null?0L:matchDetails.getCaptain().longValue())
-			.rivalGoals(rivalsGoals)
-			.build();
-		
+		Matches matchEntity = Matches.builder().datetime(localDateTimeMatch).opponentId(matchRequest.getOpponent())
+				.description(matchRequest.getResume()).tournmentId(matchRequest.getTournment()).ourGoals(ourGoals)
+				.captain(matchDetails.getCaptain() == null ? 0L : matchDetails.getCaptain().longValue())
+				.rivalGoals(rivalsGoals).build();
+
 		Matches matchCreated = create(matchEntity);
-		
+
 		for (PresentRequest pr : presentsRequest) {
 			Presents presentEntity = Presents.builder().matchId(matchCreated.getId()).playerId(pr.getId()).build();
 			presentsService.create(presentEntity);
 		}
-		
+
 		for (GoalRequest gl : goalsRequest) {
-			Goals goalsEntity = Goals.builder()
-					.matchId(matchCreated.getId())
-					.playerId(gl.getPlayerId().equals("")?0:Long.parseLong(gl.getPlayerId()))
-					.assistPlayerId(gl.getAssistPlayerId().equals("")?0:Long.parseLong(gl.getAssistPlayerId()))
-					.type(gl.getType())
-					.minute(gl.getMinute().equals("")?0:Integer.parseInt(gl.getMinute()))
-					.our(gl.getOur())
-					.build();
+			Goals goalsEntity = Goals.builder().matchId(matchCreated.getId())
+					.playerId(gl.getPlayerId().equals("") ? 0 : Long.parseLong(gl.getPlayerId()))
+					.assistPlayerId(gl.getAssistPlayerId().equals("") ? 0 : Long.parseLong(gl.getAssistPlayerId()))
+					.type(gl.getType()).minute(gl.getMinute().equals("") ? 0 : Integer.parseInt(gl.getMinute()))
+					.our(gl.getOur()).build();
 			goalsService.create(goalsEntity);
 		}
-		
+
 		for (CardRequest crd : cardsRequest) {
-			Cards cardsEntity = Cards.builder()
-					.matchId(matchCreated.getId())
-					.playerId(Long.parseLong(crd.getPlayerId()))
-					.type(crd.getType())
-					.minute(crd.getMinute().equals("")?0:Integer.parseInt(crd.getMinute()))
-					.build();
+			Cards cardsEntity = Cards.builder().matchId(matchCreated.getId())
+					.playerId(Long.parseLong(crd.getPlayerId())).type(crd.getType())
+					.minute(crd.getMinute().equals("") ? 0 : Integer.parseInt(crd.getMinute())).build();
 			cardsService.create(cardsEntity);
 		}
 
 		return getMatchDetails(matchCreated.getId());
-		
+
 	}
 
 	public Matches create(Matches matches) {
@@ -194,25 +180,20 @@ public class MatchesServiceImpl implements MatchesService {
 		List<Cards> cards = cardsService.getCardsByMatchId(id);
 		Opponents opponent = opponentsService.getOpponentById(match.getOpponentId());
 		Tournments tournment = tournmentsService.getTournmentById(match.getTournmentId());
-		
+
 		List<Players> playersPresents = new ArrayList<>();
 
 		if (!presents.isEmpty()) {
-			List<Long> playersIdsPresents= presents.stream().map(mapperService::getPlayerIds).collect(Collectors.toList());
+			List<Long> playersIdsPresents = presents.stream().map(mapperService::getPlayerIds)
+					.collect(Collectors.toList());
 
 			for (Long playerId : playersIdsPresents) {
 				playersPresents.add(playerRepository.findById(playerId).get());
 			}
 		}
 
-		MatchesDetailsResponse matchDetails = MatchesDetailsResponse.builder()
-				.match(match)
-				.opponent(opponent)
-				.tournment(tournment)
-				.goals(goals)
-				.players(playersPresents)
-				.cards(cards)
-				.build();
+		MatchesDetailsResponse matchDetails = MatchesDetailsResponse.builder().match(match).opponent(opponent)
+				.tournment(tournment).goals(goals).players(playersPresents).cards(cards).build();
 
 		return matchDetails;
 	}
@@ -220,39 +201,34 @@ public class MatchesServiceImpl implements MatchesService {
 	public PrevAndNextMatchesResponse getMatchesPrevAndNext(Long id) {
 
 		List<Matches> matchesList = getMatches();
-		
-		List<Matches> matchesListOrdered = matchesList.stream()
-				  .sorted(Comparator.comparing(Matches::getDatetime))
-				  .collect(Collectors.toList());
-		
+
+		List<Matches> matchesListOrdered = matchesList.stream().sorted(Comparator.comparing(Matches::getDatetime))
+				.collect(Collectors.toList());
+
 		Matches match = getMatch(id);
 
 		Integer index = matchesListOrdered.indexOf(match);
-		Integer lastIndex = matchesListOrdered.size()-1;
-		
-		Integer indexPrev = (index==0?lastIndex:index-1); 
-		Integer indexNext = (index==lastIndex?0:index+1); 
-		
+		Integer lastIndex = matchesListOrdered.size() - 1;
+
+		Integer indexPrev = (index == 0 ? lastIndex : index - 1);
+		Integer indexNext = (index == lastIndex ? 0 : index + 1);
+
 		Matches prev = matchesListOrdered.get(indexPrev);
 		Matches next = matchesListOrdered.get(indexNext);
-		
-		MatchesResponse prevMatchResponse = MatchesResponse.builder()
-				.match(prev)
+
+		MatchesResponse prevMatchResponse = MatchesResponse.builder().match(prev)
 				.opponent(opponentsService.getOpponentById(prev.getOpponentId()))
-				.tournment(tournmentsService.getTournmentById(prev.getTournmentId()))
-				.build();
-		
-		MatchesResponse nextMatchResponse = MatchesResponse.builder()
-				.match(next)
+				.tournment(tournmentsService.getTournmentById(prev.getTournmentId())).build();
+
+		MatchesResponse nextMatchResponse = MatchesResponse.builder().match(next)
 				.opponent(opponentsService.getOpponentById(next.getOpponentId()))
-				.tournment(tournmentsService.getTournmentById(next.getTournmentId()))
-				.build();
-		
+				.tournment(tournmentsService.getTournmentById(next.getTournmentId())).build();
+
 		return PrevAndNextMatchesResponse.builder().prev(prevMatchResponse).next(nextMatchResponse).build();
 	}
 
 	public Matches delete(Long id) {
-		
+
 		Optional<Matches> match = repository.findById(id);
 
 		if (match.isEmpty())
@@ -263,7 +239,7 @@ public class MatchesServiceImpl implements MatchesService {
 		goalsService.deleteByMatchId(id);
 		cardsService.deleteByMatchId(id);
 		presentsService.deleteByMatchId(id);
-		
+
 		return match.get();
 	}
 
