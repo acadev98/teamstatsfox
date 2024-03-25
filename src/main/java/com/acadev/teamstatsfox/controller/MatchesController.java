@@ -31,7 +31,8 @@ public class MatchesController {
 
 	@GetMapping
 	public ResponseEntity<Object> get() {
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_MATCHES, HttpStatus.OK, service.getMatchesResponse());
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_MATCHES, HttpStatus.OK,
+				service.getMatchesResponse());
 	}
 
 	@GetMapping("/{id}")
@@ -47,12 +48,14 @@ public class MatchesController {
 
 	@GetMapping("/{id}/details")
 	public ResponseEntity<Object> getMatchesDetailsById(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.MATCHES_FOUND, HttpStatus.OK, service.getMatchDetails(id));
+		return ResponseHandler.generateResponse(MessagesUtils.MATCHES_FOUND, HttpStatus.OK,
+				service.getMatchDetails(id));
 	}
 
 	@GetMapping("/{id}/prevandnext")
 	public ResponseEntity<Object> getMatchesPrevAndNextById(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK, service.getMatchesPrevAndNext(id));
+		return ResponseHandler.generateResponse(MessagesUtils.PLAYER_FOUND, HttpStatus.OK,
+				service.getMatchesPrevAndNext(id));
 	}
 
 	@PostMapping

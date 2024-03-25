@@ -9,13 +9,13 @@ import com.acadev.teamstatsfox.model.response.PrevAndNextOpponentsResponse;
 public interface OpponentsService {
 
 	String echo();
-	
+
 	List<Opponents> getOpponents();
-	
+
 	List<OpponentsDetailsResponse> getOpponentsDetails();
-	
+
 	Opponents create(Opponents tournment);
-	
+
 	Opponents getOpponentById(Long id);
 
 	OpponentsDetailsResponse getOpponentDetailsById(Long id);

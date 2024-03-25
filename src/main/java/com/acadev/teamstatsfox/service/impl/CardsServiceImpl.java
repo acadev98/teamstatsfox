@@ -18,13 +18,13 @@ public class CardsServiceImpl implements CardsService {
 
 	@Autowired
 	private CardsRepository repository;
-	
+
 	public Long getNextId() {
 		Optional<Cards> entityMaxId = repository.findTopByOrderByIdDesc();
 		if (entityMaxId.isPresent())
-				return (entityMaxId.get().getId()+1);
-        return 1L;
-    }
+			return (entityMaxId.get().getId() + 1);
+		return 1L;
+	}
 
 	public String echo() {
 		return "cards echo message";
@@ -47,10 +47,10 @@ public class CardsServiceImpl implements CardsService {
 		request.setId(getNextId());
 		return repository.save(request);
 	}
-	
+
 	public void deleteByMatchId(Long matchId) {
-		List<Cards> cardsByMatchId = repository.findAllByMatchId(matchId);		
-		if (cardsByMatchId.size()>0) {
+		List<Cards> cardsByMatchId = repository.findAllByMatchId(matchId);
+		if (cardsByMatchId.size() > 0) {
 			repository.deleteAll(cardsByMatchId);
 		}
 	}
@@ -66,5 +66,5 @@ public class CardsServiceImpl implements CardsService {
 	public List<Cards> getCardsByPlayerIdAndType(Long playerId, ECardType type) {
 		return repository.findAllByPlayerIdAndType(playerId, type);
 	}
-	
+
 }

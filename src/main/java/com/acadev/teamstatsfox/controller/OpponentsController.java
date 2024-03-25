@@ -37,22 +37,26 @@ public class OpponentsController {
 
 	@GetMapping("/details")
 	public ResponseEntity<Object> getOpponentDetails() {
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_OPPONENTS, HttpStatus.OK, service.getOpponentsDetails());
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_OPPONENTS, HttpStatus.OK,
+				service.getOpponentsDetails());
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getById(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.OPPONENTS_FOUND, HttpStatus.OK, service.getOpponentById(id));
+		return ResponseHandler.generateResponse(MessagesUtils.OPPONENTS_FOUND, HttpStatus.OK,
+				service.getOpponentById(id));
 	}
 
 	@GetMapping("/{id}/details")
 	public ResponseEntity<Object> getDetailsById(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.OPPONENTS_FOUND, HttpStatus.OK, service.getOpponentDetailsById(id));
+		return ResponseHandler.generateResponse(MessagesUtils.OPPONENTS_FOUND, HttpStatus.OK,
+				service.getOpponentDetailsById(id));
 	}
 
 	@GetMapping("/{id}/prevandnext")
 	public ResponseEntity<Object> getOpponentsPrevAndNextById(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.OPPONENTS_FOUND, HttpStatus.OK, service.getOpponentsPrevAndNext(id));
+		return ResponseHandler.generateResponse(MessagesUtils.OPPONENTS_FOUND, HttpStatus.OK,
+				service.getOpponentsPrevAndNext(id));
 	}
 
 	@DeleteMapping("/{id}")

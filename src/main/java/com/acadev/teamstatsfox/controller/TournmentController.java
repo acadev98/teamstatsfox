@@ -32,17 +32,20 @@ public class TournmentController {
 
 	@GetMapping
 	public ResponseEntity<Object> get() {
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS, HttpStatus.OK, service.getTournments());
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS, HttpStatus.OK,
+				service.getTournments());
 	}
 
 	@GetMapping("/details")
 	public ResponseEntity<Object> getTournmentsDetails() {
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS, HttpStatus.OK, service.getTournmentsDetails());
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS, HttpStatus.OK,
+				service.getTournmentsDetails());
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getById(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.TOURNMENTS_FOUND, HttpStatus.OK, service.getTournmentById(id));
+		return ResponseHandler.generateResponse(MessagesUtils.TOURNMENTS_FOUND, HttpStatus.OK,
+				service.getTournmentById(id));
 	}
 
 	@DeleteMapping("/{id}")
@@ -60,19 +63,22 @@ public class TournmentController {
 
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody TournmentDetailsRequest tournmentDetails) {
+	public ResponseEntity<Object> update(@PathVariable("id") Long id,
+			@RequestBody TournmentDetailsRequest tournmentDetails) {
 		return ResponseHandler.generateResponse(MessagesUtils.TOURNMENT_UPDATED, HttpStatus.OK,
 				service.update(id, tournmentDetails));
 	}
 
 	@GetMapping("/{id}/details")
 	public ResponseEntity<Object> getTournmentsDetailsById(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS_DETAILS, HttpStatus.OK, service.getTournmentsDetailsById(id));
+		return ResponseHandler.generateResponse(MessagesUtils.LIST_OF_TOURNMENTS_DETAILS, HttpStatus.OK,
+				service.getTournmentsDetailsById(id));
 	}
 
 	@GetMapping("/{id}/statistics")
 	public ResponseEntity<Object> getStatisticsByTournmentId(@PathVariable("id") Long id) {
-		return ResponseHandler.generateResponse(MessagesUtils.STATISTICS_OF_TORUNMENT_PLAYERS, HttpStatus.OK, service.getStatisticsPlayersByTournmentId(id));
+		return ResponseHandler.generateResponse(MessagesUtils.STATISTICS_OF_TORUNMENT_PLAYERS, HttpStatus.OK,
+				service.getStatisticsPlayersByTournmentId(id));
 	}
 
 }

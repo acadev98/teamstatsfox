@@ -10,9 +10,9 @@ import com.acadev.teamstatsfox.model.response.TournmentsDetailsResponse;
 public interface TournmentsService {
 
 	String echo();
-	
+
 	List<Tournments> getTournments();
-	
+
 	Tournments getTournmentById(Long id);
 
 	TournmentsDetailsResponse getTournmentsDetailsById(Long id);

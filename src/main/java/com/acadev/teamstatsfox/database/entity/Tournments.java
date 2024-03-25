@@ -32,7 +32,7 @@ public class Tournments {
 	private String name;
 
 	private String description;
-	
+
 	private Boolean active;
 
 }

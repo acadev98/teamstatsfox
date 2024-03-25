@@ -11,7 +11,7 @@ public interface OpponentsTournmentsService {
 	List<OpponentsTournment> getOpponentsByTournmentId(Long id);
 
 	List<OpponentsTournment> getTournmentsByOpponentId(Long id);
-	
+
 	OpponentsTournment create(OpponentsTournment request);
 
 	void deleteByTournmentId(Long id);

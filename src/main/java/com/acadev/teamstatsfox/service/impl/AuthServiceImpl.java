@@ -46,13 +46,13 @@ public class AuthServiceImpl {
 
 	@Autowired
 	private JwtUtil jwtUtil;
-	
+
 	public Long getNextId() {
 		Optional<User> entityMaxId = userRepository.findTopByOrderByIdDesc();
 		if (entityMaxId.isPresent())
-				return (entityMaxId.get().getId()+1);
-        return 1L;
-    }
+			return (entityMaxId.get().getId() + 1);
+		return 1L;
+	}
 
 	public LoginResponse login(LoginRequest loginRequest) {
 
@@ -98,8 +98,8 @@ public class AuthServiceImpl {
 		Set<Roles> roles = new HashSet<>();
 		roles.add(userRole.get());
 
-		User user = User.builder().id(getNextId()).username(registerRequest.getUsername()).email(registerRequest.getEmail())
-				.password(hashedPassword).roles(roles).build();
+		User user = User.builder().id(getNextId()).username(registerRequest.getUsername())
+				.email(registerRequest.getEmail()).password(hashedPassword).roles(roles).build();
 
 		return userRepository.save(user);
 	}

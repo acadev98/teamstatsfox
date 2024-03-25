@@ -26,21 +26,21 @@ public class Goals {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "MATCH_ID")
 	private Long matchId;
-	
+
 	@Column(name = "PLAYER_ID")
 	private Long playerId;
-	
+
 	@Column(name = "ASSIST_PLAYER_ID")
 	private Long assistPlayerId;
-	
+
 	@Enumerated(EnumType.STRING)
 	private EGoalType type;
 
 	private Integer minute;
-	
+
 	private Boolean our;
 
 }

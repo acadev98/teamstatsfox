@@ -17,13 +17,13 @@ public class GoalsServiceImpl implements GoalsService {
 
 	@Autowired
 	private GoalsRepository repository;
-	
+
 	public Long getNextId() {
 		Optional<Goals> entityMaxId = repository.findTopByOrderByIdDesc();
 		if (entityMaxId.isPresent())
-				return (entityMaxId.get().getId()+1);
-        return 1L;
-    }
+			return (entityMaxId.get().getId() + 1);
+		return 1L;
+	}
 
 	public String echo() {
 		return "goals echo message";
@@ -46,10 +46,10 @@ public class GoalsServiceImpl implements GoalsService {
 		request.setId(getNextId());
 		return repository.save(request);
 	}
-	
+
 	public void deleteByMatchId(Long matchId) {
-		List<Goals> goalsByMatchId = repository.findAllByMatchId(matchId);		
-		if (goalsByMatchId.size()>0) {
+		List<Goals> goalsByMatchId = repository.findAllByMatchId(matchId);
+		if (goalsByMatchId.size() > 0) {
 			repository.deleteAll(goalsByMatchId);
 		}
 	}

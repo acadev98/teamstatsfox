@@ -1,6 +1,5 @@
 package com.acadev.teamstatsfox.model.response;
 
-
 import lombok.Builder;
 import lombok.Data;
 

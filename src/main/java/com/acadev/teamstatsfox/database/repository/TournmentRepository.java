@@ -7,7 +7,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.acadev.teamstatsfox.database.entity.Tournments;
 
-public interface TournmentRepository extends PagingAndSortingRepository<Tournments, Long>, JpaRepository<Tournments, Long> {
+public interface TournmentRepository
+		extends PagingAndSortingRepository<Tournments, Long>, JpaRepository<Tournments, Long> {
 
 	Optional<Tournments> findTopByOrderByIdDesc();
 }

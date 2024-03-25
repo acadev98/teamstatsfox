@@ -26,16 +26,16 @@ public class Cards {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "MATCH_ID")
 	private Long matchId;
-	
+
 	@Column(name = "PLAYER_ID")
 	private Long playerId;
-	
+
 	@Enumerated(EnumType.STRING)
 	private ECardType type;
-	
+
 	private Integer minute;
 
 }
