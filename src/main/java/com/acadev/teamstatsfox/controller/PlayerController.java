@@ -28,6 +28,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/players")
 public class PlayerController {
+	
 
 	@Autowired
 	private PlayerService service;
