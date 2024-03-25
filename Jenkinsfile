@@ -27,11 +27,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        always {
-            // Limpiar cualquier recurso residual
-            sh 'docker-compose down'
-        }
-    }
 }
