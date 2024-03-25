@@ -1,8 +1,10 @@
 version: '3'
 services:
   be-teamstatsfoxs:
+    image: be-teamstatsfoxs
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8090:8090"
+    restart: always

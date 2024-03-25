@@ -12,12 +12,14 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        stage('Docker Build & Run') {
+        stage('Build Docker Image') {
             steps {
-                script {
-                    docker.build('be-teamstatsfoxs')
-                    docker.run('-d -p 8090:8090 be-teamstatsfoxs')
-                }
+                sh 'docker build -t be-teamstatsfoxs .'
+            }
+        }
+        stage('Run Docker Container') {
+            steps {
+                sh 'docker-compose up -d'
             }
         }
     }
