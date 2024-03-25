@@ -1,6 +1,7 @@
 version: '3'
 services:
   be-teamstatsfoxs:
+    container_name: be-teamstatsfoxs
     image: be-teamstatsfoxs
     build:
       context: .
