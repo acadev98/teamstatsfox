@@ -1,5 +1,5 @@
 <configuration>
-    <property name="LOG_DIR" value="/opt/proyectos/teamstatsfoxs/logs"/>
+    <property name="LOG_DIR" value="/opt/logs"/>
 
     <!-- Define el nivel de root logger para todos los logs -->
     <root level="ERROR">
