@@ -3,9 +3,6 @@ package com.acadev.teamstatsfox.service.impl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -13,9 +10,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,9 +37,6 @@ import com.acadev.teamstatsfox.utils.enums.ECardType;
 
 @Service
 public class PlayerServiceImpl implements PlayerService {
-
-	@Value("${path.images.player}")
-	private String pathImagesPlayers;
 
 	@Autowired
 	private GoalsService goalsService;
@@ -248,9 +241,9 @@ public class PlayerServiceImpl implements PlayerService {
 			System.out.println("imageName." + imageName);
 
 			// Crea el directorio si no existe
-			File directory = new File(pathImagesPlayers);
+			File directory = new File(ConstantsUtils.IMAGES_PATH);
 			System.out.println("directory.");
-			System.out.println("pathImagesPlayers." + pathImagesPlayers);
+			System.out.println("pathImagesPlayers." + ConstantsUtils.IMAGES_PATH);
 			if (!directory.exists()) {
 				System.out.println("!directory.exists().");
 				// Intentar crear la carpeta
@@ -266,10 +259,11 @@ public class PlayerServiceImpl implements PlayerService {
 			}
 
 			// Guarda la imagen en el directorio
-			File imageFile = new File(pathImagesPlayers + imageName);
+			File imageFile = new File(ConstantsUtils.IMAGES_PATH + imageName);
 			FileOutputStream fos = new FileOutputStream(imageFile);
 			System.out.println("imageFile.");
 			fos.write(file.getBytes());
+            fos.close();
 			System.out.println("fos.write(file.getBytes()).");
 
 		} catch (IOException e) {
@@ -284,39 +278,38 @@ public class PlayerServiceImpl implements PlayerService {
 
 	public Resource getImageByPlayerId(Long id) {
 
-		try {
+		System.out.println("getImageByPlayerId.");
+		System.out.println("pathImagesPlayers." + ConstantsUtils.IMAGES_PATH);
+		System.out.println("id." + id);
+		
+//			Path imagePath = Paths.get(ConstantsUtils.IMAGES_PATH).resolve(id.toString());
+//			Resource resource = new UrlResource(imagePath.toUri());
+		
+		Resource resource = new ClassPathResource("images/" + id.toString());
+//            Path imagePath = Paths.get(resource.getURI());
+		
+		Resource resourceNF = new ClassPathResource("images/" + id.toString());
+//            Path imagePathNF = Paths.get(resource.getURI());
 
-			System.out.println("getImageByPlayerId.");
-			System.out.println("pathImagesPlayers." + pathImagesPlayers);
-			System.out.println("id." + id);
-			Path imagePath = Paths.get(pathImagesPlayers).resolve(id.toString());
-			Resource resource = new UrlResource(imagePath.toUri());
+//			Path imagePathNF = Paths.get(ConstantsUtils.IMAGES_PATH).resolve(ConstantsUtils.IMAGE_NOT_FOUND);
+//			Resource resourceNF = new UrlResource(imagePathNF.toUri());
 
-			Path imagePathNF = Paths.get(pathImagesPlayers).resolve(ConstantsUtils.IMAGE_NOT_FOUND);
-			Resource resourceNF = new UrlResource(imagePathNF.toUri());
-
-			if (resource.exists() && resource.isReadable()) {
-				System.out.println("resource.exists() && resource.isReadable().");
-				System.out.println("resource.exists()." + resource.exists());
-				System.out.println("resource.isReadable()." + resource.isReadable());
-				return resource;
+		if (resource.exists() && resource.isReadable()) {
+			System.out.println("resource.exists() && resource.isReadable().");
+			System.out.println("resource.exists()." + resource.exists());
+			System.out.println("resource.isReadable()." + resource.isReadable());
+			return resource;
+		} else {
+			System.out.println("no encontro resources");
+			if (resourceNF.exists() && resourceNF.isReadable()) {
+				System.out.println("resourceNF.exists() && resourceNF.isReadable().");
+				System.out.println("resourceNF.exists()." + resourceNF.exists());
+				System.out.println("resourceNF.isReadable()." + resourceNF.isReadable());
+				return resourceNF;
 			} else {
-				System.out.println("no encontro resources");
-				if (resourceNF.exists() && resourceNF.isReadable()) {
-					System.out.println("resourceNF.exists() && resourceNF.isReadable().");
-					System.out.println("resourceNF.exists()." + resourceNF.exists());
-					System.out.println("resourceNF.isReadable()." + resourceNF.isReadable());
-					return resourceNF;
-				} else {
-					System.out.println("no encontro resourceNF");
-					throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
-				}
+				System.out.println("no encontro resourceNF");
+				throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 			}
-
-		} catch (MalformedURLException e) {
-			System.out.println("getImageByPlayerId catch.");
-			e.printStackTrace();
-			throw new ApiException(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE);
 		}
 
 	}
