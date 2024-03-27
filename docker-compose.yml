@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - /opt/proyectos/teamstatsfoxs/images:/be-teamstatsfoxs/images
+      - /opt/proyectos/teamstatsfoxs/images:/images
     ports:
       - "8090:8090"
     restart: always

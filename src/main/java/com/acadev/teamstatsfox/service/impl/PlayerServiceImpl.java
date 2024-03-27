@@ -1,9 +1,7 @@
 package com.acadev.teamstatsfox.service.impl;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -231,50 +229,65 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	public Boolean saveImage(Long id, MultipartFile file) {
-
-		try {
-
-			System.out.println("saveImage.");
-			if (file.isEmpty()) {
-				System.out.println("file.isEmpty().");
-				throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
-			}
-
-			String imageName = id + ".jpg";
-			System.out.println("imageName." + imageName);
-
-			// Crea el directorio si no existe
-			File directory = new File(ConstantsUtils.IMAGES_PATH);
-			System.out.println("directory.");
-			System.out.println("pathImagesPlayers." + ConstantsUtils.IMAGES_PATH);
-			if (!directory.exists()) {
-				System.out.println("!directory.exists().");
-				// Intentar crear la carpeta
-				boolean created = directory.mkdirs();
-
-				// Verificar si la carpeta se creó correctamente
-				if (created) {
-					System.out.println("Carpeta creada exitosamente");
-				} else {
-					System.out.println("Error al crear la carpeta");
-				}
-				System.out.println("directory.mkdirs().");
-			}
-
-			// Guarda la imagen en el directorio
-			File imageFile = new File(ConstantsUtils.IMAGES_PATH + imageName);
-			FileOutputStream fos = new FileOutputStream(imageFile);
-			System.out.println("imageFile.");
-			fos.write(file.getBytes());
-            fos.close();
-			System.out.println("fos.write(file.getBytes()).");
-
-		} catch (IOException e) {
+		
+	    String UPLOAD_DIR = "/images";
+	    
+	    try {
+			System.out.println("saveImage -->");
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(UPLOAD_DIR + "/" + id);
+            Files.write(path, bytes);
+            System.out.println("saveImage -->:" + UPLOAD_DIR + "/" + id);
+			System.out.println("saveImage --> fin");
+        } catch (Exception e) {
 			System.out.println("saveImage catch.");
-			e.printStackTrace();
-			throw new ApiException(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE);
-		}
-		System.out.println("saveImage return true.");
+            e.printStackTrace();
+            // Manejar la excepción
+        }
+
+//		try {
+//
+//			System.out.println("saveImage.");
+//			if (file.isEmpty()) {
+//				System.out.println("file.isEmpty().");
+//				throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+//			}
+//
+//			String imageName = id + ".jpg";
+//			System.out.println("imageName." + imageName);
+//
+//			// Crea el directorio si no existe
+//			File directory = new File(ConstantsUtils.IMAGES_PATH);
+//			System.out.println("directory.");
+//			System.out.println("pathImagesPlayers." + ConstantsUtils.IMAGES_PATH);
+//			if (!directory.exists()) {
+//				System.out.println("!directory.exists().");
+//				// Intentar crear la carpeta
+//				boolean created = directory.mkdirs();
+//
+//				// Verificar si la carpeta se creó correctamente
+//				if (created) {
+//					System.out.println("Carpeta creada exitosamente");
+//				} else {
+//					System.out.println("Error al crear la carpeta");
+//				}
+//				System.out.println("directory.mkdirs().");
+//			}
+//
+//			// Guarda la imagen en el directorio
+//			File imageFile = new File(ConstantsUtils.IMAGES_PATH + imageName);
+//			FileOutputStream fos = new FileOutputStream(imageFile);
+//			System.out.println("imageFile.");
+//			fos.write(file.getBytes());
+//            fos.close();
+//			System.out.println("fos.write(file.getBytes()).");
+//
+//		} catch (IOException e) {
+//			System.out.println("saveImage catch.");
+//			e.printStackTrace();
+//			throw new ApiException(ApiMessage.E5XX_GENERIC_ERROR_MESSAGE);
+//		}
+//		System.out.println("saveImage return true.");
 
 		return true;
 	}
