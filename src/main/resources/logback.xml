@@ -3,7 +3,7 @@
 
     <!-- Define la salida del log a un archivo -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>/app/logs/your-application.log</file> <!-- Ruta del archivo de log -->
+        <file>/opt/logs/be-teamstatsfoxs.log</file> <!-- Ruta del archivo de log -->
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> <!-- Patrón de formato del log -->
         </encoder>

@@ -1,13 +1,8 @@
 version: '3'
-
 services:
-  backend:
-    image: be-teamstatsfoxs:latest
+  be-teamstatsfoxs:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8090:8090"
-    volumes:
-      - ./src/main/resources:/app/src/main/resources
-      - /opt/logs:/app/logs
+      - "8090:8090" 
