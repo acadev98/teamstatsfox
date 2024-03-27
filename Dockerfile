@@ -5,11 +5,12 @@ FROM maven:3.8.4-openjdk-17-slim
 WORKDIR /be-teamstatsfoxs
 
 # Copia el archivo pom.xml y las fuentes a la imagen
-COPY pom.xml .
-COPY src ./src
+# COPY pom.xml .
+# COPY src ./src
+COPY logback.xml /be-teamstatsfoxs/logback.xml
 
 # Empaqueta la aplicación utilizando Maven
-RUN mvn clean package
+# RUN mvn clean package
 
 # Expone el puerto en el que se ejecuta la aplicación
 EXPOSE 8090
