@@ -8,6 +8,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - /opt/proyectos/teamstatsfoxs/images:/images
+      - /opt/logs:/opt/logs
     ports:
       - "8090:8090"
     restart: always
