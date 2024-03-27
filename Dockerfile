@@ -11,4 +11,4 @@ COPY target/teamstatsfox-1.0.0.war /app/teamstatsfox-1.0.0.war
 EXPOSE 8090
 
 # Comando para ejecutar la aplicación Spring Boot
-CMD ["java", "-jar", "your-application.jar"]
+CMD ["java", "-jar", "teamstatsfox-1.0.0.war"]
