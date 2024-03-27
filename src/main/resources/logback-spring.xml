@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <!-- Define el formato de los logs -->
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
 
     <!-- Configuración para escribir los logs en un archivo específico -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>/opt/logs/be-teamstatsfoxs.log</file>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>${LOG_PATTERN}</pattern>
         </encoder>
     </appender>
 
     <!-- Configuración del logger -->
-    <logger name="com.example" level="debug" additivity="false">
-        <appender-ref ref="FILE"/>
-    </logger>
-
-    <!-- Configuración del root logger -->
     <root level="info">
-        <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </root>
+
 </configuration>
