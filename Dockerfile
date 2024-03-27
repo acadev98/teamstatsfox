@@ -1,19 +1,14 @@
 # Dockerfile
 FROM maven:3.8.4-openjdk-17-slim
 
-# Establece el directorio de trabajo dentro del contenedor
-WORKDIR /be-teamstatsfoxs
+# Define el directorio de trabajo dentro del contenedor
+WORKDIR /app
 
-# Copia el archivo pom.xml y las fuentes a la imagen
-# COPY pom.xml .
-# COPY src ./src
-COPY src/main/resources/logback.xml /be-teamstatsfoxs/logback.xml
+# Copia el JAR construido de la aplicación Spring Boot a /app dentro del contenedor
+COPY target/teamstatsfox-1.0.0.war /app/teamstatsfox-1.0.0.war
 
-# Empaqueta la aplicación utilizando Maven
-# RUN mvn clean package
-
-# Expone el puerto en el que se ejecuta la aplicación
+# Expone el puerto en el que la aplicación se ejecutará
 EXPOSE 8090
 
-# Comando para ejecutar la aplicación cuando se inicie el contenedor
-CMD ["java", "-jar", "target/teamstatsfox-1.0.0.war"]
+# Comando para ejecutar la aplicación Spring Boot
+CMD ["java", "-jar", "your-application.jar"]

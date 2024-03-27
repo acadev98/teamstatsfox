@@ -1,13 +1,13 @@
 version: '3'
+
 services:
-  be-teamstatsfoxs:
-    container_name: be-teamstatsfoxs
-    image: be-teamstatsfoxs
+  backend:
+    image: be-teamstatsfoxs:latest
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - ./logs:/var/log
     ports:
       - "8090:8090"
-    restart: always
+    volumes:
+      - ./src/main/resources:/app/src/main/resources
+      - /opt/logs:/app/logs
