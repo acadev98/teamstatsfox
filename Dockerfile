@@ -7,7 +7,7 @@ WORKDIR /be-teamstatsfoxs
 # Copia el archivo pom.xml y las fuentes a la imagen
 # COPY pom.xml .
 # COPY src ./src
-COPY logback.xml /be-teamstatsfoxs/logback.xml
+COPY src/main/resources/logback.xml /be-teamstatsfoxs/logback.xml
 
 # Empaqueta la aplicación utilizando Maven
 # RUN mvn clean package
