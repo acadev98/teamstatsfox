@@ -2,6 +2,8 @@ package com.acadev.teamstatsfox.service;
 
 import java.util.List;
 
+import org.springframework.util.MultiValueMap;
+
 import com.acadev.teamstatsfox.database.entity.Matches;
 import com.acadev.teamstatsfox.model.request.MatchDetailsRequest;
 import com.acadev.teamstatsfox.model.response.MatchesDetailsResponse;
@@ -31,5 +33,7 @@ public interface MatchesService {
 	List<Matches> getMatchesByTournmentId(Long id);
 
 	List<Matches> getMatchesByCaptain(Long id);
+
+	MatchesDetailsResponse getNextMatchDetails();
 
 }

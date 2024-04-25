@@ -17,4 +17,8 @@ public interface MatchesRepository extends PagingAndSortingRepository<Matches, L
 	List<Matches> findByTournmentId(Long tournmentId);
 
 	List<Matches> findByCaptain(Long id);
+
+	List<Matches> findAllByNextMatchIsFalse();
+
+	Optional<Matches> findAllByNextMatchIsTrue();
 }

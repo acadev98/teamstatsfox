@@ -40,6 +40,11 @@ public class MatchesController {
 		return ResponseHandler.generateResponse(MessagesUtils.MATCHES_FOUND, HttpStatus.OK, service.getMatch(id));
 	}
 
+	@GetMapping("/nextMatch")
+	public ResponseEntity<Object> getNextMatches() {
+		return ResponseHandler.generateResponse(MessagesUtils.MATCHES_FOUND, HttpStatus.OK, service.getNextMatchDetails());
+	}
+
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Object> deleteMatch(@PathVariable("id") Long id) {

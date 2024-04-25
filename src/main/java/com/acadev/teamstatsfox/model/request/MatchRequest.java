@@ -11,4 +11,5 @@ public class MatchRequest {
 	private Long opponent;
 	private Long tournment;
 	private String resume;
+	private Boolean nextMatch;
 }

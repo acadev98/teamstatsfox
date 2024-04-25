@@ -77,7 +77,7 @@ public class MatchesServiceImpl implements MatchesService {
 
 	public List<Matches> getMatches() {
 
-		List<Matches> matches = repository.findAll();
+		List<Matches> matches = repository.findAllByNextMatchIsFalse();
 		if (matches.isEmpty())
 			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 
@@ -120,16 +120,20 @@ public class MatchesServiceImpl implements MatchesService {
 		List<GoalRequest> goalsRequest = matchDetails.getGoals();
 		List<CardRequest> cardsRequest = matchDetails.getCards();
 		List<PresentRequest> presentsRequest = matchDetails.getPresents();
-
+		
+		String time = "00:00";
+		if(null!=matchRequest.getTime()) {
+			time = matchRequest.getTime();
+		}
 		LocalDateTime localDateTimeMatch = FunctionsUtils
-				.generateLocalDateTimeFromLocalDateAndTimeString(matchRequest.getDate(), matchRequest.getTime());
+				.generateLocalDateTimeFromLocalDateAndTimeString(matchRequest.getDate(), time);
 		Integer ourGoals = FunctionsUtils.calculateOurGoals(goalsRequest);
 		Integer rivalsGoals = (goalsRequest.size() - ourGoals);
 
 		Matches matchEntity = Matches.builder().datetime(localDateTimeMatch).opponentId(matchRequest.getOpponent())
 				.description(matchRequest.getResume()).tournmentId(matchRequest.getTournment()).ourGoals(ourGoals)
 				.captain(matchDetails.getCaptain() == null ? 0L : matchDetails.getCaptain().longValue())
-				.rivalGoals(rivalsGoals).build();
+				.rivalGoals(rivalsGoals).nextMatch(matchRequest.getNextMatch()).build();
 
 		Matches matchCreated = create(matchEntity);
 
@@ -170,6 +174,27 @@ public class MatchesServiceImpl implements MatchesService {
 			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
 
 		return match.get();
+	}
+
+	public Matches getNextMatch() {
+
+		Optional<Matches> match = repository.findAllByNextMatchIsTrue();
+		if (match.isEmpty())
+			throw new ApiException(ApiMessage.CONTENT_NOT_FOUND);
+
+		return match.get();
+	}
+
+	public MatchesDetailsResponse getNextMatchDetails() {
+
+		Matches match = getNextMatch();
+		Opponents opponent = opponentsService.getOpponentById(match.getOpponentId());
+		Tournments tournment = tournmentsService.getTournmentById(match.getTournmentId());
+
+		MatchesDetailsResponse matchDetails = MatchesDetailsResponse.builder().match(match).opponent(opponent)
+				.tournment(tournment).build();
+
+		return matchDetails;
 	}
 
 	public MatchesDetailsResponse getMatchDetails(Long id) {

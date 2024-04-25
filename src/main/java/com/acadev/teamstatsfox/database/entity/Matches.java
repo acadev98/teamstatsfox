@@ -44,4 +44,7 @@ public class Matches {
 	@Column(name = "RIVAL_GOALS")
 	private Integer rivalGoals;
 
+	@Column(name = "NEXT_MATCH")
+	private Boolean nextMatch;
+
 }
